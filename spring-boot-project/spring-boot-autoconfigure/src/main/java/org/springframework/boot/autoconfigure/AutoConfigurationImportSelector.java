@@ -58,22 +58,14 @@ import org.springframework.util.StringUtils;
  * {@link DeferredImportSelector} to handle {@link EnableAutoConfiguration
  * auto-configuration}. This class can also be subclassed if a custom variant of
  * {@link EnableAutoConfiguration @EnableAutoConfiguration} is needed.
- *
- * @author Phillip Webb
- * @author Andy Wilkinson
- * @author Stephane Nicoll
- * @author Madhura Bhave
  * @since 1.3.0
  * @see EnableAutoConfiguration
  */
-public class AutoConfigurationImportSelector
-		implements DeferredImportSelector, BeanClassLoaderAware, ResourceLoaderAware,
-		BeanFactoryAware, EnvironmentAware, Ordered {
+public class AutoConfigurationImportSelector implements DeferredImportSelector, BeanClassLoaderAware, ResourceLoaderAware,BeanFactoryAware, EnvironmentAware, Ordered {
 
 	private static final String[] NO_IMPORTS = {};
 
-	private static final Log logger = LogFactory
-			.getLog(AutoConfigurationImportSelector.class);
+	private static final Log logger = LogFactory.getLog(AutoConfigurationImportSelector.class);
 
 	private static final String PROPERTY_NAME_AUTOCONFIGURE_EXCLUDE = "spring.autoconfigure.exclude";
 
@@ -90,11 +82,10 @@ public class AutoConfigurationImportSelector
 		if (!isEnabled(annotationMetadata)) {
 			return NO_IMPORTS;
 		}
-		AutoConfigurationMetadata autoConfigurationMetadata = AutoConfigurationMetadataLoader
-				.loadMetadata(this.beanClassLoader);
+		AutoConfigurationMetadata autoConfigurationMetadata = AutoConfigurationMetadataLoader.loadMetadata(this.beanClassLoader);
 		AnnotationAttributes attributes = getAttributes(annotationMetadata);
-		List<String> configurations = getCandidateConfigurations(annotationMetadata,
-				attributes);
+		// 继续剖析这个List<String> configurations集合里面的东西，只要把这个集合里面的东西给剖析出来了，那整个springboot应用启动原理就清楚了
+		List<String> configurations = getCandidateConfigurations(annotationMetadata,attributes);
 		configurations = removeDuplicates(configurations);
 		Set<String> exclusions = getExclusions(annotationMetadata, attributes);
 		checkExcludedClasses(configurations, exclusions);
@@ -111,9 +102,7 @@ public class AutoConfigurationImportSelector
 
 	protected boolean isEnabled(AnnotationMetadata metadata) {
 		if (getClass() == AutoConfigurationImportSelector.class) {
-			return getEnvironment().getProperty(
-					EnableAutoConfiguration.ENABLED_OVERRIDE_PROPERTY, Boolean.class,
-					true);
+			return getEnvironment().getProperty(EnableAutoConfiguration.ENABLED_OVERRIDE_PROPERTY, Boolean.class,true);
 		}
 		return true;
 	}
@@ -127,12 +116,8 @@ public class AutoConfigurationImportSelector
 	 */
 	protected AnnotationAttributes getAttributes(AnnotationMetadata metadata) {
 		String name = getAnnotationClass().getName();
-		AnnotationAttributes attributes = AnnotationAttributes
-				.fromMap(metadata.getAnnotationAttributes(name, true));
-		Assert.notNull(attributes,
-				() -> "No auto-configuration attributes found. Is "
-						+ metadata.getClassName() + " annotated with "
-						+ ClassUtils.getShortName(name) + "?");
+		AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(name, true));
+		Assert.notNull(attributes,() -> "No auto-configuration attributes found. Is " + metadata.getClassName() + " annotated with " +  ClassUtils.getShortName(name) + "?");
 		return attributes;
 	}
 
@@ -153,13 +138,9 @@ public class AutoConfigurationImportSelector
 	 * attributes}
 	 * @return a list of candidate configurations
 	 */
-	protected List<String> getCandidateConfigurations(AnnotationMetadata metadata,
-			AnnotationAttributes attributes) {
-		List<String> configurations = SpringFactoriesLoader.loadFactoryNames(
-				getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader());
-		Assert.notEmpty(configurations,
-				"No auto configuration classes found in META-INF/spring.factories. If you "
-						+ "are using a custom packaging, make sure that file is correct.");
+	protected List<String> getCandidateConfigurations(AnnotationMetadata metadata,AnnotationAttributes attributes) { // "META-INF/spring.factories"
+		List<String> configurations = SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader());
+		Assert.notEmpty(configurations,"No auto configuration classes found in META-INF/spring.factories. If you are using a custom packaging, make sure that file is correct.");
 		return configurations;
 	}
 

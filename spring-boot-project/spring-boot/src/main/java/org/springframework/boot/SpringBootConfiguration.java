@@ -28,5 +28,5 @@ import org.springframework.context.annotation.Configuration;
 @Documented
 @Configuration
 public @interface SpringBootConfiguration {
-
+ // 这个注解实际上和@Configuration有相同的作用，配备了该注解的类就能够以JavaConfig的方式完成一些配置，可以不再使用XML配置。
 }

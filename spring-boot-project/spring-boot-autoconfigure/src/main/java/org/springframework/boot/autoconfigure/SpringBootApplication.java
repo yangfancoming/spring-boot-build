@@ -34,11 +34,11 @@ import org.springframework.core.annotation.AliasFor;
 @Documented
 @Inherited
 @SpringBootConfiguration
-@EnableAutoConfiguration
-@ComponentScan(excludeFilters = {
+@EnableAutoConfiguration // 这是最主要的
+@ComponentScan(excludeFilters = { // 这个注解完成的是自动扫描的功能，相当于Spring XML配置文件中的：<context:component-scan>  属于 spring中的注解
 		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
 		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
-public @interface SpringBootApplication {
+public @interface SpringBootApplication { // 这个注解就是三个常用在一起的注解 @SpringBootConfiguration，@EnableAutoConfiguration 以及 @ComponentScan 的组合，并没有什么高深的地方
 
 	/**
 	 * Exclude specific auto-configuration classes such that they will never be applied.
