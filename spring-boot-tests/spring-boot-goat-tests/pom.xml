@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>spring-boot-tests</artifactId>
+		<groupId>org.springframework.boot</groupId>
+		<version>2.0.4.RELEASE</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>spring-boot-goat-tests</artifactId>
+
+
+	<packaging>pom</packaging>
+	<modules>
+		<module>spring-boot-goat-mvc-tests</module>
+		<module>spring-boot-goat-mvc-tests</module>
+	</modules>
+
+	<description>我的Spring Boot测试模块</description>
+
+	<properties>
+		<main.basedir>${basedir}/../..</main.basedir>
+		<java.version>1.8</java.version>
+	</properties>
+
+
+</project>
