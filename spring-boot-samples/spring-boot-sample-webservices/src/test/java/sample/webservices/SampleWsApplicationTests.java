@@ -35,8 +35,7 @@ public class SampleWsApplicationTests {
 
 	@Before
 	public void setUp() {
-		this.webServiceTemplate
-				.setDefaultUri("http://localhost:" + this.serverPort + "/services/");
+		this.webServiceTemplate.setDefaultUri("http://localhost:" + this.serverPort + "/services/");
 	}
 
 	@Test
