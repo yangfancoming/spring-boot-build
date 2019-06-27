@@ -70,7 +70,7 @@
 		<!--<module>spring-boot-sample-quartz</module>-->
 		<!--<module>spring-boot-sample-secure</module>-->
 		<!--<module>spring-boot-sample-secure-webflux</module>-->
-		<!--<module>spring-boot-sample-servlet</module>-->
+		<module>spring-boot-sample-servlet</module>
 		<!--<module>spring-boot-sample-session</module>-->
 		<!--<module>spring-boot-sample-session-webflux</module>-->
 		<!--<module>spring-boot-sample-test</module>-->
