@@ -37,7 +37,7 @@
 		<!--<module>spring-boot-sample-data-cassandra</module>-->
 		<!--<module>spring-boot-sample-data-couchbase</module>-->
 		<!--<module>spring-boot-sample-data-elasticsearch</module>-->
-		<!--<module>spring-boot-sample-data-jpa</module>-->
+		<module>spring-boot-sample-data-jpa</module>
 		<!--<module>spring-boot-sample-data-ldap</module>-->
 		<!--<module>spring-boot-sample-data-mongodb</module>-->
 		<!--<module>spring-boot-sample-data-neo4j</module>-->
@@ -54,7 +54,7 @@
 		<!--<module>spring-boot-sample-jetty-jsp</module>-->
 		<!--<module>spring-boot-sample-jetty-ssl</module>-->
 		<!--<module>spring-boot-sample-jooq</module>-->
-		<!--<module>spring-boot-sample-jpa</module>-->
+		<module>spring-boot-sample-jpa</module>
 		<!--<module>spring-boot-sample-jta-atomikos</module>-->
 		<!--<module>spring-boot-sample-jta-bitronix</module>-->
 		<!--<module>spring-boot-sample-jta-narayana</module>-->
