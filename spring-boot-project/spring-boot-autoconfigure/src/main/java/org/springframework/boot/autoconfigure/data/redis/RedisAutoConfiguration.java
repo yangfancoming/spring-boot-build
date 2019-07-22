@@ -18,16 +18,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for Spring Data's Redis support.
- *
- * @author Dave Syer
- * @author Andy Wilkinson
- * @author Christian Dupuis
- * @author Christoph Strobl
- * @author Phillip Webb
- * @author Eddú Meléndez
- * @author Stephane Nicoll
- * @author Marco Aust
- * @author Mark Paluch
+
  */
 @Configuration
 @ConditionalOnClass(RedisOperations.class)
@@ -37,8 +28,7 @@ public class RedisAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(name = "redisTemplate")
-	public RedisTemplate<Object, Object> redisTemplate(
-			RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
+	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
 		template.setConnectionFactory(redisConnectionFactory);
 		return template;
@@ -46,8 +36,7 @@ public class RedisAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public StringRedisTemplate stringRedisTemplate(
-			RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
+	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
 		StringRedisTemplate template = new StringRedisTemplate();
 		template.setConnectionFactory(redisConnectionFactory);
 		return template;

@@ -35,27 +35,23 @@ import org.springframework.util.MultiValueMap;
  * @see ConditionalOnMissingClass
  */
 @Order(Ordered.HIGHEST_PRECEDENCE)
-class OnClassCondition extends SpringBootCondition
-		implements AutoConfigurationImportFilter, BeanFactoryAware, BeanClassLoaderAware {
+class OnClassCondition extends SpringBootCondition implements AutoConfigurationImportFilter, BeanFactoryAware, BeanClassLoaderAware {
 
 	private BeanFactory beanFactory;
-
 	private ClassLoader beanClassLoader;
 
 	@Override
-	public boolean[] match(String[] autoConfigurationClasses,
-			AutoConfigurationMetadata autoConfigurationMetadata) {
+	public boolean[] match(String[] autoConfigurationClasses,AutoConfigurationMetadata autoConfigurationMetadata) {
 		ConditionEvaluationReport report = getConditionEvaluationReport();
-		ConditionOutcome[] outcomes = getOutcomes(autoConfigurationClasses,
-				autoConfigurationMetadata);
+		ConditionOutcome[] outcomes = getOutcomes(autoConfigurationClasses,autoConfigurationMetadata);
+
 		boolean[] match = new boolean[outcomes.length];
 		for (int i = 0; i < outcomes.length; i++) {
 			match[i] = (outcomes[i] == null || outcomes[i].isMatch());
 			if (!match[i] && outcomes[i] != null) {
 				logOutcome(autoConfigurationClasses[i], outcomes[i]);
 				if (report != null) {
-					report.recordConditionEvaluation(autoConfigurationClasses[i], this,
-							outcomes[i]);
+					report.recordConditionEvaluation(autoConfigurationClasses[i], this,outcomes[i]);
 				}
 			}
 		}
@@ -63,10 +59,8 @@ class OnClassCondition extends SpringBootCondition
 	}
 
 	private ConditionEvaluationReport getConditionEvaluationReport() {
-		if (this.beanFactory != null
-				&& this.beanFactory instanceof ConfigurableBeanFactory) {
-			return ConditionEvaluationReport
-					.get((ConfigurableListableBeanFactory) this.beanFactory);
+		if (this.beanFactory != null && this.beanFactory instanceof ConfigurableBeanFactory) {
+			return ConditionEvaluationReport.get((ConfigurableListableBeanFactory) this.beanFactory);
 		}
 		return null;
 	}
@@ -77,11 +71,8 @@ class OnClassCondition extends SpringBootCondition
 		// additional thread seems to offer the best performance. More threads make
 		// things worse
 		int split = autoConfigurationClasses.length / 2;
-		OutcomesResolver firstHalfResolver = createOutcomesResolver(
-				autoConfigurationClasses, 0, split, autoConfigurationMetadata);
-		OutcomesResolver secondHalfResolver = new StandardOutcomesResolver(
-				autoConfigurationClasses, split, autoConfigurationClasses.length,
-				autoConfigurationMetadata, this.beanClassLoader);
+		OutcomesResolver firstHalfResolver = createOutcomesResolver(autoConfigurationClasses, 0, split, autoConfigurationMetadata);
+		OutcomesResolver secondHalfResolver = new StandardOutcomesResolver( autoConfigurationClasses, split, autoConfigurationClasses.length,autoConfigurationMetadata, this.beanClassLoader);
 		ConditionOutcome[] secondHalf = secondHalfResolver.resolveOutcomes();
 		ConditionOutcome[] firstHalf = firstHalfResolver.resolveOutcomes();
 		ConditionOutcome[] outcomes = new ConditionOutcome[autoConfigurationClasses.length];
@@ -90,11 +81,8 @@ class OnClassCondition extends SpringBootCondition
 		return outcomes;
 	}
 
-	private OutcomesResolver createOutcomesResolver(String[] autoConfigurationClasses,
-			int start, int end, AutoConfigurationMetadata autoConfigurationMetadata) {
-		OutcomesResolver outcomesResolver = new StandardOutcomesResolver(
-				autoConfigurationClasses, start, end, autoConfigurationMetadata,
-				this.beanClassLoader);
+	private OutcomesResolver createOutcomesResolver(String[] autoConfigurationClasses,int start, int end, AutoConfigurationMetadata autoConfigurationMetadata) {
+		OutcomesResolver outcomesResolver = new StandardOutcomesResolver( autoConfigurationClasses, start, end, autoConfigurationMetadata,this.beanClassLoader);
 		try {
 			return new ThreadedOutcomesResolver(outcomesResolver);
 		}

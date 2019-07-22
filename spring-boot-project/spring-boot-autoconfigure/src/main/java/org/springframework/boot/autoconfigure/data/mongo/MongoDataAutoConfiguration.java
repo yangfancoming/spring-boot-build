@@ -46,13 +46,7 @@ import org.springframework.util.StringUtils;
  * <P>
  * Honors the {@literal spring.data.mongodb.database} property if set, otherwise connects
  * to the {@literal test} database.
- *
- * @author Dave Syer
- * @author Oliver Gierke
- * @author Josh Long
- * @author Phillip Webb
- * @author Eddú Meléndez
- * @author Stephane Nicoll
+
  * @since 1.1.0
  */
 @Configuration
@@ -65,8 +59,7 @@ public class MongoDataAutoConfiguration {
 
 	private final MongoProperties properties;
 
-	public MongoDataAutoConfiguration(ApplicationContext applicationContext,
-			MongoProperties properties) {
+	public MongoDataAutoConfiguration(ApplicationContext applicationContext,MongoProperties properties) {
 		this.applicationContext = applicationContext;
 		this.properties = properties;
 	}
@@ -80,33 +73,28 @@ public class MongoDataAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory,
-			MongoConverter converter) {
+	public MongoTemplate mongoTemplate(MongoDbFactory mongoDbFactory,MongoConverter converter) {
 		return new MongoTemplate(mongoDbFactory, converter);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean(MongoConverter.class)
-	public MappingMongoConverter mappingMongoConverter(MongoDbFactory factory,
-			MongoMappingContext context, MongoCustomConversions conversions) {
+	public MappingMongoConverter mappingMongoConverter(MongoDbFactory factory,MongoMappingContext context, MongoCustomConversions conversions) {
 		DbRefResolver dbRefResolver = new DefaultDbRefResolver(factory);
-		MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver,
-				context);
+		MappingMongoConverter mappingConverter = new MappingMongoConverter(dbRefResolver,context);
 		mappingConverter.setCustomConversions(conversions);
 		return mappingConverter;
 	}
 
 	@Bean
 	@ConditionalOnMissingBean
-	public MongoMappingContext mongoMappingContext(MongoCustomConversions conversions)
-			throws ClassNotFoundException {
+	public MongoMappingContext mongoMappingContext(MongoCustomConversions conversions) throws ClassNotFoundException {
 		MongoMappingContext context = new MongoMappingContext();
-		context.setInitialEntitySet(new EntityScanner(this.applicationContext)
-				.scan(Document.class, Persistent.class));
+		context.setInitialEntitySet(new EntityScanner(this.applicationContext).scan(Document.class, Persistent.class));
+
 		Class<?> strategyClass = this.properties.getFieldNamingStrategy();
 		if (strategyClass != null) {
-			context.setFieldNamingStrategy(
-					(FieldNamingStrategy) BeanUtils.instantiateClass(strategyClass));
+			context.setFieldNamingStrategy((FieldNamingStrategy) BeanUtils.instantiateClass(strategyClass));
 		}
 		context.setSimpleTypeHolder(conversions.getSimpleTypeHolder());
 		return context;
@@ -114,11 +102,8 @@ public class MongoDataAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public GridFsTemplate gridFsTemplate(MongoDbFactory mongoDbFactory,
-			MongoTemplate mongoTemplate) {
-		return new GridFsTemplate(
-				new GridFsMongoDbFactory(mongoDbFactory, this.properties),
-				mongoTemplate.getConverter());
+	public GridFsTemplate gridFsTemplate(MongoDbFactory mongoDbFactory,MongoTemplate mongoTemplate) {
+		return new GridFsTemplate(new GridFsMongoDbFactory(mongoDbFactory, this.properties),mongoTemplate.getConverter());
 	}
 
 	@Bean

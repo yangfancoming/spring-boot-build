@@ -18,9 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Integration tests for {@link JdbcTest}.
- *
- * @author Phillip Webb
- * @author Stephane Nicoll
  */
 @RunWith(SpringRunner.class)
 @JdbcTest
@@ -33,8 +30,7 @@ public class JdbcTestWithAutoConfigureTestDatabaseReplacePropertyAutoConfiguredI
 
 	@Test
 	public void replacesAutoConfiguredDataSource() throws Exception {
-		String product = this.dataSource.getConnection().getMetaData()
-				.getDatabaseProductName();
+		String product = this.dataSource.getConnection().getMetaData().getDatabaseProductName();
 		assertThat(product).startsWith("HSQL");
 	}
 
