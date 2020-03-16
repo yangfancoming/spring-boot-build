@@ -16,8 +16,6 @@ import org.springframework.context.annotation.Import;
  * {@link ConfigurationProperties} beans can be registered in the standard way (for
  * example using {@link Bean @Bean} methods) or, for convenience, can be specified
  * directly on this annotation.
- *
- * @author Dave Syer
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

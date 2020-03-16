@@ -28,16 +28,11 @@ import org.springframework.util.StringUtils;
 /**
  * Test utilities for adding properties. Properties can be applied to a Spring
  * {@link Environment} or to the {@link System#getProperties() system environment}.
- *
- * @author Madhura Bhave
- * @author Phillip Webb
- * @author Stephane Nicoll
  * @since 2.0.0
  */
 public final class TestPropertyValues {
 
-	private static final TestPropertyValues EMPTY = new TestPropertyValues(
-			Collections.emptyMap());
+	private static final TestPropertyValues EMPTY = new TestPropertyValues(Collections.emptyMap());
 
 	private final Map<String, Object> properties;
 
@@ -131,22 +126,18 @@ public final class TestPropertyValues {
 		if (sources.contains(name)) {
 			PropertySource<?> propertySource = sources.get(name);
 			if (propertySource.getClass() == type.getSourceClass()) {
-				((Map<String, Object>) propertySource.getSource())
-						.putAll(this.properties);
+				((Map<String, Object>) propertySource.getSource()).putAll(this.properties);
 				return;
 			}
 		}
 		Map<String, Object> source = new LinkedHashMap<>(this.properties);
-		sources.addFirst((type.equals(Type.MAP) ? new MapPropertySource(name, source)
-				: new SystemEnvironmentPropertySource(name, source)));
+		sources.addFirst((type.equals(Type.MAP) ? new MapPropertySource(name, source) : new SystemEnvironmentPropertySource(name, source)));
 	}
 
 	/**
-	 * Return a new {@link TestPropertyValues} with the underlying map populated with the
-	 * given property pairs. Name-value pairs can be specified with colon (":") or equals
-	 * ("=") separators.
-	 * @param pairs the name-value pairs for properties that need to be added to the
-	 * environment
+	 * Return a new {@link TestPropertyValues} with the underlying map populated with the given property pairs.
+	 *  Name-value pairs can be specified with colon (":") or equals ("=") separators.
+	 * @param pairs the name-value pairs for properties that need to be added to the environment
 	 * @return the new instance
 	 */
 	public static TestPropertyValues of(String... pairs) {
@@ -155,10 +146,8 @@ public final class TestPropertyValues {
 
 	/**
 	 * Return a new {@link TestPropertyValues} with the underlying map populated with the
-	 * given property pairs. Name-value pairs can be specified with colon (":") or equals
-	 * ("=") separators.
-	 * @param pairs the name-value pairs for properties that need to be added to the
-	 * environment
+	 * given property pairs. Name-value pairs can be specified with colon (":") or equals ("=") separators.
+	 * @param pairs the name-value pairs for properties that need to be added to the environment
 	 * @return the new instance
 	 */
 	public static TestPropertyValues of(Iterable<String> pairs) {
@@ -172,8 +161,7 @@ public final class TestPropertyValues {
 	 * Return a new {@link TestPropertyValues} with the underlying map populated with the
 	 * given property pairs. Name-value pairs can be specified with colon (":") or equals
 	 * ("=") separators.
-	 * @param pairs the name-value pairs for properties that need to be added to the
-	 * environment
+	 * @param pairs the name-value pairs for properties that need to be added to the environment
 	 * @return the new instance
 	 */
 	public static TestPropertyValues of(Stream<String> pairs) {
@@ -195,13 +183,10 @@ public final class TestPropertyValues {
 	 * The type of property source.
 	 */
 	public enum Type {
-
 		/**
 		 * Used for {@link SystemEnvironmentPropertySource}.
 		 */
-		SYSTEM_ENVIRONMENT(SystemEnvironmentPropertySource.class,
-				StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME),
-
+		SYSTEM_ENVIRONMENT(SystemEnvironmentPropertySource.class,StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME),
 		/**
 		 * Used for {@link MapPropertySource}.
 		 */
@@ -286,8 +271,7 @@ public final class TestPropertyValues {
 
 		private Map<String, String> apply(Map<String, ?> properties) {
 			Map<String, String> previous = new LinkedHashMap<>();
-			properties.forEach((name, value) -> previous.put(name,
-					setOrClear(name, (String) value)));
+			properties.forEach((name, value) -> previous.put(name,setOrClear(name, (String) value)));
 			return previous;
 		}
 

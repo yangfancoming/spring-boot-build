@@ -16,59 +16,52 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link ConfigurationPropertiesAutoConfiguration}.
- *
- * @author Stephane Nicoll
  */
 public class ConfigurationPropertiesAutoConfigurationTests {
 
 	private AnnotationConfigApplicationContext context;
 
-	@After
-	public void tearDown() {
-		if (this.context != null) {
-			this.context.close();
-		}
-	}
-
 	@Test
 	public void processAnnotatedBean() {
-		load(new Class[] { AutoConfig.class, SampleBean.class }, "foo.name:test");
-		assertThat(this.context.getBean(SampleBean.class).getName()).isEqualTo("test");
+		load(new Class[] { AutoConfig.class, SampleBean.class }, "foo.name:test1");
+		assertThat(context.getBean(SampleBean.class).getName()).isEqualTo("test1");
 	}
 
 	@Test
 	public void processAnnotatedBeanNoAutoConfig() {
 		load(new Class[] { SampleBean.class }, "foo.name:test");
-		assertThat(this.context.getBean(SampleBean.class).getName()).isEqualTo("default");
+		assertThat(context.getBean(SampleBean.class).getName()).isEqualTo("default");
 	}
 
 	private void load(Class<?>[] configs, String... environment) {
-		this.context = new AnnotationConfigApplicationContext();
-		this.context.register(configs);
-		TestPropertyValues.of(environment).applyTo(this.context);
-		this.context.refresh();
+		context = new AnnotationConfigApplicationContext();
+		context.register(configs);
+		TestPropertyValues.of(environment).applyTo(context);
+		context.refresh();
 	}
 
 	@Configuration
 	@ImportAutoConfiguration(ConfigurationPropertiesAutoConfiguration.class)
-	static class AutoConfig {
+	static class AutoConfig {}
 
-	}
 
 	@Component
 	@ConfigurationProperties("foo")
 	static class SampleBean {
-
 		private String name = "default";
-
 		public String getName() {
-			return this.name;
+			return name;
 		}
-
 		public void setName(String name) {
 			this.name = name;
 		}
+	}
 
+	@After
+	public void tearDown() {
+		if (context != null) {
+			context.close();
+		}
 	}
 
 }

@@ -14,9 +14,6 @@ import org.springframework.core.Ordered;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for
  * {@link PropertySourcesPlaceholderConfigurer}.
- *
- * @author Phillip Webb
- * @author Dave Syer
  */
 @Configuration
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
