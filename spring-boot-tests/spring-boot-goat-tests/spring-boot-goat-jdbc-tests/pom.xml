@@ -9,10 +9,11 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-boot-goat-mvc-tests</artifactId>
+	<artifactId>spring-boot-goat-jdbc-tests</artifactId>
 
 
-	<name>我的Spring Boot测试模块 之 MVC部分</name>
+
+	<name>我的Spring Boot测试模块 之 JDBC部分</name>
 
 	<description>${project.name}</description>
 	<properties>
@@ -20,11 +21,26 @@
 	</properties>
 
 	<dependencies>
-		<!-- Compile -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!--No qualifying bean of type 'javax.sql.DataSource' available: expected at least 1 bean which qualifies as autowire candidate.-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<!--引入 druid 数据源-->
+		<dependency> <groupId>com.alibaba</groupId> <artifactId>druid</artifactId><version>1.1.8</version> </dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+
+
 	</dependencies>
 
 

@@ -24,12 +24,6 @@ import org.springframework.util.StringUtils;
 
 /**
  * Base class for configuration of a data source.
- *
- * @author Dave Syer
- * @author Maciej Walkowiak
- * @author Stephane Nicoll
- * @author Benedikt Ritter
- * @author Eddú Meléndez
  * @since 1.1.0
  */
 @ConfigurationProperties(prefix = "spring.datasource")
@@ -148,8 +142,7 @@ public class DataSourceProperties implements BeanClassLoaderAware, InitializingB
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		this.embeddedDatabaseConnection = EmbeddedDatabaseConnection
-				.get(this.classLoader);
+		this.embeddedDatabaseConnection = EmbeddedDatabaseConnection.get(this.classLoader);
 	}
 
 	/**
@@ -207,8 +200,7 @@ public class DataSourceProperties implements BeanClassLoaderAware, InitializingB
 	 */
 	public String determineDriverClassName() {
 		if (StringUtils.hasText(this.driverClassName)) {
-			Assert.state(driverClassIsLoadable(),
-					() -> "Cannot load driver class: " + this.driverClassName);
+			Assert.state(driverClassIsLoadable(),() -> "Cannot load driver class: " + this.driverClassName);
 			return this.driverClassName;
 		}
 		String driverClassName = null;
@@ -219,9 +211,7 @@ public class DataSourceProperties implements BeanClassLoaderAware, InitializingB
 			driverClassName = this.embeddedDatabaseConnection.getDriverClassName();
 		}
 		if (!StringUtils.hasText(driverClassName)) {
-			throw new DataSourceBeanCreationException(
-					"Failed to determine a suitable driver class", this,
-					this.embeddedDatabaseConnection);
+			throw new DataSourceBeanCreationException("Failed to determine a suitable driver class", this,this.embeddedDatabaseConnection);
 		}
 		return driverClassName;
 	}
@@ -503,8 +493,7 @@ public class DataSourceProperties implements BeanClassLoaderAware, InitializingB
 
 		private final EmbeddedDatabaseConnection connection;
 
-		DataSourceBeanCreationException(String message, DataSourceProperties properties,
-				EmbeddedDatabaseConnection connection) {
+		DataSourceBeanCreationException(String message, DataSourceProperties properties,EmbeddedDatabaseConnection connection) {
 			super(message);
 			this.properties = properties;
 			this.connection = connection;

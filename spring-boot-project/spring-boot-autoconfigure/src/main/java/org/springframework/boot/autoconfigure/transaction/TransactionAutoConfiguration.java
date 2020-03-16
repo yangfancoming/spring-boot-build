@@ -26,22 +26,17 @@ import org.springframework.transaction.support.TransactionTemplate;
 /**
  * {@link org.springframework.boot.autoconfigure.EnableAutoConfiguration
  * Auto-configuration} for Spring transaction.
- *
- * @author Stephane Nicoll
  * @since 1.3.0
  */
 @Configuration
 @ConditionalOnClass(PlatformTransactionManager.class)
-@AutoConfigureAfter({ JtaAutoConfiguration.class, HibernateJpaAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class,
-		Neo4jDataAutoConfiguration.class })
+@AutoConfigureAfter({ JtaAutoConfiguration.class, HibernateJpaAutoConfiguration.class,DataSourceTransactionManagerAutoConfiguration.class,Neo4jDataAutoConfiguration.class })
 @EnableConfigurationProperties(TransactionProperties.class)
 public class TransactionAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean
-	public TransactionManagerCustomizers platformTransactionManagerCustomizers(
-			ObjectProvider<List<PlatformTransactionManagerCustomizer<?>>> customizers) {
+	public TransactionManagerCustomizers platformTransactionManagerCustomizers(ObjectProvider<List<PlatformTransactionManagerCustomizer<?>>> customizers) {
 		return new TransactionManagerCustomizers(customizers.getIfAvailable());
 	}
 
@@ -51,8 +46,7 @@ public class TransactionAutoConfiguration {
 
 		private final PlatformTransactionManager transactionManager;
 
-		public TransactionTemplateConfiguration(
-				PlatformTransactionManager transactionManager) {
+		public TransactionTemplateConfiguration(PlatformTransactionManager transactionManager) {
 			this.transactionManager = transactionManager;
 		}
 

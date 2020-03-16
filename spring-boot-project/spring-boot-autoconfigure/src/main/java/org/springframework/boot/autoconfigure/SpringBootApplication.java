@@ -24,9 +24,6 @@ import org.springframework.core.annotation.AliasFor;
  * auto-configuration} and {@link ComponentScan component scanning}. This is a convenience
  * annotation that is equivalent to declaring {@code @Configuration},
  * {@code @EnableAutoConfiguration} and {@code @ComponentScan}.
- *
- * @author Phillip Webb
- * @author Stephane Nicoll
  * @since 1.2.0
  */
 @Target(ElementType.TYPE)

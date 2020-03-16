@@ -74,8 +74,7 @@ public final class DataSourceBuilder<T extends DataSource> {
 	}
 
 	private void bind(DataSource result) {
-		ConfigurationPropertySource source = new MapConfigurationPropertySource(
-				this.properties);
+		ConfigurationPropertySource source = new MapConfigurationPropertySource(this.properties);
 		ConfigurationPropertyNameAliases aliases = new ConfigurationPropertyNameAliases();
 		aliases.addAliases("url", "jdbc-url");
 		aliases.addAliases("username", "user");

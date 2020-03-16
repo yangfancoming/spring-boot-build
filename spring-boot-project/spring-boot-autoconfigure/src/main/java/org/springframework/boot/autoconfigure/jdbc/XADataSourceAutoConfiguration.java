@@ -31,16 +31,11 @@ import org.springframework.util.StringUtils;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link DataSource} with XA.
- *
- * @author Phillip Webb
- * @author Josh Long
- * @author Madhura Bhave
  * @since 1.2.0
  */
 @AutoConfigureBefore(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
-@ConditionalOnClass({ DataSource.class, TransactionManager.class,
-		EmbeddedDatabaseType.class })
+@ConditionalOnClass({ DataSource.class, TransactionManager.class,EmbeddedDatabaseType.class })
 @ConditionalOnBean(XADataSourceWrapper.class)
 @ConditionalOnMissingBean(DataSource.class)
 public class XADataSourceAutoConfiguration implements BeanClassLoaderAware {
@@ -73,11 +68,9 @@ public class XADataSourceAutoConfiguration implements BeanClassLoaderAware {
 	private XADataSource createXaDataSource() {
 		String className = this.properties.getXa().getDataSourceClassName();
 		if (!StringUtils.hasLength(className)) {
-			className = DatabaseDriver.fromJdbcUrl(this.properties.determineUrl())
-					.getXaDataSourceClassName();
+			className = DatabaseDriver.fromJdbcUrl(this.properties.determineUrl()).getXaDataSourceClassName();
 		}
-		Assert.state(StringUtils.hasLength(className),
-				"No XA DataSource class name specified");
+		Assert.state(StringUtils.hasLength(className),"No XA DataSource class name specified");
 		XADataSource dataSource = createXaDataSourceInstance(className);
 		bindXaProperties(dataSource, this.properties);
 		return dataSource;
@@ -91,19 +84,16 @@ public class XADataSourceAutoConfiguration implements BeanClassLoaderAware {
 			return (XADataSource) instance;
 		}
 		catch (Exception ex) {
-			throw new IllegalStateException(
-					"Unable to create XADataSource instance from '" + className + "'");
+			throw new IllegalStateException("Unable to create XADataSource instance from '" + className + "'");
 		}
 	}
 
-	private void bindXaProperties(XADataSource target,
-			DataSourceProperties dataSourceProperties) {
+	private void bindXaProperties(XADataSource target,DataSourceProperties dataSourceProperties) {
 		Binder binder = new Binder(getBinderSource(dataSourceProperties));
 		binder.bind(ConfigurationPropertyName.EMPTY, Bindable.ofInstance(target));
 	}
 
-	private ConfigurationPropertySource getBinderSource(
-			DataSourceProperties dataSourceProperties) {
+	private ConfigurationPropertySource getBinderSource(DataSourceProperties dataSourceProperties) {
 		MapConfigurationPropertySource source = new MapConfigurationPropertySource();
 		source.put("user", this.properties.determineUsername());
 		source.put("password", this.properties.determinePassword());

@@ -25,12 +25,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * Class for storing auto-configuration packages for reference later (e.g. by JPA entity
- * scanner).
- *
- * @author Phillip Webb
- * @author Dave Syer
- * @author Oliver Gierke
+ * Class for storing auto-configuration packages for reference later (e.g. by JPA entity scanner).
  */
 public abstract class AutoConfigurationPackages {
 
@@ -78,25 +73,20 @@ public abstract class AutoConfigurationPackages {
 	public static void register(BeanDefinitionRegistry registry, String... packageNames) {
 		if (registry.containsBeanDefinition(BEAN)) {
 			BeanDefinition beanDefinition = registry.getBeanDefinition(BEAN);
-			ConstructorArgumentValues constructorArguments = beanDefinition
-					.getConstructorArgumentValues();
-			constructorArguments.addIndexedArgumentValue(0,
-					addBasePackages(constructorArguments, packageNames));
+			ConstructorArgumentValues constructorArguments = beanDefinition.getConstructorArgumentValues();
+			constructorArguments.addIndexedArgumentValue(0,addBasePackages(constructorArguments, packageNames));
 		}
 		else {
 			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 			beanDefinition.setBeanClass(BasePackages.class);
-			beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(0,
-					packageNames);
+			beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(0,packageNames);
 			beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
 			registry.registerBeanDefinition(BEAN, beanDefinition);
 		}
 	}
 
-	private static String[] addBasePackages(
-			ConstructorArgumentValues constructorArguments, String[] packageNames) {
-		String[] existing = (String[]) constructorArguments
-				.getIndexedArgumentValue(0, String[].class).getValue();
+	private static String[] addBasePackages(ConstructorArgumentValues constructorArguments, String[] packageNames) {
+		String[] existing = (String[]) constructorArguments.getIndexedArgumentValue(0, String[].class).getValue();
 		Set<String> merged = new LinkedHashSet<>();
 		merged.addAll(Arrays.asList(existing));
 		merged.addAll(Arrays.asList(packageNames));
@@ -104,14 +94,12 @@ public abstract class AutoConfigurationPackages {
 	}
 
 	/**
-	 * {@link ImportBeanDefinitionRegistrar} to store the base package from the importing
-	 * configuration.
+	 * {@link ImportBeanDefinitionRegistrar} to store the base package from the importing configuration.
 	 */
 	static class Registrar implements ImportBeanDefinitionRegistrar, DeterminableImports {
 
 		@Override
-		public void registerBeanDefinitions(AnnotationMetadata metadata,
-				BeanDefinitionRegistry registry) {
+		public void registerBeanDefinitions(AnnotationMetadata metadata,BeanDefinitionRegistry registry) {
 			register(registry, new PackageImport(metadata).getPackageName());
 		}
 
@@ -119,7 +107,6 @@ public abstract class AutoConfigurationPackages {
 		public Set<Object> determineImports(AnnotationMetadata metadata) {
 			return Collections.singleton(new PackageImport(metadata));
 		}
-
 	}
 
 	/**
@@ -180,26 +167,18 @@ public abstract class AutoConfigurationPackages {
 			if (!this.loggedBasePackageInfo) {
 				if (this.packages.isEmpty()) {
 					if (logger.isWarnEnabled()) {
-						logger.warn("@EnableAutoConfiguration was declared on a class "
-								+ "in the default package. Automatic @Repository and "
-								+ "@Entity scanning is not enabled.");
+						logger.warn("@EnableAutoConfiguration was declared on a class in the default package. Automatic @Repository and @Entity scanning is not enabled.");
 					}
 				}
 				else {
 					if (logger.isDebugEnabled()) {
-						String packageNames = StringUtils
-								.collectionToCommaDelimitedString(this.packages);
-						logger.debug("@EnableAutoConfiguration was declared on a class "
-								+ "in the package '" + packageNames
-								+ "'. Automatic @Repository and @Entity scanning is "
-								+ "enabled.");
+						String packageNames = StringUtils.collectionToCommaDelimitedString(this.packages);
+						logger.debug("@EnableAutoConfiguration was declared on a class in the package '" + packageNames + "'. Automatic @Repository and @Entity scanning is enabled.");
 					}
 				}
 				this.loggedBasePackageInfo = true;
 			}
 			return this.packages;
 		}
-
 	}
-
 }

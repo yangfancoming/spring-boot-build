@@ -12,10 +12,7 @@ import java.lang.annotation.Target;
 import org.springframework.context.annotation.Import;
 
 /**
- * Indicates that the package containing the annotated class should be registered with
- * {@link AutoConfigurationPackages}.
- *
- * @author Phillip Webb
+ * Indicates that the package containing the annotated class should be registered with {@link AutoConfigurationPackages}.
  * @since 1.3.0
  * @see AutoConfigurationPackages
  */
