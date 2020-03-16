@@ -1,5 +1,6 @@
 package org.springframework.boot.goat.mvc.tests;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

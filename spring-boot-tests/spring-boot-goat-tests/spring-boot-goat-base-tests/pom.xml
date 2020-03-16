@@ -9,15 +9,16 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>spring-boot-goat-mvc-tests</artifactId>
+	<artifactId>spring-boot-goat-base-tests</artifactId>
 
 
-	<name>我的Spring Boot测试模块 之 MVC部分</name>
+	<name>我的Spring Boot测试模块 之 基础部分</name>
 
 	<description>${project.name}</description>
 	<properties>
 		<main.basedir>${basedir}/../../..</main.basedir>
 	</properties>
+
 
 
 </project>

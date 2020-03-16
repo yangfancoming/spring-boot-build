@@ -14,11 +14,7 @@ import org.springframework.core.annotation.AliasFor;
  * Annotation for externalized configuration. Add this to a class definition or a
  * {@code @Bean} method in a {@code @Configuration} class if you want to bind and validate
  * some external Properties (e.g. from a .properties file).
- * <p>
- * Note that contrary to {@code @Value}, SpEL expressions are not evaluated since property
- * values are externalized.
- *
- * @author Dave Syer
+ * Note that contrary to {@code @Value}, SpEL expressions are not evaluated since property values are externalized.
  * @see ConfigurationPropertiesBindingPostProcessor
  * @see EnableConfigurationProperties
  */
@@ -28,16 +24,14 @@ import org.springframework.core.annotation.AliasFor;
 public @interface ConfigurationProperties {
 
 	/**
-	 * The name prefix of the properties that are valid to bind to this object. Synonym
-	 * for {@link #prefix()}.
+	 * The name prefix of the properties that are valid to bind to this object. Synonym for {@link #prefix()}.
 	 * @return the name prefix of the properties to bind
 	 */
 	@AliasFor("prefix")
 	String value() default "";
 
 	/**
-	 * The name prefix of the properties that are valid to bind to this object. Synonym
-	 * for {@link #value()}.
+	 * The name prefix of the properties that are valid to bind to this object. Synonym for {@link #value()}.
 	 * @return the name prefix of the properties to bind
 	 */
 	@AliasFor("value")

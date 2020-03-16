@@ -129,8 +129,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 	}
 
 	/**
-	 * Return the class used by {@link SpringFactoriesLoader} to load configuration
-	 * candidates.
+	 * Return the class used by {@link SpringFactoriesLoader} to load configuration candidates.
 	 * @return the factory class
 	 */
 	protected Class<?> getSpringFactoriesLoaderFactoryClass() {

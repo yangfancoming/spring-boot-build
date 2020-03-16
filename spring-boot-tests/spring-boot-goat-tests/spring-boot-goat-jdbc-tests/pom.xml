@@ -11,8 +11,6 @@
 
 	<artifactId>spring-boot-goat-jdbc-tests</artifactId>
 
-
-
 	<name>我的Spring Boot测试模块 之 JDBC部分</name>
 
 	<description>${project.name}</description>

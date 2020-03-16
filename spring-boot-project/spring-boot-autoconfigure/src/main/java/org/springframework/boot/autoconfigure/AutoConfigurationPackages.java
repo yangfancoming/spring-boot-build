@@ -117,11 +117,11 @@ public abstract class AutoConfigurationPackages {
 		private final String packageName;
 
 		PackageImport(AnnotationMetadata metadata) {
-			this.packageName = ClassUtils.getPackageName(metadata.getClassName());
+			packageName = ClassUtils.getPackageName(metadata.getClassName());
 		}
 
 		public String getPackageName() {
-			return this.packageName;
+			return packageName;
 		}
 
 		@Override
@@ -129,17 +129,17 @@ public abstract class AutoConfigurationPackages {
 			if (obj == null || getClass() != obj.getClass()) {
 				return false;
 			}
-			return this.packageName.equals(((PackageImport) obj).packageName);
+			return packageName.equals(((PackageImport) obj).packageName);
 		}
 
 		@Override
 		public int hashCode() {
-			return this.packageName.hashCode();
+			return packageName.hashCode();
 		}
 
 		@Override
 		public String toString() {
-			return "Package Import " + this.packageName;
+			return "Package Import " + packageName;
 		}
 
 	}
