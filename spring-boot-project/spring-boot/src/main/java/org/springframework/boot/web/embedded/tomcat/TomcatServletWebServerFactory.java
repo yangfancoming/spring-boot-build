@@ -79,8 +79,7 @@ import org.springframework.util.StringUtils;
  * @see #setContextLifecycleListeners(Collection)
  * @see TomcatWebServer
  */
-public class TomcatServletWebServerFactory extends AbstractServletWebServerFactory
-		implements ConfigurableTomcatWebServerFactory, ResourceLoaderAware {
+public class TomcatServletWebServerFactory extends AbstractServletWebServerFactory implements ConfigurableTomcatWebServerFactory, ResourceLoaderAware {
 
 	private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 

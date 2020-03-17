@@ -1,6 +1,7 @@
 package org.springframework.boot.goat.base.tests;
 
 
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -12,11 +13,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *  @ComponentScan 作用：该注解默认就会装配标识了 @Controller，@Service，@Repository，@Component 注解的类到spring容器中
  * @Date:   2019/1/22
  */
-//@SpringBootApplication 会自动扫描  所在类的同级包,以及子包里的所有BEAN，所以建议入口类放在最外层的包名下。
+// @SpringBootApplication 会自动扫描  所在类的同级包,以及子包里的所有BEAN，所以建议入口类放在最外层的包名下。
 @SpringBootApplication
 public class MyBaseTestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MyBaseTestApplication.class, args);
+		// 原启动方式
+//		SpringApplication.run(MyBaseTestApplication.class, args);
+
+		/**
+		 * 自定义banner
+		 * Banner.Mode.OFF:关闭;
+		 * Banner.Mode.CONSOLE:控制台输出，默认方式;
+		 * Banner.Mode.LOG:日志输出方式;
+		 */
+		SpringApplication springApplication = new SpringApplication(MyBaseTestApplication.class);
+		springApplication.setBannerMode(Banner.Mode.CONSOLE);
+		springApplication.run(args);
 	}
 }

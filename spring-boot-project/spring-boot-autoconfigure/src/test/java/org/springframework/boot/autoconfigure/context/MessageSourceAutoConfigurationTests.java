@@ -23,11 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link MessageSourceAutoConfiguration}.
- *
- * @author Dave Syer
- * @author Eddú Meléndez
- * @author Stephane Nicoll
- * @author Kedar Joshi
  */
 public class MessageSourceAutoConfigurationTests {
 

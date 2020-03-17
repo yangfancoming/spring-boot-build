@@ -67,18 +67,13 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * Although this context can be used directly, most developers should consider using the
  * {@link AnnotationConfigServletWebServerApplicationContext} or
  * {@link XmlServletWebServerApplicationContext} variants.
- *
- * @author Phillip Webb
- * @author Dave Syer
  * @see AnnotationConfigServletWebServerApplicationContext
  * @see XmlServletWebServerApplicationContext
  * @see ServletWebServerFactory
  */
-public class ServletWebServerApplicationContext extends GenericWebApplicationContext
-		implements ConfigurableWebServerApplicationContext {
+public class ServletWebServerApplicationContext extends GenericWebApplicationContext implements ConfigurableWebServerApplicationContext {
 
-	private static final Log logger = LogFactory
-			.getLog(ServletWebServerApplicationContext.class);
+	private static final Log logger = LogFactory.getLog(ServletWebServerApplicationContext.class);
 
 	/**
 	 * Constant value for the DispatcherServlet bean name. A Servlet bean with this name
@@ -115,8 +110,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
-		beanFactory.addBeanPostProcessor(
-				new WebApplicationContextServletContextAwareProcessor(this));
+		beanFactory.addBeanPostProcessor(new WebApplicationContextServletContextAwareProcessor(this));
 		beanFactory.ignoreDependencyInterface(ServletContextAware.class);
 	}
 
@@ -178,24 +172,17 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 
 	/**
 	 * Returns the {@link ServletWebServerFactory} that should be used to create the
-	 * embedded {@link WebServer}. By default this method searches for a suitable bean in
-	 * the context itself.
+	 * embedded {@link WebServer}. By default this method searches for a suitable bean in the context itself.
 	 * @return a {@link ServletWebServerFactory} (never {@code null})
 	 */
 	protected ServletWebServerFactory getWebServerFactory() {
 		// Use bean names so that we don't consider the hierarchy
-		String[] beanNames = getBeanFactory()
-				.getBeanNamesForType(ServletWebServerFactory.class);
+		String[] beanNames = getBeanFactory().getBeanNamesForType(ServletWebServerFactory.class);
 		if (beanNames.length == 0) {
-			throw new ApplicationContextException(
-					"Unable to start ServletWebServerApplicationContext due to missing "
-							+ "ServletWebServerFactory bean.");
+			throw new ApplicationContextException("Unable to start ServletWebServerApplicationContext due to missing "+ "ServletWebServerFactory bean.");
 		}
 		if (beanNames.length > 1) {
-			throw new ApplicationContextException(
-					"Unable to start ServletWebServerApplicationContext due to multiple "
-							+ "ServletWebServerFactory beans : "
-							+ StringUtils.arrayToCommaDelimitedString(beanNames));
+			throw new ApplicationContextException("Unable to start ServletWebServerApplicationContext due to multiple ServletWebServerFactory beans : "+ StringUtils.arrayToCommaDelimitedString(beanNames));
 		}
 		return getBeanFactory().getBean(beanNames[0], ServletWebServerFactory.class);
 	}
