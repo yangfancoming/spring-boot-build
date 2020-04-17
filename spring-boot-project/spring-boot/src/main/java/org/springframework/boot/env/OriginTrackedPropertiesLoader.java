@@ -19,12 +19,7 @@ import org.springframework.util.Assert;
 
 /**
  * Class to load {@code .properties} files into a map of {@code String} ->
- * {@link OriginTrackedValue}. Also supports expansion of {@code name[]=a,b,c} list style
- * values.
- *
- * @author Madhura Bhave
- * @author Phillip Webb
- * @author Thiago Hirata
+ * {@link OriginTrackedValue}. Also supports expansion of {@code name[]=a,b,c} list style values.
  */
 class OriginTrackedPropertiesLoader {
 
@@ -40,8 +35,7 @@ class OriginTrackedPropertiesLoader {
 	}
 
 	/**
-	 * Load {@code .properties} data and return a map of {@code String} ->
-	 * {@link OriginTrackedValue}.
+	 * Load {@code .properties} data and return a map of {@code String} -> {@link OriginTrackedValue}.
 	 * @return the loaded properties
 	 * @throws IOException on read error
 	 */
@@ -50,8 +44,7 @@ class OriginTrackedPropertiesLoader {
 	}
 
 	/**
-	 * Load {@code .properties} data and return a map of {@code String} ->
-	 * {@link OriginTrackedValue}.
+	 * Load {@code .properties} data and return a map of {@code String} -> {@link OriginTrackedValue}.
 	 * @param expandLists if list {@code name[]=a,b,c} shortcuts should be expanded
 	 * @return the loaded properties
 	 * @throws IOException on read error
@@ -73,8 +66,7 @@ class OriginTrackedPropertiesLoader {
 						}
 					}
 					while (!reader.isEndOfLine());
-				}
-				else {
+				}else {
 					OriginTrackedValue value = loadValue(buffer, reader, false);
 					put(result, key, value);
 				}
@@ -83,15 +75,13 @@ class OriginTrackedPropertiesLoader {
 		}
 	}
 
-	private void put(Map<String, OriginTrackedValue> result, String key,
-			OriginTrackedValue value) {
+	private void put(Map<String, OriginTrackedValue> result, String key,OriginTrackedValue value) {
 		if (!key.isEmpty()) {
 			result.put(key, value);
 		}
 	}
 
-	private String loadKey(StringBuilder buffer, CharacterReader reader)
-			throws IOException {
+	private String loadKey(StringBuilder buffer, CharacterReader reader) throws IOException {
 		buffer.setLength(0);
 		boolean previousWhitespace = false;
 		while (!reader.isEndOfLine()) {
@@ -109,8 +99,7 @@ class OriginTrackedPropertiesLoader {
 		return buffer.toString();
 	}
 
-	private OriginTrackedValue loadValue(StringBuilder buffer, CharacterReader reader,
-			boolean splitLists) throws IOException {
+	private OriginTrackedValue loadValue(StringBuilder buffer, CharacterReader reader,boolean splitLists) throws IOException {
 		buffer.setLength(0);
 		while (reader.isWhiteSpace() && !reader.isEndOfLine()) {
 			reader.read();
@@ -141,8 +130,7 @@ class OriginTrackedPropertiesLoader {
 		private int character;
 
 		CharacterReader(Resource resource) throws IOException {
-			this.reader = new LineNumberReader(new InputStreamReader(
-					resource.getInputStream(), StandardCharsets.ISO_8859_1));
+			this.reader = new LineNumberReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.ISO_8859_1));
 		}
 
 		@Override
@@ -167,8 +155,7 @@ class OriginTrackedPropertiesLoader {
 			if (this.character == '\\') {
 				this.escaped = true;
 				readEscaped();
-			}
-			else if (this.character == '\n') {
+			}else if (this.character == '\n') {
 				this.columnNumber = -1;
 			}
 			return !isEndOfFile();
@@ -196,12 +183,10 @@ class OriginTrackedPropertiesLoader {
 			int escapeIndex = ESCAPES[0].indexOf(this.character);
 			if (escapeIndex != -1) {
 				this.character = ESCAPES[1].charAt(escapeIndex);
-			}
-			else if (this.character == '\n') {
+			}else if (this.character == '\n') {
 				this.columnNumber = -1;
 				read(true);
-			}
-			else if (this.character == 'u') {
+			}else if (this.character == 'u') {
 				readUnicode();
 			}
 		}
@@ -212,22 +197,18 @@ class OriginTrackedPropertiesLoader {
 				int digit = this.reader.read();
 				if (digit >= '0' && digit <= '9') {
 					this.character = (this.character << 4) + digit - '0';
-				}
-				else if (digit >= 'a' && digit <= 'f') {
+				}else if (digit >= 'a' && digit <= 'f') {
 					this.character = (this.character << 4) + digit - 'a' + 10;
-				}
-				else if (digit >= 'A' && digit <= 'F') {
+				}else if (digit >= 'A' && digit <= 'F') {
 					this.character = (this.character << 4) + digit - 'A' + 10;
-				}
-				else {
+				}else {
 					throw new IllegalStateException("Malformed \\uxxxx encoding.");
 				}
 			}
 		}
 
 		public boolean isWhiteSpace() {
-			return !this.escaped && (this.character == ' ' || this.character == '\t'
-					|| this.character == '\f');
+			return !this.escaped && (this.character == ' ' || this.character == '\t' || this.character == '\f');
 		}
 
 		public boolean isEndOfFile() {

@@ -31,18 +31,14 @@ final class AutoConfigurationMetadataLoader {
 
 	static AutoConfigurationMetadata loadMetadata(ClassLoader classLoader, String path) {
 		try {
-			Enumeration<URL> urls = (classLoader != null) ? classLoader.getResources(path)
-					: ClassLoader.getSystemResources(path);
+			Enumeration<URL> urls = (classLoader != null) ? classLoader.getResources(path) : ClassLoader.getSystemResources(path);
 			Properties properties = new Properties();
 			while (urls.hasMoreElements()) {
-				properties.putAll(PropertiesLoaderUtils
-						.loadProperties(new UrlResource(urls.nextElement())));
+				properties.putAll(PropertiesLoaderUtils.loadProperties(new UrlResource(urls.nextElement())));
 			}
 			return loadMetadata(properties);
-		}
-		catch (IOException ex) {
-			throw new IllegalArgumentException(
-					"Unable to load @ConditionalOnClass location [" + path + "]", ex);
+		}catch (IOException ex) {
+			throw new IllegalArgumentException("Unable to load @ConditionalOnClass location [" + path + "]", ex);
 		}
 	}
 
@@ -53,8 +49,7 @@ final class AutoConfigurationMetadataLoader {
 	/**
 	 * {@link AutoConfigurationMetadata} implementation backed by a properties file.
 	 */
-	private static class PropertiesAutoConfigurationMetadata
-			implements AutoConfigurationMetadata {
+	private static class PropertiesAutoConfigurationMetadata implements AutoConfigurationMetadata {
 
 		private final Properties properties;
 
@@ -84,11 +79,9 @@ final class AutoConfigurationMetadataLoader {
 		}
 
 		@Override
-		public Set<String> getSet(String className, String key,
-				Set<String> defaultValue) {
+		public Set<String> getSet(String className, String key,Set<String> defaultValue) {
 			String value = get(className, key);
-			return (value != null) ? StringUtils.commaDelimitedListToSet(value)
-					: defaultValue;
+			return (value != null) ? StringUtils.commaDelimitedListToSet(value) : defaultValue;
 		}
 
 		@Override

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="158.0">org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector</node>
+    <node x="18.0" y="79.0">org.springframework.boot.autoconfigure.AutoConfigurationImportSelector</node>
+    <node x="45.0" y="0.0">org.springframework.context.annotation.DeferredImportSelector</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector" target="org.springframework.boot.autoconfigure.AutoConfigurationImportSelector">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.autoconfigure.AutoConfigurationImportSelector" target="org.springframework.context.annotation.DeferredImportSelector">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="0.0" y="0.0" />
+  <SelectedNodes>
+    <node>org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

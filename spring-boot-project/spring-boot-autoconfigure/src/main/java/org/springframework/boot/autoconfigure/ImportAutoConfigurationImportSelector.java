@@ -26,12 +26,8 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Variant of {@link AutoConfigurationImportSelector} for {@link ImportAutoConfiguration}.
- *
- * @author Phillip Webb
- * @author Andy Wilkinson
  */
-class ImportAutoConfigurationImportSelector extends AutoConfigurationImportSelector
-		implements DeterminableImports {
+class ImportAutoConfigurationImportSelector extends AutoConfigurationImportSelector implements DeterminableImports {
 
 	private static final Set<String> ANNOTATION_NAMES;
 
@@ -56,26 +52,21 @@ class ImportAutoConfigurationImportSelector extends AutoConfigurationImportSelec
 	}
 
 	@Override
-	protected List<String> getCandidateConfigurations(AnnotationMetadata metadata,
-			AnnotationAttributes attributes) {
+	protected List<String> getCandidateConfigurations(AnnotationMetadata metadata,AnnotationAttributes attributes) {
 		List<String> candidates = new ArrayList<>();
 		Map<Class<?>, List<Annotation>> annotations = getAnnotations(metadata);
-		annotations.forEach((source, sourceAnnotations) -> collectCandidateConfigurations(
-				source, sourceAnnotations, candidates));
+		annotations.forEach((source, sourceAnnotations) -> collectCandidateConfigurations(source, sourceAnnotations, candidates));
 		return candidates;
 	}
 
-	private void collectCandidateConfigurations(Class<?> source,
-			List<Annotation> annotations, List<String> candidates) {
+	private void collectCandidateConfigurations(Class<?> source,List<Annotation> annotations, List<String> candidates) {
 		for (Annotation annotation : annotations) {
 			candidates.addAll(getConfigurationsForAnnotation(source, annotation));
 		}
 	}
 
-	private Collection<String> getConfigurationsForAnnotation(Class<?> source,
-			Annotation annotation) {
-		String[] classes = (String[]) AnnotationUtils
-				.getAnnotationAttributes(annotation, true).get("classes");
+	private Collection<String> getConfigurationsForAnnotation(Class<?> source,Annotation annotation) {
+		String[] classes = (String[]) AnnotationUtils.getAnnotationAttributes(annotation, true).get("classes");
 		if (classes.length > 0) {
 			return Arrays.asList(classes);
 		}
@@ -83,20 +74,16 @@ class ImportAutoConfigurationImportSelector extends AutoConfigurationImportSelec
 	}
 
 	protected Collection<String> loadFactoryNames(Class<?> source) {
-		return SpringFactoriesLoader.loadFactoryNames(source,
-				getClass().getClassLoader());
+		return SpringFactoriesLoader.loadFactoryNames(source,getClass().getClassLoader());
 	}
 
 	@Override
-	protected Set<String> getExclusions(AnnotationMetadata metadata,
-			AnnotationAttributes attributes) {
+	protected Set<String> getExclusions(AnnotationMetadata metadata,AnnotationAttributes attributes) {
 		Set<String> exclusions = new LinkedHashSet<>();
 		Class<?> source = ClassUtils.resolveClassName(metadata.getClassName(), null);
 		for (String annotationName : ANNOTATION_NAMES) {
-			AnnotationAttributes merged = AnnotatedElementUtils
-					.getMergedAnnotationAttributes(source, annotationName);
-			Class<?>[] exclude = (merged != null) ? merged.getClassArray("exclude")
-					: null;
+			AnnotationAttributes merged = AnnotatedElementUtils.getMergedAnnotationAttributes(source, annotationName);
+			Class<?>[] exclude = (merged != null) ? merged.getClassArray("exclude") : null;
 			if (exclude != null) {
 				for (Class<?> excludeClass : exclude) {
 					exclusions.add(excludeClass.getName());
@@ -105,8 +92,7 @@ class ImportAutoConfigurationImportSelector extends AutoConfigurationImportSelec
 		}
 		for (List<Annotation> annotations : getAnnotations(metadata).values()) {
 			for (Annotation annotation : annotations) {
-				String[] exclude = (String[]) AnnotationUtils
-						.getAnnotationAttributes(annotation, true).get("exclude");
+				String[] exclude = (String[]) AnnotationUtils.getAnnotationAttributes(annotation, true).get("exclude");
 				if (!ObjectUtils.isEmpty(exclude)) {
 					exclusions.addAll(Arrays.asList(exclude));
 				}
@@ -115,21 +101,18 @@ class ImportAutoConfigurationImportSelector extends AutoConfigurationImportSelec
 		return exclusions;
 	}
 
-	protected final Map<Class<?>, List<Annotation>> getAnnotations(
-			AnnotationMetadata metadata) {
+	protected final Map<Class<?>, List<Annotation>> getAnnotations(AnnotationMetadata metadata) {
 		MultiValueMap<Class<?>, Annotation> annotations = new LinkedMultiValueMap<>();
 		Class<?> source = ClassUtils.resolveClassName(metadata.getClassName(), null);
 		collectAnnotations(source, annotations, new HashSet<>());
 		return Collections.unmodifiableMap(annotations);
 	}
 
-	private void collectAnnotations(Class<?> source,
-			MultiValueMap<Class<?>, Annotation> annotations, HashSet<Class<?>> seen) {
+	private void collectAnnotations(Class<?> source,MultiValueMap<Class<?>, Annotation> annotations, HashSet<Class<?>> seen) {
 		if (source != null && seen.add(source)) {
 			for (Annotation annotation : source.getDeclaredAnnotations()) {
 				if (!AnnotationUtils.isInJavaLangAnnotationPackage(annotation)) {
-					if (ANNOTATION_NAMES
-							.contains(annotation.annotationType().getName())) {
+					if (ANNOTATION_NAMES.contains(annotation.annotationType().getName())) {
 						annotations.add(source, annotation);
 					}
 					collectAnnotations(annotation.annotationType(), annotations, seen);
@@ -148,5 +131,4 @@ class ImportAutoConfigurationImportSelector extends AutoConfigurationImportSelec
 	protected void handleInvalidExcludes(List<String> invalidExcludes) {
 		// Ignore for test
 	}
-
 }

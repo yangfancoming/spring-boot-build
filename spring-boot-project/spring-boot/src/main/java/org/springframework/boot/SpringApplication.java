@@ -65,35 +65,25 @@ import org.springframework.web.context.support.StandardServletEnvironment;
 
 /**
  * Class that can be used to bootstrap and launch a Spring application from a Java main
- * method. By default class will perform the following steps to bootstrap your
- * application:
- *
- * <ul>
- * <li>Create an appropriate {@link ApplicationContext} instance (depending on your
- * classpath)</li>
- * <li>Register a {@link CommandLinePropertySource} to expose command line arguments as
- * Spring properties</li>
+ * method. By default class will perform the following steps to bootstrap your application:
+ * <li>Create an appropriate {@link ApplicationContext} instance (depending on your classpath)</li>
+ * <li>Register a {@link CommandLinePropertySource} to expose command line arguments as Spring properties</li>
  * <li>Refresh the application context, loading all singleton beans</li>
  * <li>Trigger any {@link CommandLineRunner} beans</li>
- * </ul>
- *
  * In most circumstances the static {@link #run(Class, String[])} method can be called
  * directly from your {@literal main} method to bootstrap your application:
- *
  * <pre class="code">
  * &#064;Configuration
  * &#064;EnableAutoConfiguration
  * public class MyApplication  {
  *
  *   // ... Bean definitions
- *
  *   public static void main(String[] args) throws Exception {
  *     SpringApplication.run(MyApplication.class, args);
  *   }
  * }
  * </pre>
  *
- * <p>
  * For more advanced configuration a {@link SpringApplication} instance can be created and
  * customized before being run:
  *
@@ -104,23 +94,18 @@ import org.springframework.web.context.support.StandardServletEnvironment;
  *   application.run(args)
  * }
  * </pre>
- *
  * {@link SpringApplication}s can read beans from a variety of different sources. It is
  * generally recommended that a single {@code @Configuration} class is used to bootstrap
  * your application, however, you may also set {@link #getSources() sources} from:
- * <ul>
  * <li>The fully qualified class name to be loaded by
  * {@link AnnotatedBeanDefinitionReader}</li>
  * <li>The location of an XML resource to be loaded by {@link XmlBeanDefinitionReader}, or
  * a groovy script to be loaded by {@link GroovyBeanDefinitionReader}</li>
  * <li>The name of a package to be scanned by {@link ClassPathBeanDefinitionScanner}</li>
- * </ul>
- *
  * Configuration properties are also bound to the {@link SpringApplication}. This makes it
  * possible to set {@link SpringApplication} properties dynamically, like additional
  * sources ("spring.main.sources" - a CSV list) the flag to indicate a web environment
- * ("spring.main.web-application-type=none") or the flag to switch off the banner
- * ("spring.main.banner-mode=off").
+ * ("spring.main.web-application-type=none") or the flag to switch off the banner ("spring.main.banner-mode=off").
  * @see #run(Class, String[])
  * @see #run(Class[], String[])
  * @see #SpringApplication(Class...)
@@ -132,14 +117,12 @@ public class SpringApplication {
 	 */
 	public static final String DEFAULT_CONTEXT_CLASS = "org.springframework.context.annotation.AnnotationConfigApplicationContext";
 
-
 	/**
 	 * The class name of application context that will be used by default for web environments.
 	 */
 	public static final String DEFAULT_WEB_CONTEXT_CLASS = "org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext";
 
 	private static final String[] WEB_ENVIRONMENT_CLASSES = { "javax.servlet.Servlet","org.springframework.web.context.ConfigurableWebApplicationContext" };
-
 
 	/**
 	 * The class name of application context that will be used by default for reactive web environments.
@@ -169,6 +152,7 @@ public class SpringApplication {
 
 	private Set<String> sources = new LinkedHashSet<>();
 
+	// 标有 @SpringBootApplication 注解的启动类
 	private Class<?> mainApplicationClass;
 
 	private Banner.Mode bannerMode = Banner.Mode.CONSOLE;

@@ -13,10 +13,6 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 /**
  * Strategy to load '.properties' files into a {@link PropertySource}.
- *
- * @author Dave Syer
- * @author Phillip Webb
- * @author Madhura Bhave
  */
 public class PropertiesPropertySourceLoader implements PropertySourceLoader {
 
@@ -28,14 +24,12 @@ public class PropertiesPropertySourceLoader implements PropertySourceLoader {
 	}
 
 	@Override
-	public List<PropertySource<?>> load(String name, Resource resource)
-			throws IOException {
+	public List<PropertySource<?>> load(String name, Resource resource) throws IOException {
 		Map<String, ?> properties = loadProperties(resource);
 		if (properties.isEmpty()) {
 			return Collections.emptyList();
 		}
-		return Collections
-				.singletonList(new OriginTrackedMapPropertySource(name, properties));
+		return Collections.singletonList(new OriginTrackedMapPropertySource(name, properties));
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
