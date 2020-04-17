@@ -32,7 +32,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @ConditionalOnClass({ DataSource.class, EmbeddedDatabaseType.class })
 @EnableConfigurationProperties(DataSourceProperties.class)
 @Import({ DataSourcePoolMetadataProvidersConfiguration.class,DataSourceInitializationConfiguration.class })
-
 public class DataSourceAutoConfiguration {
 
 	@Configuration
@@ -53,8 +52,7 @@ public class DataSourceAutoConfiguration {
 	}
 
 	/**
-	 * {@link AnyNestedCondition} that checks that either {@code spring.datasource.type}
-	 * is set or {@link PooledDataSourceAvailableCondition} applies.
+	 * {@link AnyNestedCondition} that checks that either {@code spring.datasource.type} is set or {@link PooledDataSourceAvailableCondition} applies.
 	 */
 	static class PooledDataSourceCondition extends AnyNestedCondition {
 

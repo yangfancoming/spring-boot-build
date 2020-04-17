@@ -7,12 +7,9 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 
 /**
  * {@link DataSourcePoolMetadata} for a Tomcat DataSource.
- *
- * @author Stephane Nicoll
  * @since 2.0.0
  */
-public class TomcatDataSourcePoolMetadata
-		extends AbstractDataSourcePoolMetadata<DataSource> {
+public class TomcatDataSourcePoolMetadata extends AbstractDataSourcePoolMetadata<DataSource> {
 
 	public TomcatDataSourcePoolMetadata(DataSource dataSource) {
 		super(dataSource);

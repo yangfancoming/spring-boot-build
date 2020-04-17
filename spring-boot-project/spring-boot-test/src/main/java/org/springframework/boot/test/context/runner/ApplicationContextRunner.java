@@ -14,34 +14,24 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
- * An {@link AbstractApplicationContextRunner ApplicationContext runner} for a standard,
- * non-web environment {@link ConfigurableApplicationContext}.
- * <p>
+ * An {@link AbstractApplicationContextRunner ApplicationContext runner} for a standard, non-web environment {@link ConfigurableApplicationContext}.
  * See {@link AbstractApplicationContextRunner} for details.
- *
- * @author Stephane Nicoll
- * @author Andy Wilkinson
- * @author Phillip Webb
  * @since 2.0.0
  */
-public class ApplicationContextRunner extends
-		AbstractApplicationContextRunner<ApplicationContextRunner, ConfigurableApplicationContext, AssertableApplicationContext> {
+public class ApplicationContextRunner extends AbstractApplicationContextRunner<ApplicationContextRunner, ConfigurableApplicationContext, AssertableApplicationContext> {
 
 	/**
-	 * Create a new {@link ApplicationContextRunner} instance using an
-	 * {@link AnnotationConfigApplicationContext} as the underlying source.
+	 * Create a new {@link ApplicationContextRunner} instance using an {@link AnnotationConfigApplicationContext} as the underlying source.
 	 */
 	public ApplicationContextRunner() {
 		this(AnnotationConfigApplicationContext::new);
 	}
 
 	/**
-	 * Create a new {@link ApplicationContextRunner} instance using the specified
-	 * {@code contextFactory} as the underlying source.
+	 * Create a new {@link ApplicationContextRunner} instance using the specified {@code contextFactory} as the underlying source.
 	 * @param contextFactory a supplier that returns a new instance on each call
 	 */
-	public ApplicationContextRunner(
-			Supplier<ConfigurableApplicationContext> contextFactory) {
+	public ApplicationContextRunner(Supplier<ConfigurableApplicationContext> contextFactory) {
 		super(contextFactory);
 	}
 
@@ -51,8 +41,7 @@ public class ApplicationContextRunner extends
 			TestPropertyValues environmentProperties, TestPropertyValues systemProperties,
 			ClassLoader classLoader, ApplicationContext parent,
 			List<Configurations> configurations) {
-		super(contextFactory, initializers, environmentProperties, systemProperties,
-				classLoader, parent, configurations);
+		super(contextFactory, initializers, environmentProperties, systemProperties,classLoader, parent, configurations);
 	}
 
 	@Override
@@ -62,9 +51,7 @@ public class ApplicationContextRunner extends
 			TestPropertyValues environmentProperties, TestPropertyValues systemProperties,
 			ClassLoader classLoader, ApplicationContext parent,
 			List<Configurations> configurations) {
-		return new ApplicationContextRunner(contextFactory, initializers,
-				environmentProperties, systemProperties, classLoader, parent,
-				configurations);
+		return new ApplicationContextRunner(contextFactory, initializers,environmentProperties, systemProperties, classLoader, parent,configurations);
 	}
 
 }

@@ -97,16 +97,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * Tests for {@link SpringApplication}.
- *
- * @author Phillip Webb
- * @author Dave Syer
- * @author Andy Wilkinson
- * @author Christian Dupuis
- * @author Stephane Nicoll
- * @author Jeremy Rickard
- * @author Craig Burke
- * @author Madhura Bhave
- * @author Brian Clozel
  */
 public class SpringApplicationTests {
 

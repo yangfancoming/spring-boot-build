@@ -23,35 +23,25 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
 
 /**
- * {@link ApplicationListener} to trigger early initialization in a background thread of
- * time consuming tasks.
- *
- * @author Phillip Webb
- * @author Andy Wilkinson
+ * {@link ApplicationListener} to trigger early initialization in a background thread of time consuming tasks.
  * @since 1.3.0
  */
 @Order(LoggingApplicationListener.DEFAULT_ORDER + 1)
-public class BackgroundPreinitializer
-		implements ApplicationListener<SpringApplicationEvent> {
+public class BackgroundPreinitializer implements ApplicationListener<SpringApplicationEvent> {
 
-	private static final AtomicBoolean preinitializationStarted = new AtomicBoolean(
-			false);
+	private static final AtomicBoolean preinitializationStarted = new AtomicBoolean(false);
 
 	private static final CountDownLatch preinitializationComplete = new CountDownLatch(1);
 
 	@Override
 	public void onApplicationEvent(SpringApplicationEvent event) {
-		if (event instanceof ApplicationStartingEvent
-				&& preinitializationStarted.compareAndSet(false, true)) {
+		if (event instanceof ApplicationStartingEvent && preinitializationStarted.compareAndSet(false, true)) {
 			performPreinitialization();
 		}
-		if ((event instanceof ApplicationReadyEvent
-				|| event instanceof ApplicationFailedEvent)
-				&& preinitializationStarted.get()) {
+		if ((event instanceof ApplicationReadyEvent || event instanceof ApplicationFailedEvent) && preinitializationStarted.get()) {
 			try {
 				preinitializationComplete.await();
-			}
-			catch (InterruptedException ex) {
+			}catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
 		}
@@ -60,7 +50,6 @@ public class BackgroundPreinitializer
 	private void performPreinitialization() {
 		try {
 			Thread thread = new Thread(new Runnable() {
-
 				@Override
 				public void run() {
 					runSafely(new ConversionServiceInitializer());
@@ -75,16 +64,13 @@ public class BackgroundPreinitializer
 				public void runSafely(Runnable runnable) {
 					try {
 						runnable.run();
-					}
-					catch (Throwable ex) {
+					}catch (Throwable ex) {
 						// Ignore
 					}
 				}
-
 			}, "background-preinit");
 			thread.start();
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			// This will fail on GAE where creating threads is prohibited. We can safely
 			// continue but startup will be slightly slower as the initialization will now
 			// happen on the main thread.
@@ -96,24 +82,20 @@ public class BackgroundPreinitializer
 	 * Early initializer for Spring MessageConverters.
 	 */
 	private static class MessageConverterInitializer implements Runnable {
-
 		@Override
 		public void run() {
 			new AllEncompassingFormHttpMessageConverter();
 		}
-
 	}
 
 	/**
 	 * Early initializer to load Tomcat MBean XML.
 	 */
 	private static class MBeanFactoryInitializer implements Runnable {
-
 		@Override
 		public void run() {
 			new MBeanFactory();
 		}
-
 	}
 
 	/**
@@ -133,33 +115,27 @@ public class BackgroundPreinitializer
 	 * Early initializer for Jackson.
 	 */
 	private static class JacksonInitializer implements Runnable {
-
 		@Override
 		public void run() {
 			Jackson2ObjectMapperBuilder.json().build();
 		}
-
 	}
 
 	/**
 	 * Early initializer for Spring's ConversionService.
 	 */
 	private static class ConversionServiceInitializer implements Runnable {
-
 		@Override
 		public void run() {
 			new DefaultFormattingConversionService();
 		}
-
 	}
 
 	private static class CharsetInitializer implements Runnable {
-
 		@Override
 		public void run() {
 			StandardCharsets.UTF_8.name();
 		}
-
 	}
 
 }

@@ -14,17 +14,12 @@ import org.springframework.context.ApplicationListener;
 
 /**
  * Bean to handle {@link DataSource} initialization by running {@literal schema-*.sql} on
- * {@link InitializingBean#afterPropertiesSet()} and {@literal data-*.sql} SQL scripts on
- * a {@link DataSourceSchemaCreatedEvent}.
- *
- * @author Stephane Nicoll
+ * {@link InitializingBean#afterPropertiesSet()} and {@literal data-*.sql} SQL scripts on a {@link DataSourceSchemaCreatedEvent}.
  * @see DataSourceAutoConfiguration
  */
-class DataSourceInitializerInvoker
-		implements ApplicationListener<DataSourceSchemaCreatedEvent>, InitializingBean {
+class DataSourceInitializerInvoker implements ApplicationListener<DataSourceSchemaCreatedEvent>, InitializingBean {
 
-	private static final Log logger = LogFactory
-			.getLog(DataSourceInitializerInvoker.class);
+	private static final Log logger = LogFactory.getLog(DataSourceInitializerInvoker.class);
 
 	private final ObjectProvider<DataSource> dataSource;
 
@@ -36,8 +31,7 @@ class DataSourceInitializerInvoker
 
 	private boolean initialized;
 
-	DataSourceInitializerInvoker(ObjectProvider<DataSource> dataSource,
-			DataSourceProperties properties, ApplicationContext applicationContext) {
+	DataSourceInitializerInvoker(ObjectProvider<DataSource> dataSource,DataSourceProperties properties, ApplicationContext applicationContext) {
 		this.dataSource = dataSource;
 		this.properties = properties;
 		this.applicationContext = applicationContext;
@@ -56,17 +50,14 @@ class DataSourceInitializerInvoker
 
 	private void initialize(DataSourceInitializer initializer) {
 		try {
-			this.applicationContext.publishEvent(
-					new DataSourceSchemaCreatedEvent(initializer.getDataSource()));
+			this.applicationContext.publishEvent(new DataSourceSchemaCreatedEvent(initializer.getDataSource()));
 			// The listener might not be registered yet, so don't rely on it.
 			if (!this.initialized) {
 				this.dataSourceInitializer.initSchema();
 				this.initialized = true;
 			}
-		}
-		catch (IllegalStateException ex) {
-			logger.warn("Could not send event to complete DataSource initialization ("
-					+ ex.getMessage() + ")");
+		}catch (IllegalStateException ex) {
+			logger.warn("Could not send event to complete DataSource initialization (" + ex.getMessage() + ")");
 		}
 	}
 
@@ -85,8 +76,7 @@ class DataSourceInitializerInvoker
 		if (this.dataSourceInitializer == null) {
 			DataSource ds = this.dataSource.getIfUnique();
 			if (ds != null) {
-				this.dataSourceInitializer = new DataSourceInitializer(ds,
-						this.properties, this.applicationContext);
+				this.dataSourceInitializer = new DataSourceInitializer(ds,this.properties, this.applicationContext);
 			}
 		}
 		return this.dataSourceInitializer;

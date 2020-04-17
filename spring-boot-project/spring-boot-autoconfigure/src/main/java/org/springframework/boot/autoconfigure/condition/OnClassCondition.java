@@ -27,10 +27,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.MultiValueMap;
 
 /**
- * {@link Condition} and {@link AutoConfigurationImportFilter} that checks for the
- * presence or absence of specific classes.
- *
- * @author Phillip Webb
+ * {@link Condition} and {@link AutoConfigurationImportFilter} that checks for the presence or absence of specific classes.
  * @see ConditionalOnClass
  * @see ConditionalOnMissingClass
  */
@@ -65,8 +62,7 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 		return null;
 	}
 
-	private ConditionOutcome[] getOutcomes(String[] autoConfigurationClasses,
-			AutoConfigurationMetadata autoConfigurationMetadata) {
+	private ConditionOutcome[] getOutcomes(String[] autoConfigurationClasses,AutoConfigurationMetadata autoConfigurationMetadata) {
 		// Split the work and perform half in a background thread. Using a single
 		// additional thread seems to offer the best performance. More threads make
 		// things worse
@@ -85,8 +81,7 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 		OutcomesResolver outcomesResolver = new StandardOutcomesResolver( autoConfigurationClasses, start, end, autoConfigurationMetadata,this.beanClassLoader);
 		try {
 			return new ThreadedOutcomesResolver(outcomesResolver);
-		}
-		catch (AccessControlException ex) {
+		}catch (AccessControlException ex) {
 			return outcomesResolver;
 		}
 	}
@@ -101,13 +96,9 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 			List<String> missing = getMatches(onClasses, MatchType.MISSING, classLoader);
 			if (!missing.isEmpty()) {
 				return ConditionOutcome
-						.noMatch(ConditionMessage.forCondition(ConditionalOnClass.class)
-								.didNotFind("required class", "required classes")
-								.items(Style.QUOTE, missing));
+						.noMatch(ConditionMessage.forCondition(ConditionalOnClass.class).didNotFind("required class", "required classes").items(Style.QUOTE, missing));
 			}
-			matchMessage = matchMessage.andCondition(ConditionalOnClass.class)
-					.found("required class", "required classes").items(Style.QUOTE,
-							getMatches(onClasses, MatchType.PRESENT, classLoader));
+			matchMessage = matchMessage.andCondition(ConditionalOnClass.class).found("required class", "required classes").items(Style.QUOTE,getMatches(onClasses, MatchType.PRESENT, classLoader));
 		}
 		List<String> onMissingClasses = getCandidates(metadata,
 				ConditionalOnMissingClass.class);
@@ -115,22 +106,15 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 			List<String> present = getMatches(onMissingClasses, MatchType.PRESENT,
 					classLoader);
 			if (!present.isEmpty()) {
-				return ConditionOutcome.noMatch(
-						ConditionMessage.forCondition(ConditionalOnMissingClass.class)
-								.found("unwanted class", "unwanted classes")
-								.items(Style.QUOTE, present));
+				return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnMissingClass.class).found("unwanted class", "unwanted classes").items(Style.QUOTE, present));
 			}
-			matchMessage = matchMessage.andCondition(ConditionalOnMissingClass.class)
-					.didNotFind("unwanted class", "unwanted classes").items(Style.QUOTE,
-							getMatches(onMissingClasses, MatchType.MISSING, classLoader));
+			matchMessage = matchMessage.andCondition(ConditionalOnMissingClass.class).didNotFind("unwanted class", "unwanted classes").items(Style.QUOTE,getMatches(onMissingClasses, MatchType.MISSING, classLoader));
 		}
 		return ConditionOutcome.match(matchMessage);
 	}
 
-	private List<String> getCandidates(AnnotatedTypeMetadata metadata,
-			Class<?> annotationType) {
-		MultiValueMap<String, Object> attributes = metadata
-				.getAllAnnotationAttributes(annotationType.getName(), true);
+	private List<String> getCandidates(AnnotatedTypeMetadata metadata,Class<?> annotationType) {
+		MultiValueMap<String, Object> attributes = metadata.getAllAnnotationAttributes(annotationType.getName(), true);
 		if (attributes == null) {
 			return Collections.emptyList();
 		}
@@ -148,8 +132,7 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 		}
 	}
 
-	private List<String> getMatches(Collection<String> candidates, MatchType matchType,
-			ClassLoader classLoader) {
+	private List<String> getMatches(Collection<String> candidates, MatchType matchType,ClassLoader classLoader) {
 		List<String> matches = new ArrayList<>(candidates.size());
 		for (String candidate : candidates) {
 			if (matchType.matches(candidate, classLoader)) {
@@ -170,23 +153,18 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 	}
 
 	private enum MatchType {
-
 		PRESENT {
-
 			@Override
 			public boolean matches(String className, ClassLoader classLoader) {
 				return isPresent(className, classLoader);
 			}
-
 		},
 
 		MISSING {
-
 			@Override
 			public boolean matches(String className, ClassLoader classLoader) {
 				return !isPresent(className, classLoader);
 			}
-
 		};
 
 		private static boolean isPresent(String className, ClassLoader classLoader) {
@@ -196,28 +174,23 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 			try {
 				forName(className, classLoader);
 				return true;
-			}
-			catch (Throwable ex) {
+			}catch (Throwable ex) {
 				return false;
 			}
 		}
 
-		private static Class<?> forName(String className, ClassLoader classLoader)
-				throws ClassNotFoundException {
+		private static Class<?> forName(String className, ClassLoader classLoader) throws ClassNotFoundException {
 			if (classLoader != null) {
 				return classLoader.loadClass(className);
 			}
 			return Class.forName(className);
 		}
-
 		public abstract boolean matches(String className, ClassLoader classLoader);
 
 	}
 
 	private interface OutcomesResolver {
-
 		ConditionOutcome[] resolveOutcomes();
-
 	}
 
 	private static final class ThreadedOutcomesResolver implements OutcomesResolver {
@@ -227,8 +200,7 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 		private volatile ConditionOutcome[] outcomes;
 
 		private ThreadedOutcomesResolver(OutcomesResolver outcomesResolver) {
-			this.thread = new Thread(
-					() -> this.outcomes = outcomesResolver.resolveOutcomes());
+			this.thread = new Thread(() -> this.outcomes = outcomesResolver.resolveOutcomes());
 			this.thread.start();
 		}
 
@@ -236,13 +208,11 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 		public ConditionOutcome[] resolveOutcomes() {
 			try {
 				this.thread.join();
-			}
-			catch (InterruptedException ex) {
+			}catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
 			return this.outcomes;
 		}
-
 	}
 
 	private final class StandardOutcomesResolver implements OutcomesResolver {
@@ -257,9 +227,7 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 
 		private final ClassLoader beanClassLoader;
 
-		private StandardOutcomesResolver(String[] autoConfigurationClasses, int start,
-				int end, AutoConfigurationMetadata autoConfigurationMetadata,
-				ClassLoader beanClassLoader) {
+		private StandardOutcomesResolver(String[] autoConfigurationClasses, int start,int end, AutoConfigurationMetadata autoConfigurationMetadata,ClassLoader beanClassLoader) {
 			this.autoConfigurationClasses = autoConfigurationClasses;
 			this.start = start;
 			this.end = end;
@@ -269,17 +237,14 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 
 		@Override
 		public ConditionOutcome[] resolveOutcomes() {
-			return getOutcomes(this.autoConfigurationClasses, this.start, this.end,
-					this.autoConfigurationMetadata);
+			return getOutcomes(this.autoConfigurationClasses, this.start, this.end,this.autoConfigurationMetadata);
 		}
 
-		private ConditionOutcome[] getOutcomes(String[] autoConfigurationClasses,
-				int start, int end, AutoConfigurationMetadata autoConfigurationMetadata) {
+		private ConditionOutcome[] getOutcomes(String[] autoConfigurationClasses,int start, int end, AutoConfigurationMetadata autoConfigurationMetadata) {
 			ConditionOutcome[] outcomes = new ConditionOutcome[end - start];
 			for (int i = start; i < end; i++) {
 				String autoConfigurationClass = autoConfigurationClasses[i];
-				Set<String> candidates = autoConfigurationMetadata
-						.getSet(autoConfigurationClass, "ConditionalOnClass");
+				Set<String> candidates = autoConfigurationMetadata.getSet(autoConfigurationClass, "ConditionalOnClass");
 				if (candidates != null) {
 					outcomes[i - start] = getOutcome(candidates);
 				}
@@ -289,16 +254,11 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 
 		private ConditionOutcome getOutcome(Set<String> candidates) {
 			try {
-				List<String> missing = getMatches(candidates, MatchType.MISSING,
-						this.beanClassLoader);
+				List<String> missing = getMatches(candidates, MatchType.MISSING,this.beanClassLoader);
 				if (!missing.isEmpty()) {
-					return ConditionOutcome.noMatch(
-							ConditionMessage.forCondition(ConditionalOnClass.class)
-									.didNotFind("required class", "required classes")
-									.items(Style.QUOTE, missing));
+					return ConditionOutcome.noMatch(ConditionMessage.forCondition(ConditionalOnClass.class).didNotFind("required class", "required classes").items(Style.QUOTE, missing));
 				}
-			}
-			catch (Exception ex) {
+			}catch (Exception ex) {
 				// We'll get another chance later
 			}
 			return null;

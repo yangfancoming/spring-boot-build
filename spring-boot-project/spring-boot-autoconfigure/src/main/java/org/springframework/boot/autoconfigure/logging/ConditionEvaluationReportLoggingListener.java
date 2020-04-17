@@ -22,17 +22,9 @@ import org.springframework.core.ResolvableType;
  * {@link ApplicationContextInitializer} that writes the {@link ConditionEvaluationReport}
  * to the log. Reports are logged at the {@link LogLevel#DEBUG DEBUG} level unless there
  * was a problem, in which case they are the {@link LogLevel#INFO INFO} level is used.
- * <p>
- * This initializer is not intended to be shared across multiple application context
- * instances.
- *
- * @author Greg Turnquist
- * @author Dave Syer
- * @author Phillip Webb
- * @author Andy Wilkinson
+ * This initializer is not intended to be shared across multiple application context instances.
  */
-public class ConditionEvaluationReportLoggingListener
-		implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class ConditionEvaluationReportLoggingListener implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
 	private final Log logger = LogFactory.getLog(getClass());
 
@@ -43,26 +35,21 @@ public class ConditionEvaluationReportLoggingListener
 	@Override
 	public void initialize(ConfigurableApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
-		applicationContext
-				.addApplicationListener(new ConditionEvaluationReportListener());
+		applicationContext.addApplicationListener(new ConditionEvaluationReportListener());
 		if (applicationContext instanceof GenericApplicationContext) {
 			// Get the report early in case the context fails to load
-			this.report = ConditionEvaluationReport
-					.get(this.applicationContext.getBeanFactory());
+			this.report = ConditionEvaluationReport.get(this.applicationContext.getBeanFactory());
 		}
 	}
 
 	protected void onApplicationEvent(ApplicationEvent event) {
 		ConfigurableApplicationContext initializerApplicationContext = this.applicationContext;
 		if (event instanceof ContextRefreshedEvent) {
-			if (((ApplicationContextEvent) event)
-					.getApplicationContext() == initializerApplicationContext) {
+			if (((ApplicationContextEvent) event).getApplicationContext() == initializerApplicationContext) {
 				logAutoConfigurationReport();
 			}
 		}
-		else if (event instanceof ApplicationFailedEvent
-				&& ((ApplicationFailedEvent) event)
-						.getApplicationContext() == initializerApplicationContext) {
+		else if (event instanceof ApplicationFailedEvent && ((ApplicationFailedEvent) event) .getApplicationContext() == initializerApplicationContext) {
 			logAutoConfigurationReport(true);
 		}
 	}
@@ -74,20 +61,14 @@ public class ConditionEvaluationReportLoggingListener
 	public void logAutoConfigurationReport(boolean isCrashReport) {
 		if (this.report == null) {
 			if (this.applicationContext == null) {
-				this.logger.info("Unable to provide the conditions report "
-						+ "due to missing ApplicationContext");
+				this.logger.info("Unable to provide the conditions report due to missing ApplicationContext");
 				return;
 			}
-			this.report = ConditionEvaluationReport
-					.get(this.applicationContext.getBeanFactory());
+			this.report = ConditionEvaluationReport.get(this.applicationContext.getBeanFactory());
 		}
 		if (!this.report.getConditionAndOutcomesBySource().isEmpty()) {
-			if (isCrashReport && this.logger.isInfoEnabled()
-					&& !this.logger.isDebugEnabled()) {
-				this.logger.info(String
-						.format("%n%nError starting ApplicationContext. To display the "
-								+ "conditions report re-run your application with "
-								+ "'debug' enabled."));
+			if (isCrashReport && this.logger.isInfoEnabled() && !this.logger.isDebugEnabled()) {
+				this.logger.info(String.format("%n%nError starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled."));
 			}
 			if (this.logger.isDebugEnabled()) {
 				this.logger.debug(new ConditionEvaluationReportMessage(this.report));
@@ -95,8 +76,7 @@ public class ConditionEvaluationReportLoggingListener
 		}
 	}
 
-	private class ConditionEvaluationReportListener
-			implements GenericApplicationListener {
+	private class ConditionEvaluationReportListener implements GenericApplicationListener {
 
 		@Override
 		public int getOrder() {
@@ -109,8 +89,7 @@ public class ConditionEvaluationReportLoggingListener
 			if (type == null) {
 				return false;
 			}
-			return ContextRefreshedEvent.class.isAssignableFrom(type)
-					|| ApplicationFailedEvent.class.isAssignableFrom(type);
+			return ContextRefreshedEvent.class.isAssignableFrom(type) || ApplicationFailedEvent.class.isAssignableFrom(type);
 		}
 
 		@Override
@@ -122,7 +101,6 @@ public class ConditionEvaluationReportLoggingListener
 		public void onApplicationEvent(ApplicationEvent event) {
 			ConditionEvaluationReportLoggingListener.this.onApplicationEvent(event);
 		}
-
 	}
 
 }

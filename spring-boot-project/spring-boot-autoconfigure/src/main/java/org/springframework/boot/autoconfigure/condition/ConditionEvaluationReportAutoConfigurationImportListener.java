@@ -12,19 +12,15 @@ import org.springframework.boot.autoconfigure.AutoConfigurationImportListener;
 /**
  * {@link AutoConfigurationImportListener} to record results with the
  * {@link ConditionEvaluationReport}.
- *
- * @author Phillip Webb
  */
-class ConditionEvaluationReportAutoConfigurationImportListener
-		implements AutoConfigurationImportListener, BeanFactoryAware {
+class ConditionEvaluationReportAutoConfigurationImportListener implements AutoConfigurationImportListener, BeanFactoryAware {
 
 	private ConfigurableListableBeanFactory beanFactory;
 
 	@Override
 	public void onAutoConfigurationImportEvent(AutoConfigurationImportEvent event) {
 		if (this.beanFactory != null) {
-			ConditionEvaluationReport report = ConditionEvaluationReport
-					.get(this.beanFactory);
+			ConditionEvaluationReport report = ConditionEvaluationReport.get(this.beanFactory);
 			report.recordEvaluationCandidates(event.getCandidateConfigurations());
 			report.recordExclusions(event.getExclusions());
 		}
@@ -32,8 +28,7 @@ class ConditionEvaluationReportAutoConfigurationImportListener
 
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = (beanFactory instanceof ConfigurableListableBeanFactory)
-				? (ConfigurableListableBeanFactory) beanFactory : null;
+		this.beanFactory = (beanFactory instanceof ConfigurableListableBeanFactory) ? (ConfigurableListableBeanFactory) beanFactory : null;
 	}
 
 }

@@ -19,11 +19,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.jmx.export.MBeanExporter;
 
 /**
- * Register a JMX component that allows to administer the current application. Intended
- * for internal use only.
- *
- * @author Stephane Nicoll
- * @author Andy Wilkinson
+ * Register a JMX component that allows to administer the current application. Intended for internal use only.
  * @since 1.3.0
  * @see SpringApplicationAdminMXBean
  */
@@ -33,8 +29,7 @@ import org.springframework.jmx.export.MBeanExporter;
 public class SpringApplicationAdminJmxAutoConfiguration {
 
 	/**
-	 * The property to use to customize the {@code ObjectName} of the application admin
-	 * mbean.
+	 * The property to use to customize the {@code ObjectName} of the application admin mbean.
 	 */
 	private static final String JMX_NAME_PROPERTY = "spring.application.admin.jmx-name";
 
@@ -47,18 +42,15 @@ public class SpringApplicationAdminJmxAutoConfiguration {
 
 	private final Environment environment;
 
-	public SpringApplicationAdminJmxAutoConfiguration(
-			ObjectProvider<List<MBeanExporter>> mbeanExporters, Environment environment) {
+	public SpringApplicationAdminJmxAutoConfiguration(ObjectProvider<List<MBeanExporter>> mbeanExporters, Environment environment) {
 		this.mbeanExporters = mbeanExporters.getIfAvailable();
 		this.environment = environment;
 	}
 
 	@Bean
 	@ConditionalOnMissingBean
-	public SpringApplicationAdminMXBeanRegistrar springApplicationAdminRegistrar()
-			throws MalformedObjectNameException {
-		String jmxName = this.environment.getProperty(JMX_NAME_PROPERTY,
-				DEFAULT_JMX_NAME);
+	public SpringApplicationAdminMXBeanRegistrar springApplicationAdminRegistrar() throws MalformedObjectNameException {
+		String jmxName = this.environment.getProperty(JMX_NAME_PROPERTY,DEFAULT_JMX_NAME);
 		if (this.mbeanExporters != null) { // Make sure to not register that MBean twice
 			for (MBeanExporter mbeanExporter : this.mbeanExporters) {
 				mbeanExporter.addExcludedBean(jmxName);

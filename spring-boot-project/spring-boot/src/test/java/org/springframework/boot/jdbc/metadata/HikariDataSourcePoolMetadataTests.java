@@ -15,6 +15,7 @@ public class HikariDataSourcePoolMetadataTests extends AbstractDataSourcePoolMet
 	private HikariDataSourcePoolMetadata dataSourceMetadata;
 
 	HikariDataSource dataSource = createDataSource(0, 4);
+
 	@Before
 	public void setup() {
 		this.dataSourceMetadata = new HikariDataSourcePoolMetadata(createDataSource(0, 2));
