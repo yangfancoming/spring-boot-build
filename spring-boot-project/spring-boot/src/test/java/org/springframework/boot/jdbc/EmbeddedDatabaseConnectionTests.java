@@ -10,8 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link EmbeddedDatabaseConnection}.
- *
- * @author Stephane Nicoll
  */
 public class EmbeddedDatabaseConnectionTests {
 
@@ -20,14 +18,12 @@ public class EmbeddedDatabaseConnectionTests {
 
 	@Test
 	public void h2CustomDatabaseName() {
-		assertThat(EmbeddedDatabaseConnection.H2.getUrl("mydb"))
-				.isEqualTo("jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+		assertThat(EmbeddedDatabaseConnection.H2.getUrl("mydb")).isEqualTo("jdbc:h2:mem:mydb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
 	}
 
 	@Test
 	public void derbyCustomDatabaseName() {
-		assertThat(EmbeddedDatabaseConnection.DERBY.getUrl("myderbydb"))
-				.isEqualTo("jdbc:derby:memory:myderbydb;create=true");
+		assertThat(EmbeddedDatabaseConnection.DERBY.getUrl("myderbydb")).isEqualTo("jdbc:derby:memory:myderbydb;create=true");
 	}
 
 	@Test

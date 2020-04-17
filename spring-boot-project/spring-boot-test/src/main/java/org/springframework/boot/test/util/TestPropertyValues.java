@@ -109,8 +109,7 @@ public final class TestPropertyValues {
 	public <T> T applyToSystemProperties(Callable<T> call) {
 		try (SystemPropertiesHandler handler = new SystemPropertiesHandler()) {
 			return call.call();
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			rethrow(ex);
 			throw new IllegalStateException("Original cause not rethrown", ex);
 		}

@@ -160,9 +160,7 @@ public abstract class AbstractApplicationContextRunner<SELF extends AbstractAppl
 	 * @see #withSystemProperties(String...)
 	 */
 	public SELF withPropertyValues(String... pairs) {
-		return newInstance(this.contextFactory, this.initializers,
-				this.environmentProperties.and(pairs), this.systemProperties,
-				this.classLoader, this.parent, this.configurations);
+		return newInstance(this.contextFactory, this.initializers,this.environmentProperties.and(pairs), this.systemProperties,this.classLoader, this.parent, this.configurations);
 	}
 
 	/**

@@ -10,10 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link DatabaseDriver}.
- *
- * @author Phillip Webb
- * @author Maciej Walkowiak
- * @author Stephane Nicoll
  */
 public class DatabaseDriverTests {
 
@@ -22,8 +18,8 @@ public class DatabaseDriverTests {
 
 	@Test
 	public void classNameForKnownDatabase() {
-		String driverClassName = DatabaseDriver
-				.fromJdbcUrl("jdbc:postgresql://hostname/dbname").getDriverClassName();
+		String driverClassName = DatabaseDriver.fromJdbcUrl("jdbc:postgresql://hostname/dbname").getDriverClassName();
+
 		assertThat(driverClassName).isEqualTo("org.postgresql.Driver");
 	}
 

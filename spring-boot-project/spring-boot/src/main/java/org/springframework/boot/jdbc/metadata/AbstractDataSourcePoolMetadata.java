@@ -6,13 +6,10 @@ import javax.sql.DataSource;
 
 /**
  * A base {@link DataSourcePoolMetadata} implementation.
- *
  * @param <T> the data source type
- * @author Stephane Nicoll
  * @since 2.0.0
  */
-public abstract class AbstractDataSourcePoolMetadata<T extends DataSource>
-		implements DataSourcePoolMetadata {
+public abstract class AbstractDataSourcePoolMetadata<T extends DataSource> implements DataSourcePoolMetadata {
 
 	private final T dataSource;
 

@@ -6,8 +6,6 @@ import javax.sql.DataSource;
 
 /**
  * Provide a {@link DataSourcePoolMetadata} based on a {@link DataSource}.
- *
- * @author Stephane Nicoll
  * @since 2.0.0
  */
 @FunctionalInterface

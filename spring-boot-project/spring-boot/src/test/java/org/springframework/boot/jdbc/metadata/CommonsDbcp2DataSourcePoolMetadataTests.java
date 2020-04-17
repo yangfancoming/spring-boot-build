@@ -10,11 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link CommonsDbcp2DataSourcePoolMetadata}.
- *
- * @author Stephane Nicoll
  */
-public class CommonsDbcp2DataSourcePoolMetadataTests
-		extends AbstractDataSourcePoolMetadataTests<CommonsDbcp2DataSourcePoolMetadata> {
+public class CommonsDbcp2DataSourcePoolMetadataTests extends AbstractDataSourcePoolMetadataTests<CommonsDbcp2DataSourcePoolMetadata> {
 
 	private CommonsDbcp2DataSourcePoolMetadata dataSourceMetadata;
 
@@ -30,8 +27,7 @@ public class CommonsDbcp2DataSourcePoolMetadataTests
 
 	@Test
 	public void getPoolUsageWithNoCurrent() {
-		CommonsDbcp2DataSourcePoolMetadata dsm = new CommonsDbcp2DataSourcePoolMetadata(
-				createDataSource()) {
+		CommonsDbcp2DataSourcePoolMetadata dsm = new CommonsDbcp2DataSourcePoolMetadata(createDataSource()) {
 			@Override
 			public Integer getActive() {
 				return null;
@@ -42,8 +38,7 @@ public class CommonsDbcp2DataSourcePoolMetadataTests
 
 	@Test
 	public void getPoolUsageWithNoMax() {
-		CommonsDbcp2DataSourcePoolMetadata dsm = new CommonsDbcp2DataSourcePoolMetadata(
-				createDataSource()) {
+		CommonsDbcp2DataSourcePoolMetadata dsm = new CommonsDbcp2DataSourcePoolMetadata(createDataSource()) {
 			@Override
 			public Integer getMax() {
 				return null;
@@ -62,22 +57,17 @@ public class CommonsDbcp2DataSourcePoolMetadataTests
 	public void getValidationQuery() {
 		BasicDataSource dataSource = createDataSource();
 		dataSource.setValidationQuery("SELECT FROM FOO");
-		assertThat(
-				new CommonsDbcp2DataSourcePoolMetadata(dataSource).getValidationQuery())
-						.isEqualTo("SELECT FROM FOO");
+		assertThat(new CommonsDbcp2DataSourcePoolMetadata(dataSource).getValidationQuery()).isEqualTo("SELECT FROM FOO");
 	}
 
 	@Override
 	public void getDefaultAutoCommit() {
 		BasicDataSource dataSource = createDataSource();
 		dataSource.setDefaultAutoCommit(false);
-		assertThat(
-				new CommonsDbcp2DataSourcePoolMetadata(dataSource).getDefaultAutoCommit())
-						.isFalse();
+		assertThat(new CommonsDbcp2DataSourcePoolMetadata(dataSource).getDefaultAutoCommit()).isFalse();
 	}
 
-	private CommonsDbcp2DataSourcePoolMetadata createDataSourceMetadata(int minSize,
-			int maxSize) {
+	private CommonsDbcp2DataSourcePoolMetadata createDataSourceMetadata(int minSize,int maxSize) {
 		BasicDataSource dataSource = createDataSource();
 		dataSource.setMinIdle(minSize);
 		dataSource.setMaxTotal(maxSize);

@@ -17,10 +17,6 @@ import org.springframework.util.ClassUtils;
 
 /**
  * Connection details for {@link EmbeddedDatabaseType embedded databases}.
- *
- * @author Phillip Webb
- * @author Dave Syer
- * @author Stephane Nicoll
  * @see #get(ClassLoader)
  */
 public enum EmbeddedDatabaseConnection {
@@ -33,14 +29,12 @@ public enum EmbeddedDatabaseConnection {
 	/**
 	 * H2 Database Connection.
 	 */
-	H2(EmbeddedDatabaseType.H2, "org.h2.Driver",
-			"jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"),
+	H2(EmbeddedDatabaseType.H2, "org.h2.Driver","jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"),
 
 	/**
 	 * Derby Database Connection.
 	 */
-	DERBY(EmbeddedDatabaseType.DERBY, "org.apache.derby.jdbc.EmbeddedDriver",
-			"jdbc:derby:memory:%s;create=true"),
+	DERBY(EmbeddedDatabaseType.DERBY, "org.apache.derby.jdbc.EmbeddedDriver","jdbc:derby:memory:%s;create=true"),
 
 	/**
 	 * HSQL Database Connection.
@@ -53,8 +47,7 @@ public enum EmbeddedDatabaseConnection {
 
 	private final String url;
 
-	EmbeddedDatabaseConnection(EmbeddedDatabaseType type, String driverClass,
-			String url) {
+	EmbeddedDatabaseConnection(EmbeddedDatabaseType type, String driverClass,String url) {
 		this.type = type;
 		this.driverClass = driverClass;
 		this.url = url;
@@ -87,28 +80,23 @@ public enum EmbeddedDatabaseConnection {
 	}
 
 	/**
-	 * Convenience method to determine if a given driver class name represents an embedded
-	 * database type.
+	 * Convenience method to determine if a given driver class name represents an embedded database type.
 	 * @param driverClass the driver class
 	 * @return true if the driver class is one of the embedded types
 	 */
 	public static boolean isEmbedded(String driverClass) {
-		return driverClass != null && (driverClass.equals(HSQL.driverClass)
-				|| driverClass.equals(H2.driverClass)
-				|| driverClass.equals(DERBY.driverClass));
+		return driverClass != null && (driverClass.equals(HSQL.driverClass) || driverClass.equals(H2.driverClass) || driverClass.equals(DERBY.driverClass));
 	}
 
 	/**
-	 * Convenience method to determine if a given data source represents an embedded
-	 * database type.
+	 * Convenience method to determine if a given data source represents an embedded database type.
 	 * @param dataSource the data source to interrogate
 	 * @return true if the data source is one of the embedded types
 	 */
 	public static boolean isEmbedded(DataSource dataSource) {
 		try {
 			return new JdbcTemplate(dataSource).execute(new IsEmbedded());
-		}
-		catch (DataAccessException ex) {
+		}catch (DataAccessException ex) {
 			// Could not connect, which means it's not embedded
 			return false;
 		}
@@ -122,8 +110,7 @@ public enum EmbeddedDatabaseConnection {
 	 */
 	public static EmbeddedDatabaseConnection get(ClassLoader classLoader) {
 		for (EmbeddedDatabaseConnection candidate : EmbeddedDatabaseConnection.values()) {
-			if (candidate != NONE && ClassUtils.isPresent(candidate.getDriverClassName(),
-					classLoader)) {
+			if (candidate != NONE && ClassUtils.isPresent(candidate.getDriverClassName(),classLoader)) {
 				return candidate;
 			}
 		}
@@ -136,12 +123,9 @@ public enum EmbeddedDatabaseConnection {
 	private static class IsEmbedded implements ConnectionCallback<Boolean> {
 
 		@Override
-		public Boolean doInConnection(Connection connection)
-				throws SQLException, DataAccessException {
+		public Boolean doInConnection(Connection connection) throws SQLException, DataAccessException {
 			String productName = connection.getMetaData().getDatabaseProductName();
-			if (productName == null) {
-				return false;
-			}
+			if (productName == null) return false;
 			productName = productName.toUpperCase(Locale.ENGLISH);
 			EmbeddedDatabaseConnection[] candidates = EmbeddedDatabaseConnection.values();
 			for (EmbeddedDatabaseConnection candidate : candidates) {

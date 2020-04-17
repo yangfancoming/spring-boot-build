@@ -141,11 +141,9 @@ public class RedisAutoConfigurationTests {
 				"spring.redis.lettuce.pool.max-active:16",
 				"spring.redis.lettuce.pool.max-wait:2000",
 				"spring.redis.lettuce.shutdown-timeout:1000").run((context) -> {
-					LettuceConnectionFactory cf = context
-							.getBean(LettuceConnectionFactory.class);
+					LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 					assertThat(cf.getHostName()).isEqualTo("foo");
-					GenericObjectPoolConfig poolConfig = getPoolingClientConfiguration(cf)
-							.getPoolConfig();
+					GenericObjectPoolConfig poolConfig = getPoolingClientConfiguration(cf).getPoolConfig();
 					assertThat(poolConfig.getMinIdle()).isEqualTo(1);
 					assertThat(poolConfig.getMaxIdle()).isEqualTo(4);
 					assertThat(poolConfig.getMaxTotal()).isEqualTo(16);
@@ -159,8 +157,7 @@ public class RedisAutoConfigurationTests {
 		this.contextRunner
 				.withPropertyValues("spring.redis.host:foo", "spring.redis.timeout:100")
 				.run((context) -> {
-					LettuceConnectionFactory cf = context
-							.getBean(LettuceConnectionFactory.class);
+					LettuceConnectionFactory cf = context.getBean(LettuceConnectionFactory.class);
 					assertThat(cf.getHostName()).isEqualTo("foo");
 					assertThat(cf.getTimeout()).isEqualTo(100);
 				});

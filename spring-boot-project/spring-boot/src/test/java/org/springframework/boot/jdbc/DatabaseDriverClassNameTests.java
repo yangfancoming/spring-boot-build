@@ -23,16 +23,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for the class names in the {@link DatabaseDriver} enumeration.
- *
- * @author Andy Wilkinson
  */
 @RunWith(Parameterized.class)
 public class DatabaseDriverClassNameTests {
 
-	private static final Set<DatabaseDriver> EXCLUDED_DRIVERS = Collections
-			.unmodifiableSet(EnumSet.of(DatabaseDriver.UNKNOWN, DatabaseDriver.ORACLE,
-					DatabaseDriver.DB2, DatabaseDriver.DB2_AS400, DatabaseDriver.INFORMIX,
-					DatabaseDriver.TERADATA));
+	private static final Set<DatabaseDriver> EXCLUDED_DRIVERS = Collections.unmodifiableSet(EnumSet.of(DatabaseDriver.UNKNOWN, DatabaseDriver.ORACLE,DatabaseDriver.DB2, DatabaseDriver.DB2_AS400, DatabaseDriver.INFORMIX,DatabaseDriver.TERADATA));
 
 	private final String className;
 
@@ -46,32 +41,27 @@ public class DatabaseDriverClassNameTests {
 			if (EXCLUDED_DRIVERS.contains(databaseDriver)) {
 				continue;
 			}
-			parameters.add(new Object[] { databaseDriver,
-					databaseDriver.getDriverClassName(), Driver.class });
+			parameters.add(new Object[] { databaseDriver,databaseDriver.getDriverClassName(), Driver.class });
 			if (databaseDriver.getXaDataSourceClassName() != null) {
-				parameters.add(new Object[] { databaseDriver,
-						databaseDriver.getXaDataSourceClassName(), XADataSource.class });
+				parameters.add(new Object[] { databaseDriver,databaseDriver.getXaDataSourceClassName(), XADataSource.class });
 			}
 		}
 		return parameters;
 	}
 
-	public DatabaseDriverClassNameTests(DatabaseDriver driver, String className,
-			Class<?> requiredType) {
+	public DatabaseDriverClassNameTests(DatabaseDriver driver, String className,Class<?> requiredType) {
 		this.className = className;
 		this.requiredType = requiredType;
 	}
 
 	@Test
 	public void databaseClassIsOfRequiredType() throws Exception {
-		assertThat(getInterfaceNames(this.className.replace('.', '/')))
-				.contains(this.requiredType.getName().replace('.', '/'));
+		assertThat(getInterfaceNames(this.className.replace('.', '/'))).contains(this.requiredType.getName().replace('.', '/'));
 	}
 
 	private List<String> getInterfaceNames(String className) throws IOException {
 		// Use ASM to avoid unwanted side-effects of loading JDBC drivers
-		ClassReader classReader = new ClassReader(
-				getClass().getResourceAsStream("/" + className + ".class"));
+		ClassReader classReader = new ClassReader(getClass().getResourceAsStream("/" + className + ".class"));
 		List<String> interfaceNames = new ArrayList<>();
 		for (String name : classReader.getInterfaces()) {
 			interfaceNames.add(name);

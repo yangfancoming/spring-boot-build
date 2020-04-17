@@ -12,9 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Abstract base class for {@link DataSourcePoolMetadata} tests.
- *
  * @param <D> the data source pool metadata type
- * @author Stephane Nicoll
  */
 public abstract class AbstractDataSourcePoolMetadataTests<D extends AbstractDataSourcePoolMetadata<?>> {
 
@@ -26,7 +24,9 @@ public abstract class AbstractDataSourcePoolMetadataTests<D extends AbstractData
 
 	@Test
 	public void getMaxPoolSize() {
-		assertThat(getDataSourceMetadata().getMax()).isEqualTo(Integer.valueOf(2));
+		D dataSourceMetadata = getDataSourceMetadata();
+		Integer max = dataSourceMetadata.getMax();
+		assertThat(max).isEqualTo(2);
 	}
 
 	@Test
@@ -37,8 +37,7 @@ public abstract class AbstractDataSourcePoolMetadataTests<D extends AbstractData
 	@Test
 	public void getPoolSizeNoConnection() {
 		// Make sure the pool is initialized
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(
-				getDataSourceMetadata().getDataSource());
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSourceMetadata().getDataSource());
 		jdbcTemplate.execute((ConnectionCallback<Void>) (connection) -> null);
 		assertThat(getDataSourceMetadata().getActive()).isEqualTo(Integer.valueOf(0));
 		assertThat(getDataSourceMetadata().getUsage()).isEqualTo(Float.valueOf(0));
@@ -46,8 +45,7 @@ public abstract class AbstractDataSourcePoolMetadataTests<D extends AbstractData
 
 	@Test
 	public void getPoolSizeOneConnection() {
-		JdbcTemplate jdbcTemplate = new JdbcTemplate(
-				getDataSourceMetadata().getDataSource());
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSourceMetadata().getDataSource());
 		jdbcTemplate.execute((ConnectionCallback<Void>) (connection) -> {
 			assertThat(getDataSourceMetadata().getActive()).isEqualTo(Integer.valueOf(1));
 			assertThat(getDataSourceMetadata().getUsage()).isEqualTo(Float.valueOf(0.5F));
@@ -57,8 +55,7 @@ public abstract class AbstractDataSourcePoolMetadataTests<D extends AbstractData
 
 	@Test
 	public void getPoolSizeTwoConnections() {
-		final JdbcTemplate jdbcTemplate = new JdbcTemplate(
-				getDataSourceMetadata().getDataSource());
+		final JdbcTemplate jdbcTemplate = new JdbcTemplate(getDataSourceMetadata().getDataSource());
 		jdbcTemplate.execute((ConnectionCallback<Void>) (connection) -> {
 			jdbcTemplate.execute((ConnectionCallback<Void>) (connection1) -> {
 				assertThat(getDataSourceMetadata().getActive()).isEqualTo(2);
@@ -76,8 +73,7 @@ public abstract class AbstractDataSourcePoolMetadataTests<D extends AbstractData
 	public abstract void getDefaultAutoCommit();
 
 	protected DataSourceBuilder<?> initializeBuilder() {
-		return DataSourceBuilder.create().driverClassName("org.hsqldb.jdbc.JDBCDriver")
-				.url("jdbc:hsqldb:mem:test").username("sa");
+		return DataSourceBuilder.create().driverClassName("org.hsqldb.jdbc.JDBCDriver").url("jdbc:hsqldb:mem:test").username("sa");
 	}
 
 }

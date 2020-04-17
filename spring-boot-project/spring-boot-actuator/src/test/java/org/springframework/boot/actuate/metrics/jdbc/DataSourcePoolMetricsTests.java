@@ -20,9 +20,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Tests for {@link DataSourcePoolMetrics}.
- *
- * @author Jon Schneider
- * @author Andy Wilkinson
  */
 public class DataSourcePoolMetricsTests {
 
@@ -30,20 +27,16 @@ public class DataSourcePoolMetricsTests {
 	public void dataSourceIsInstrumented() {
 		new ApplicationContextRunner()
 				.withUserConfiguration(DataSourceConfig.class, MetricsApp.class)
-				.withConfiguration(
-						AutoConfigurations.of(DataSourceAutoConfiguration.class))
-				.withPropertyValues("spring.datasource.generate-unique-name=true",
-						"metrics.use-global-registry=false")
+				.withConfiguration(AutoConfigurations.of(DataSourceAutoConfiguration.class))
+				.withPropertyValues("spring.datasource.generate-unique-name=true","metrics.use-global-registry=false")
 				.run((context) -> {
 					context.getBean(DataSource.class).getConnection().getMetaData();
-					context.getBean(MeterRegistry.class).get("jdbc.connections.max")
-							.meter();
+					context.getBean(MeterRegistry.class).get("jdbc.connections.max").meter();
 				});
 	}
 
 	@Configuration
 	static class MetricsApp {
-
 		@Bean
 		MeterRegistry registry() {
 			return new SimpleMeterRegistry();
@@ -53,12 +46,8 @@ public class DataSourcePoolMetricsTests {
 
 	@Configuration
 	static class DataSourceConfig {
-
-		DataSourceConfig(DataSource dataSource,
-				Collection<DataSourcePoolMetadataProvider> metadataProviders,
-				MeterRegistry registry) {
-			new DataSourcePoolMetrics(dataSource, metadataProviders, "data.source",
-					Collections.emptyList()).bindTo(registry);
+		DataSourceConfig(DataSource dataSource,Collection<DataSourcePoolMetadataProvider> metadataProviders,MeterRegistry registry) {
+			new DataSourcePoolMetrics(dataSource, metadataProviders, "data.source",Collections.emptyList()).bindTo(registry);
 		}
 
 	}

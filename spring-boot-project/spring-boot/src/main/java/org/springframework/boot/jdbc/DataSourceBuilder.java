@@ -26,16 +26,11 @@ import org.springframework.util.ClassUtils;
  * {@code @ConfigurationProperties}.
  *
  * @param <T> type of DataSource produced by the builder
- * @author Dave Syer
- * @author Madhura Bhave
  * @since 2.0.0
  */
 public final class DataSourceBuilder<T extends DataSource> {
 
-	private static final String[] DATA_SOURCE_TYPE_NAMES = new String[] {
-			"com.zaxxer.hikari.HikariDataSource",
-			"org.apache.tomcat.jdbc.pool.DataSource",
-			"org.apache.commons.dbcp2.BasicDataSource" };
+	private static final String[] DATA_SOURCE_TYPE_NAMES = new String[] {"com.zaxxer.hikari.HikariDataSource","org.apache.tomcat.jdbc.pool.DataSource","org.apache.commons.dbcp2.BasicDataSource" };
 
 	private Class<? extends DataSource> type;
 
@@ -65,8 +60,7 @@ public final class DataSourceBuilder<T extends DataSource> {
 	}
 
 	private void maybeGetDriverClassName() {
-		if (!this.properties.containsKey("driverClassName")
-				&& this.properties.containsKey("url")) {
+		if (!this.properties.containsKey("driverClassName") && this.properties.containsKey("url")) {
 			String url = this.properties.get("url");
 			String driverClass = DatabaseDriver.fromJdbcUrl(url).getDriverClassName();
 			this.properties.put("driverClassName", driverClass);
@@ -112,10 +106,8 @@ public final class DataSourceBuilder<T extends DataSource> {
 	public static Class<? extends DataSource> findType(ClassLoader classLoader) {
 		for (String name : DATA_SOURCE_TYPE_NAMES) {
 			try {
-				return (Class<? extends DataSource>) ClassUtils.forName(name,
-						classLoader);
-			}
-			catch (Exception ex) {
+				return (Class<? extends DataSource>) ClassUtils.forName(name,classLoader);
+			}catch (Exception ex) {
 				// Swallow and continue
 			}
 		}
@@ -123,11 +115,8 @@ public final class DataSourceBuilder<T extends DataSource> {
 	}
 
 	private Class<? extends DataSource> getType() {
-		Class<? extends DataSource> type = (this.type != null) ? this.type
-				: findType(this.classLoader);
-		if (type != null) {
-			return type;
-		}
+		Class<? extends DataSource> type = (this.type != null) ? this.type : findType(this.classLoader);
+		if (type != null) return type;
 		throw new IllegalStateException("No supported DataSource type found");
 	}
 
