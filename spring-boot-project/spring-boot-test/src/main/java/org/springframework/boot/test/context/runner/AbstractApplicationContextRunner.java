@@ -68,14 +68,10 @@ import org.springframework.util.Assert;
  *         // other assertions
  *     });
  * }</pre>
- * <p>
  *
  * @param <SELF> the "self" type for this runner
  * @param <C> the context type
  * @param <A> the application context assertion provider
- * @author Stephane Nicoll
- * @author Andy Wilkinson
- * @author Phillip Webb
  * @since 2.0.0
  * @see ApplicationContextRunner
  * @see WebApplicationContextRunner
@@ -144,8 +140,8 @@ public abstract class AbstractApplicationContextRunner<SELF extends AbstractAppl
 	}
 
 	/**
-	 * Add the specified {@link Environment} property pairs. Key-value pairs can be
-	 * specified with colon (":") or equals ("=") separators. Override matching keys that might have been specified previously.
+	 * Add the specified {@link Environment} property pairs. Key-value pairs can be specified with colon (":") or equals ("=") separators.
+	 * Override matching keys that might have been specified previously.
 	 * @param pairs the key-value pairs for properties that need to be added to the environment
 	 * @return a new instance with the updated property values
 	 * @see TestPropertyValues

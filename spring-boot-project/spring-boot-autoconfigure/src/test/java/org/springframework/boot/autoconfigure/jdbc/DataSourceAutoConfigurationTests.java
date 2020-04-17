@@ -139,14 +139,11 @@ public class DataSourceAutoConfigurationTests {
 	@Test
 	public void explicitTypeNoSupportedDataSource() {
 		this.contextRunner
-				.withClassLoader(
-						new FilteredClassLoader("org.apache.tomcat", "com.zaxxer.hikari",
-								"org.apache.commons.dbcp", "org.apache.commons.dbcp2"))
+				.withClassLoader(new FilteredClassLoader("org.apache.tomcat", "com.zaxxer.hikari","org.apache.commons.dbcp", "org.apache.commons.dbcp2"))
 				.withPropertyValues(
 						"spring.datasource.driverClassName:org.hsqldb.jdbcDriver",
 						"spring.datasource.url:jdbc:hsqldb:mem:testdb",
-						"spring.datasource.type:"
-								+ SimpleDriverDataSource.class.getName())
+						"spring.datasource.type:" + SimpleDriverDataSource.class.getName())
 				.run(this::containsOnlySimpleDriverDataSource);
 	}
 

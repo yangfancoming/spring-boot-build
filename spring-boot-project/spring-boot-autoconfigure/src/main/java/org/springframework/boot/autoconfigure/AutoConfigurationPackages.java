@@ -52,10 +52,8 @@ public abstract class AutoConfigurationPackages {
 	public static List<String> get(BeanFactory beanFactory) {
 		try {
 			return beanFactory.getBean(BEAN, BasePackages.class).get();
-		}
-		catch (NoSuchBeanDefinitionException ex) {
-			throw new IllegalStateException(
-					"Unable to retrieve @EnableAutoConfiguration base packages");
+		}catch (NoSuchBeanDefinitionException ex) {
+			throw new IllegalStateException("Unable to retrieve @EnableAutoConfiguration base packages");
 		}
 	}
 
@@ -75,8 +73,7 @@ public abstract class AutoConfigurationPackages {
 			BeanDefinition beanDefinition = registry.getBeanDefinition(BEAN);
 			ConstructorArgumentValues constructorArguments = beanDefinition.getConstructorArgumentValues();
 			constructorArguments.addIndexedArgumentValue(0,addBasePackages(constructorArguments, packageNames));
-		}
-		else {
+		}else {
 			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 			beanDefinition.setBeanClass(BasePackages.class);
 			beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(0,packageNames);
@@ -97,12 +94,10 @@ public abstract class AutoConfigurationPackages {
 	 * {@link ImportBeanDefinitionRegistrar} to store the base package from the importing configuration.
 	 */
 	static class Registrar implements ImportBeanDefinitionRegistrar, DeterminableImports {
-
 		@Override
 		public void registerBeanDefinitions(AnnotationMetadata metadata,BeanDefinitionRegistry registry) {
 			register(registry, new PackageImport(metadata).getPackageName());
 		}
-
 		@Override
 		public Set<Object> determineImports(AnnotationMetadata metadata) {
 			return Collections.singleton(new PackageImport(metadata));
@@ -169,8 +164,7 @@ public abstract class AutoConfigurationPackages {
 					if (logger.isWarnEnabled()) {
 						logger.warn("@EnableAutoConfiguration was declared on a class in the default package. Automatic @Repository and @Entity scanning is not enabled.");
 					}
-				}
-				else {
+				}else {
 					if (logger.isDebugEnabled()) {
 						String packageNames = StringUtils.collectionToCommaDelimitedString(this.packages);
 						logger.debug("@EnableAutoConfiguration was declared on a class in the package '" + packageNames + "'. Automatic @Repository and @Entity scanning is enabled.");

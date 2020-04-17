@@ -49,8 +49,8 @@ public class ApplicationContextRunner extends AbstractApplicationContextRunner<A
 			Supplier<ConfigurableApplicationContext> contextFactory,
 			List<ApplicationContextInitializer<ConfigurableApplicationContext>> initializers,
 			TestPropertyValues environmentProperties, TestPropertyValues systemProperties,
-			ClassLoader classLoader, ApplicationContext parent,
-			List<Configurations> configurations) {
+			ClassLoader classLoader, ApplicationContext parent,List<Configurations> configurations) {
+
 		return new ApplicationContextRunner(contextFactory, initializers,environmentProperties, systemProperties, classLoader, parent,configurations);
 	}
 

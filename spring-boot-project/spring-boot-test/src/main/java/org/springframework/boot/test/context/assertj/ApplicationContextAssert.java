@@ -69,8 +69,7 @@ public class ApplicationContextAssert<C extends ApplicationContext> extends Abst
 
 	/**
 	 * Verifies that the application context (or ancestors) contains a single bean with the given type.
-	 * Example: <pre class="code">
-	 * assertThat(context).hasSingleBean(Foo.class); </pre>
+	 * Example: <pre class="code"> assertThat(context).hasSingleBean(Foo.class); </pre>
 	 * @param type the bean type
 	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the application context did not start

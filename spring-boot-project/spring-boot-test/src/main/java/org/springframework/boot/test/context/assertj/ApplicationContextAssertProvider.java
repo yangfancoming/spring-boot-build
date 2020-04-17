@@ -24,18 +24,14 @@ import org.springframework.util.Assert;
  * If the original {@link ApplicationContext} is needed for any reason the
  * {@link #getSourceApplicationContext()} method can be used.
  * <p>
- * Any {@link ApplicationContext} method called on a context that has failed to start will
- * throw an {@link IllegalStateException}.
- *
+ * Any {@link ApplicationContext} method called on a context that has failed to start will throw an {@link IllegalStateException}.
  * @param <C> the application context type
- * @author Phillip Webb
  * @see AssertableApplicationContext
  * @see AssertableWebApplicationContext
  * @see AssertableReactiveWebApplicationContext
  * @see ApplicationContextAssert
  */
-public interface ApplicationContextAssertProvider<C extends ApplicationContext> extends
-		ApplicationContext, AssertProvider<ApplicationContextAssert<C>>, Closeable {
+public interface ApplicationContextAssertProvider<C extends ApplicationContext> extends ApplicationContext, AssertProvider<ApplicationContextAssert<C>>, Closeable {
 
 	/**
 	 * Return an assert for AspectJ.
@@ -86,17 +82,15 @@ public interface ApplicationContextAssertProvider<C extends ApplicationContext> 
 	 * @return a {@link ApplicationContextAssertProvider} instance
 	 */
 	@SuppressWarnings("unchecked")
-	static <T extends ApplicationContextAssertProvider<C>, C extends ApplicationContext> T get(
-			Class<T> type, Class<? extends C> contextType,
-			Supplier<? extends C> contextSupplier) {
+	static <T extends ApplicationContextAssertProvider<C>, C extends ApplicationContext> T get(Class<T> type, Class<? extends C> contextType,Supplier<? extends C> contextSupplier) {
+
 		Assert.notNull(type, "Type must not be null");
 		Assert.isTrue(type.isInterface(), "Type must be an interface");
 		Assert.notNull(contextType, "ContextType must not be null");
 		Assert.isTrue(contextType.isInterface(), "ContextType must be an interface");
 		Class<?>[] interfaces = { type, contextType };
-		return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
-				interfaces, new AssertProviderApplicationContextInvocationHandler(
-						contextType, contextSupplier));
+		return (T) Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),interfaces, new AssertProviderApplicationContextInvocationHandler(contextType, contextSupplier));
+
 	}
 
 }

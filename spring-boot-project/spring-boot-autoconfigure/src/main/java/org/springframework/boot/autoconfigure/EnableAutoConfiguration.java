@@ -63,7 +63,7 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
 @Import(AutoConfigurationImportSelector.class) // 关键
 public @interface EnableAutoConfiguration {
 
-	// 这个@AutoConfigurationPackage注解就是扫描跟主配置类（就是有main方法的那个类）同级目录以及子目录下的包，这也是什么我上一节说的springboot其他的包必须在主配置类同级或者子目录以下的原因，放在其他地方，扫描不到嘛！
+	// 这个 @AutoConfigurationPackage 注解就是扫描跟主配置类（就是有main方法的那个类）同级目录以及子目录下的包，这也是什么我上一节说的springboot其他的包必须在主配置类同级或者子目录以下的原因，放在其他地方，扫描不到嘛！
 	String ENABLED_OVERRIDE_PROPERTY = "spring.boot.enableautoconfiguration";
 
 	/**

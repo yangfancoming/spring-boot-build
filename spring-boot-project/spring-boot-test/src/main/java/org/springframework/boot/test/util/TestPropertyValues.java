@@ -158,15 +158,12 @@ public final class TestPropertyValues {
 
 	/**
 	 * Return a new {@link TestPropertyValues} with the underlying map populated with the
-	 * given property pairs. Name-value pairs can be specified with colon (":") or equals
-	 * ("=") separators.
+	 * given property pairs. Name-value pairs can be specified with colon (":") or equals ("=") separators.
 	 * @param pairs the name-value pairs for properties that need to be added to the environment
 	 * @return the new instance
 	 */
 	public static TestPropertyValues of(Stream<String> pairs) {
-		if (pairs == null) {
-			return empty();
-		}
+		if (pairs == null) return empty();
 		return empty().and(pairs.map(Pair::parse));
 	}
 
