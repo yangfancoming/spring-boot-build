@@ -58,31 +58,17 @@ import org.springframework.util.StringUtils;
  * {@link EnvironmentPostProcessor} that configures the context environment by loading
  * properties from well known file locations. By default properties will be loaded from
  * 'application.properties' and/or 'application.yml' files in the following locations:
- * <ul>
  * <li>classpath:</li>
  * <li>file:./</li>
  * <li>classpath:config/</li>
  * <li>file:./config/:</li>
- * </ul>
- * <p>
  * Alternative search locations and names can be specified using
  * {@link #setSearchLocations(String)} and {@link #setSearchNames(String)}.
- * <p>
  * Additional files will also be loaded based on active profiles. For example if a 'web'
- * profile is active 'application-web.properties' and 'application-web.yml' will be
- * considered.
- * <p>
+ * profile is active 'application-web.properties' and 'application-web.yml' will be considered.
  * The 'spring.config.name' property can be used to specify an alternative name to load
  * and the 'spring.config.location' property can be used to specify alternative search
  * locations or specific files.
- * <p>
- *
- * @author Dave Syer
- * @author Phillip Webb
- * @author Stephane Nicoll
- * @author Andy Wilkinson
- * @author Eddú Meléndez
- * @author Madhura Bhave
  */
 public class ConfigFileApplicationListener
 		implements EnvironmentPostProcessor, SmartApplicationListener, Ordered {
@@ -142,8 +128,7 @@ public class ConfigFileApplicationListener
 
 	@Override
 	public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
-		return ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(eventType)
-				|| ApplicationPreparedEvent.class.isAssignableFrom(eventType);
+		return ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(eventType) || ApplicationPreparedEvent.class.isAssignableFrom(eventType);
 	}
 
 	@Override
@@ -154,33 +139,28 @@ public class ConfigFileApplicationListener
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ApplicationEnvironmentPreparedEvent) {
-			onApplicationEnvironmentPreparedEvent(
-					(ApplicationEnvironmentPreparedEvent) event);
+			onApplicationEnvironmentPreparedEvent((ApplicationEnvironmentPreparedEvent) event);
 		}
 		if (event instanceof ApplicationPreparedEvent) {
 			onApplicationPreparedEvent(event);
 		}
 	}
 
-	private void onApplicationEnvironmentPreparedEvent(
-			ApplicationEnvironmentPreparedEvent event) {
+	private void onApplicationEnvironmentPreparedEvent(ApplicationEnvironmentPreparedEvent event) {
 		List<EnvironmentPostProcessor> postProcessors = loadPostProcessors();
 		postProcessors.add(this);
 		AnnotationAwareOrderComparator.sort(postProcessors);
 		for (EnvironmentPostProcessor postProcessor : postProcessors) {
-			postProcessor.postProcessEnvironment(event.getEnvironment(),
-					event.getSpringApplication());
+			postProcessor.postProcessEnvironment(event.getEnvironment(),event.getSpringApplication());
 		}
 	}
 
 	List<EnvironmentPostProcessor> loadPostProcessors() {
-		return SpringFactoriesLoader.loadFactories(EnvironmentPostProcessor.class,
-				getClass().getClassLoader());
+		return SpringFactoriesLoader.loadFactories(EnvironmentPostProcessor.class,getClass().getClassLoader());
 	}
 
 	@Override
-	public void postProcessEnvironment(ConfigurableEnvironment environment,
-			SpringApplication application) {
+	public void postProcessEnvironment(ConfigurableEnvironment environment,SpringApplication application) {
 		addPropertySources(environment, application.getResourceLoader());
 	}
 
@@ -195,8 +175,7 @@ public class ConfigFileApplicationListener
 	 * @param resourceLoader the resource loader
 	 * @see #addPostProcessors(ConfigurableApplicationContext)
 	 */
-	protected void addPropertySources(ConfigurableEnvironment environment,
-			ResourceLoader resourceLoader) {
+	protected void addPropertySources(ConfigurableEnvironment environment,ResourceLoader resourceLoader) {
 		RandomValuePropertySource.addToEnvironment(environment);
 		new Loader(environment, resourceLoader).load();
 	}
@@ -206,8 +185,7 @@ public class ConfigFileApplicationListener
 	 * @param context the context to configure
 	 */
 	protected void addPostProcessors(ConfigurableApplicationContext context) {
-		context.addBeanFactoryPostProcessor(
-				new PropertySourceOrderingPostProcessor(context));
+		context.addBeanFactoryPostProcessor(new PropertySourceOrderingPostProcessor(context));
 	}
 
 	public void setOrder(int order) {
@@ -224,8 +202,7 @@ public class ConfigFileApplicationListener
 	 * search location should be a directory path (ending in "/") and it will be prefixed
 	 * by the file names constructed from {@link #setSearchNames(String) search names} and
 	 * profiles (if any) plus file extensions supported by the properties loaders.
-	 * Locations are considered in the order specified, with later items taking precedence
-	 * (like a map merge).
+	 * Locations are considered in the order specified, with later items taking precedence (like a map merge).
 	 * @param locations the search locations
 	 */
 	public void setSearchLocations(String locations) {
@@ -234,8 +211,7 @@ public class ConfigFileApplicationListener
 	}
 
 	/**
-	 * Sets the names of the files that should be loaded (excluding file extension) as a
-	 * comma-separated list.
+	 * Sets the names of the files that should be loaded (excluding file extension) as a comma-separated list.
 	 * @param names the names to load
 	 */
 	public void setSearchNames(String names) {
@@ -247,8 +223,7 @@ public class ConfigFileApplicationListener
 	 * {@link BeanFactoryPostProcessor} to re-order our property sources below any
 	 * {@code @PropertySource} items added by the {@link ConfigurationClassPostProcessor}.
 	 */
-	private class PropertySourceOrderingPostProcessor
-			implements BeanFactoryPostProcessor, Ordered {
+	private class PropertySourceOrderingPostProcessor implements BeanFactoryPostProcessor, Ordered {
 
 		private ConfigurableApplicationContext context;
 
@@ -262,19 +237,16 @@ public class ConfigFileApplicationListener
 		}
 
 		@Override
-		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
-				throws BeansException {
+		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 			reorderSources(this.context.getEnvironment());
 		}
 
 		private void reorderSources(ConfigurableEnvironment environment) {
-			PropertySource<?> defaultProperties = environment.getPropertySources()
-					.remove(DEFAULT_PROPERTIES);
+			PropertySource<?> defaultProperties = environment.getPropertySources().remove(DEFAULT_PROPERTIES);
 			if (defaultProperties != null) {
 				environment.getPropertySources().addLast(defaultProperties);
 			}
 		}
-
 	}
 
 	/**
@@ -302,10 +274,8 @@ public class ConfigFileApplicationListener
 
 		Loader(ConfigurableEnvironment environment, ResourceLoader resourceLoader) {
 			this.environment = environment;
-			this.resourceLoader = (resourceLoader != null) ? resourceLoader
-					: new DefaultResourceLoader();
-			this.propertySourceLoaders = SpringFactoriesLoader.loadFactories(
-					PropertySourceLoader.class, getClass().getClassLoader());
+			this.resourceLoader = (resourceLoader != null) ? resourceLoader : new DefaultResourceLoader();
+			this.propertySourceLoaders = SpringFactoriesLoader.loadFactories(PropertySourceLoader.class, getClass().getClassLoader());
 		}
 
 		public void load() {
@@ -319,12 +289,10 @@ public class ConfigFileApplicationListener
 				if (profile != null && !profile.isDefaultProfile()) {
 					addProfileToEnvironment(profile.getName());
 				}
-				load(profile, this::getPositiveProfileFilter,
-						addToLoaded(MutablePropertySources::addLast, false));
+				load(profile, this::getPositiveProfileFilter,addToLoaded(MutablePropertySources::addLast, false));
 				this.processedProfiles.add(profile);
 			}
-			load(null, this::getNegativeProfileFilter,
-					addToLoaded(MutablePropertySources::addFirst, true));
+			load(null, this::getNegativeProfileFilter,addToLoaded(MutablePropertySources::addFirst, true));
 			addLoadedPropertySources();
 		}
 
@@ -351,8 +319,7 @@ public class ConfigFileApplicationListener
 		}
 
 		private Set<Profile> getProfilesActivatedViaProperty() {
-			if (!this.environment.containsProperty(ACTIVE_PROFILES_PROPERTY)
-					&& !this.environment.containsProperty(INCLUDE_PROFILES_PROPERTY)) {
+			if (!this.environment.containsProperty(ACTIVE_PROFILES_PROPERTY) && !this.environment.containsProperty(INCLUDE_PROFILES_PROPERTY)) {
 				return Collections.emptySet();
 			}
 			Binder binder = Binder.get(this.environment);
@@ -369,27 +336,19 @@ public class ConfigFileApplicationListener
 		}
 
 		void addActiveProfiles(Set<Profile> profiles) {
-			if (profiles.isEmpty()) {
-				return;
-			}
+			if (profiles.isEmpty()) return;
 			if (this.activatedProfiles) {
-				if (this.logger.isDebugEnabled()) {
-					this.logger.debug("Profiles already activated, '" + profiles
-							+ "' will not be applied");
-				}
+				if (logger.isDebugEnabled()) logger.debug("Profiles already activated, '" + profiles + "' will not be applied");
 				return;
 			}
 			this.profiles.addAll(profiles);
-			if (this.logger.isDebugEnabled()) {
-				this.logger.debug("Activated activeProfiles "
-						+ StringUtils.collectionToCommaDelimitedString(profiles));
-			}
-			this.activatedProfiles = true;
+			if (logger.isDebugEnabled()) logger.debug("Activated activeProfiles " + StringUtils.collectionToCommaDelimitedString(profiles));
+			activatedProfiles = true;
 			removeUnprocessedDefaultProfiles();
 		}
 
 		private void removeUnprocessedDefaultProfiles() {
-			this.profiles.removeIf(
+			profiles.removeIf(
 					(profile) -> (profile != null && profile.isDefaultProfile()));
 		}
 
@@ -398,74 +357,58 @@ public class ConfigFileApplicationListener
 				if (profile == null) {
 					return ObjectUtils.isEmpty(document.getProfiles());
 				}
-				return ObjectUtils.containsElement(document.getProfiles(),
-						profile.getName())
-						&& this.environment.acceptsProfiles(document.getProfiles());
+				return ObjectUtils.containsElement(document.getProfiles(),profile.getName()) && environment.acceptsProfiles(document.getProfiles());
 			};
 		}
 
 		private DocumentFilter getNegativeProfileFilter(Profile profile) {
-			return (Document document) -> (profile == null
-					&& !ObjectUtils.isEmpty(document.getProfiles())
-					&& this.environment.acceptsProfiles(document.getProfiles()));
+			return (Document document) -> (profile == null && !ObjectUtils.isEmpty(document.getProfiles()) && environment.acceptsProfiles(document.getProfiles()));
 		}
 
-		private DocumentConsumer addToLoaded(
-				BiConsumer<MutablePropertySources, PropertySource<?>> addMethod,
-				boolean checkForExisting) {
+		private DocumentConsumer addToLoaded(BiConsumer<MutablePropertySources, PropertySource<?>> addMethod,boolean checkForExisting) {
 			return (profile, document) -> {
 				if (checkForExisting) {
-					for (MutablePropertySources merged : this.loaded.values()) {
+					for (MutablePropertySources merged : loaded.values()) {
 						if (merged.contains(document.getPropertySource().getName())) {
 							return;
 						}
 					}
 				}
-				MutablePropertySources merged = this.loaded.computeIfAbsent(profile,
-						(k) -> new MutablePropertySources());
+				MutablePropertySources merged = loaded.computeIfAbsent(profile,(k) -> new MutablePropertySources());
 				addMethod.accept(merged, document.getPropertySource());
 			};
 		}
 
-		private void load(Profile profile, DocumentFilterFactory filterFactory,
-				DocumentConsumer consumer) {
+		private void load(Profile profile, DocumentFilterFactory filterFactory,DocumentConsumer consumer) {
 			getSearchLocations().forEach((location) -> {
 				boolean isFolder = location.endsWith("/");
 				Set<String> names = isFolder ? getSearchNames() : NO_SEARCH_NAMES;
-				names.forEach(
-						(name) -> load(location, name, profile, filterFactory, consumer));
+				names.forEach((name) -> load(location, name, profile, filterFactory, consumer));
 			});
 		}
 
-		private void load(String location, String name, Profile profile,
-				DocumentFilterFactory filterFactory, DocumentConsumer consumer) {
+		private void load(String location, String name, Profile profile,DocumentFilterFactory filterFactory, DocumentConsumer consumer) {
 			if (!StringUtils.hasText(name)) {
-				for (PropertySourceLoader loader : this.propertySourceLoaders) {
+				for (PropertySourceLoader loader : propertySourceLoaders) {
 					if (canLoadFileExtension(loader, location)) {
-						load(loader, location, profile,
-								filterFactory.getDocumentFilter(profile), consumer);
+						load(loader, location, profile,filterFactory.getDocumentFilter(profile), consumer);
 					}
 				}
 			}
-			for (PropertySourceLoader loader : this.propertySourceLoaders) {
+			for (PropertySourceLoader loader : propertySourceLoaders) {
 				for (String fileExtension : loader.getFileExtensions()) {
 					String prefix = location + name;
 					fileExtension = "." + fileExtension;
-					loadForFileExtension(loader, prefix, fileExtension, profile,
-							filterFactory, consumer);
+					loadForFileExtension(loader, prefix, fileExtension, profile,filterFactory, consumer);
 				}
 			}
 		}
 
 		private boolean canLoadFileExtension(PropertySourceLoader loader, String name) {
-			return Arrays.stream(loader.getFileExtensions())
-					.anyMatch((fileExtension) -> StringUtils.endsWithIgnoreCase(name,
-							fileExtension));
+			return Arrays.stream(loader.getFileExtensions()).anyMatch((fileExtension) -> StringUtils.endsWithIgnoreCase(name,fileExtension));
 		}
 
-		private void loadForFileExtension(PropertySourceLoader loader, String prefix,
-				String fileExtension, Profile profile,
-				DocumentFilterFactory filterFactory, DocumentConsumer consumer) {
+		private void loadForFileExtension(PropertySourceLoader loader, String prefix,String fileExtension, Profile profile,DocumentFilterFactory filterFactory, DocumentConsumer consumer) {
 			DocumentFilter defaultFilter = filterFactory.getDocumentFilter(null);
 			DocumentFilter profileFilter = filterFactory.getDocumentFilter(profile);
 			if (profile != null) {
@@ -474,10 +417,9 @@ public class ConfigFileApplicationListener
 				load(loader, profileSpecificFile, profile, defaultFilter, consumer);
 				load(loader, profileSpecificFile, profile, profileFilter, consumer);
 				// Try profile specific sections in files we've already processed
-				for (Profile processedProfile : this.processedProfiles) {
+				for (Profile processedProfile : processedProfiles) {
 					if (processedProfile != null) {
-						String previouslyLoaded = prefix + "-" + processedProfile
-								+ fileExtension;
+						String previouslyLoaded = prefix + "-" + processedProfile + fileExtension;
 						load(loader, previouslyLoaded, profile, profileFilter, consumer);
 					}
 				}
@@ -486,31 +428,26 @@ public class ConfigFileApplicationListener
 			load(loader, prefix + fileExtension, profile, profileFilter, consumer);
 		}
 
-		private void load(PropertySourceLoader loader, String location, Profile profile,
-				DocumentFilter filter, DocumentConsumer consumer) {
+		private void load(PropertySourceLoader loader, String location, Profile profile,DocumentFilter filter, DocumentConsumer consumer) {
 			try {
-				Resource resource = this.resourceLoader.getResource(location);
+				Resource resource = resourceLoader.getResource(location);
 				if (resource == null || !resource.exists()) {
-					if (this.logger.isTraceEnabled()) {
-						this.logger.trace("Skipped missing config "
-								+ getDescription(location, resource, profile));
+					if (logger.isTraceEnabled()) {
+						logger.trace("Skipped missing config " + getDescription(location, resource, profile));
 					}
 					return;
 				}
-				if (!StringUtils.hasText(
-						StringUtils.getFilenameExtension(resource.getFilename()))) {
-					if (this.logger.isTraceEnabled()) {
-						this.logger.trace("Skipped empty config extension "
-								+ getDescription(location, resource, profile));
+				if (!StringUtils.hasText(StringUtils.getFilenameExtension(resource.getFilename()))) {
+					if (logger.isTraceEnabled()) {
+						logger.trace("Skipped empty config extension " + getDescription(location, resource, profile));
 					}
 					return;
 				}
 				String name = "applicationConfig: [" + location + "]";
 				List<Document> documents = loadDocuments(loader, name, resource);
 				if (CollectionUtils.isEmpty(documents)) {
-					if (this.logger.isTraceEnabled()) {
-						this.logger.trace("Skipped unloaded config "
-								+ getDescription(location, resource, profile));
+					if (logger.isTraceEnabled()) {
+						logger.trace("Skipped unloaded config " + getDescription(location, resource, profile));
 					}
 					return;
 				}
@@ -525,59 +462,45 @@ public class ConfigFileApplicationListener
 				Collections.reverse(loaded);
 				if (!loaded.isEmpty()) {
 					loaded.forEach((document) -> consumer.accept(profile, document));
-					if (this.logger.isDebugEnabled()) {
-						this.logger.debug("Loaded config file "
-								+ getDescription(location, resource, profile));
+					if (logger.isDebugEnabled()) {
+						logger.debug("Loaded config file " + getDescription(location, resource, profile));
 					}
 				}
-			}
-			catch (Exception ex) {
-				throw new IllegalStateException("Failed to load property "
-						+ "source from location '" + location + "'", ex);
+			}catch (Exception ex) {
+				throw new IllegalStateException("Failed to load property " + "source from location '" + location + "'", ex);
 			}
 		}
 
 		private void addIncludedProfiles(Set<Profile> includeProfiles) {
-			LinkedList<Profile> existingProfiles = new LinkedList<>(this.profiles);
-			this.profiles.clear();
-			this.profiles.addAll(includeProfiles);
-			this.profiles.removeAll(this.processedProfiles);
-			this.profiles.addAll(existingProfiles);
+			LinkedList<Profile> existingProfiles = new LinkedList<>(profiles);
+			profiles.clear();
+			profiles.addAll(includeProfiles);
+			profiles.removeAll(processedProfiles);
+			profiles.addAll(existingProfiles);
 		}
 
-		private List<Document> loadDocuments(PropertySourceLoader loader, String name,
-				Resource resource) throws IOException {
+		private List<Document> loadDocuments(PropertySourceLoader loader, String name,Resource resource) throws IOException {
 			DocumentsCacheKey cacheKey = new DocumentsCacheKey(loader, resource);
-			List<Document> documents = this.loadDocumentsCache.get(cacheKey);
+			List<Document> documents = loadDocumentsCache.get(cacheKey);
 			if (documents == null) {
 				List<PropertySource<?>> loaded = loader.load(name, resource);
 				documents = asDocuments(loaded);
-				this.loadDocumentsCache.put(cacheKey, documents);
+				loadDocumentsCache.put(cacheKey, documents);
 			}
 			return documents;
 		}
 
 		private List<Document> asDocuments(List<PropertySource<?>> loaded) {
-			if (loaded == null) {
-				return Collections.emptyList();
-			}
+			if (loaded == null) return Collections.emptyList();
 			return loaded.stream().map((propertySource) -> {
-				Binder binder = new Binder(
-						ConfigurationPropertySources.from(propertySource),
-						new PropertySourcesPlaceholdersResolver(this.environment));
-				return new Document(propertySource,
-						binder.bind("spring.profiles", Bindable.of(String[].class))
-								.orElse(null),
-						getProfiles(binder, ACTIVE_PROFILES_PROPERTY),
-						getProfiles(binder, INCLUDE_PROFILES_PROPERTY));
+				Binder binder = new Binder(ConfigurationPropertySources.from(propertySource),new PropertySourcesPlaceholdersResolver(environment));
+				return new Document(propertySource,binder.bind("spring.profiles", Bindable.of(String[].class)).orElse(null),getProfiles(binder, ACTIVE_PROFILES_PROPERTY),getProfiles(binder, INCLUDE_PROFILES_PROPERTY));
 			}).collect(Collectors.toList());
 		}
 
-		private String getDescription(String location, Resource resource,
-				Profile profile) {
+		private String getDescription(String location, Resource resource,Profile profile) {
 			String description = getDescription(location, resource);
-			return (profile != null) ? description + " for profile " + profile
-					: description;
+			return (profile != null) ? description + " for profile " + profile : description;
 		}
 
 		private String getDescription(String location, Resource resource) {
@@ -586,15 +509,12 @@ public class ConfigFileApplicationListener
 					String uri = resource.getURI().toASCIIString();
 					return String.format("'%s' (%s)", uri, location);
 				}
-			}
-			catch (IOException ex) {
-			}
+			}catch (IOException ex) {}
 			return String.format("'%s'", location);
 		}
 
 		private Set<Profile> getProfiles(Binder binder, String name) {
-			return binder.bind(name, String[].class).map(this::asProfileSet)
-					.orElse(Collections.emptySet());
+			return binder.bind(name, String[].class).map(this::asProfileSet).orElse(Collections.emptySet());
 		}
 
 		private Set<Profile> asProfileSet(String[] profileNames) {
@@ -606,31 +526,27 @@ public class ConfigFileApplicationListener
 		}
 
 		private void addProfileToEnvironment(String profile) {
-			for (String activeProfile : this.environment.getActiveProfiles()) {
+			for (String activeProfile : environment.getActiveProfiles()) {
 				if (activeProfile.equals(profile)) {
 					return;
 				}
 			}
-			this.environment.addActiveProfile(profile);
+			environment.addActiveProfile(profile);
 		}
 
 		private Set<String> getSearchLocations() {
-			if (this.environment.containsProperty(CONFIG_LOCATION_PROPERTY)) {
+			if (environment.containsProperty(CONFIG_LOCATION_PROPERTY)) {
 				return getSearchLocations(CONFIG_LOCATION_PROPERTY);
 			}
-			Set<String> locations = getSearchLocations(
-					CONFIG_ADDITIONAL_LOCATION_PROPERTY);
-			locations.addAll(
-					asResolvedSet(ConfigFileApplicationListener.this.searchLocations,
-							DEFAULT_SEARCH_LOCATIONS));
+			Set<String> locations = getSearchLocations(CONFIG_ADDITIONAL_LOCATION_PROPERTY);
+			locations.addAll(asResolvedSet(ConfigFileApplicationListener.this.searchLocations,DEFAULT_SEARCH_LOCATIONS));
 			return locations;
 		}
 
 		private Set<String> getSearchLocations(String propertyName) {
 			Set<String> locations = new LinkedHashSet<>();
-			if (this.environment.containsProperty(propertyName)) {
-				for (String path : asResolvedSet(
-						this.environment.getProperty(propertyName), null)) {
+			if (environment.containsProperty(propertyName)) {
+				for (String path : asResolvedSet(environment.getProperty(propertyName), null)) {
 					if (!path.contains("$")) {
 						path = StringUtils.cleanPath(path);
 						if (!ResourceUtils.isUrl(path)) {
@@ -644,23 +560,21 @@ public class ConfigFileApplicationListener
 		}
 
 		private Set<String> getSearchNames() {
-			if (this.environment.containsProperty(CONFIG_NAME_PROPERTY)) {
-				String property = this.environment.getProperty(CONFIG_NAME_PROPERTY);
+			if (environment.containsProperty(CONFIG_NAME_PROPERTY)) {
+				String property = environment.getProperty(CONFIG_NAME_PROPERTY);
 				return asResolvedSet(property, null);
 			}
 			return asResolvedSet(ConfigFileApplicationListener.this.names, DEFAULT_NAMES);
 		}
 
 		private Set<String> asResolvedSet(String value, String fallback) {
-			List<String> list = Arrays.asList(StringUtils.trimArrayElements(
-					StringUtils.commaDelimitedListToStringArray((value != null)
-							? this.environment.resolvePlaceholders(value) : fallback)));
+			List<String> list = Arrays.asList(StringUtils.trimArrayElements(StringUtils.commaDelimitedListToStringArray((value != null) ? environment.resolvePlaceholders(value) : fallback)));
 			Collections.reverse(list);
 			return new LinkedHashSet<>(list);
 		}
 
 		private void addLoadedPropertySources() {
-			MutablePropertySources destination = this.environment.getPropertySources();
+			MutablePropertySources destination = environment.getPropertySources();
 			List<MutablePropertySources> loaded = new ArrayList<>(this.loaded.values());
 			Collections.reverse(loaded);
 			String lastAdded = null;
@@ -675,21 +589,17 @@ public class ConfigFileApplicationListener
 			}
 		}
 
-		private void addLoadedPropertySource(MutablePropertySources destination,
-				String lastAdded, PropertySource<?> source) {
+		private void addLoadedPropertySource(MutablePropertySources destination,String lastAdded, PropertySource<?> source) {
 			if (lastAdded == null) {
 				if (destination.contains(DEFAULT_PROPERTIES)) {
 					destination.addBefore(DEFAULT_PROPERTIES, source);
-				}
-				else {
+				}else {
 					destination.addLast(source);
 				}
-			}
-			else {
+			}else {
 				destination.addAfter(lastAdded, source);
 			}
 		}
-
 	}
 
 	/**
@@ -721,12 +631,8 @@ public class ConfigFileApplicationListener
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj == this) {
-				return true;
-			}
-			if (obj == null || obj.getClass() != getClass()) {
-				return false;
-			}
+			if (obj == this) return true;
+			if (obj == null || obj.getClass() != getClass()) return false;
 			return ((Profile) obj).name.equals(this.name);
 		}
 
@@ -758,15 +664,12 @@ public class ConfigFileApplicationListener
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
+			if (this == obj) return true;
 			if (obj == null || getClass() != obj.getClass()) {
 				return false;
 			}
 			DocumentsCacheKey other = (DocumentsCacheKey) obj;
-			return this.loader.equals(other.loader)
-					&& this.resource.equals(other.resource);
+			return this.loader.equals(other.loader) && this.resource.equals(other.resource);
 		}
 
 		@Override
@@ -789,8 +692,7 @@ public class ConfigFileApplicationListener
 
 		private final Set<Profile> includeProfiles;
 
-		Document(PropertySource<?> propertySource, String[] profiles,
-				Set<Profile> activeProfiles, Set<Profile> includeProfiles) {
+		Document(PropertySource<?> propertySource, String[] profiles,Set<Profile> activeProfiles, Set<Profile> includeProfiles) {
 			this.propertySource = propertySource;
 			this.profiles = profiles;
 			this.activeProfiles = activeProfiles;
@@ -817,7 +719,6 @@ public class ConfigFileApplicationListener
 		public String toString() {
 			return this.propertySource.toString();
 		}
-
 	}
 
 	/**
@@ -825,14 +726,12 @@ public class ConfigFileApplicationListener
 	 */
 	@FunctionalInterface
 	private interface DocumentFilterFactory {
-
 		/**
 		 * Create a filter for the given profile.
 		 * @param profile the profile or {@code null}
 		 * @return the filter
 		 */
 		DocumentFilter getDocumentFilter(Profile profile);
-
 	}
 
 	/**
@@ -840,9 +739,7 @@ public class ConfigFileApplicationListener
 	 */
 	@FunctionalInterface
 	private interface DocumentFilter {
-
 		boolean match(Document document);
-
 	}
 
 	/**
@@ -850,9 +747,7 @@ public class ConfigFileApplicationListener
 	 */
 	@FunctionalInterface
 	private interface DocumentConsumer {
-
 		void accept(Profile profile, Document document);
-
 	}
 
 }
