@@ -17,14 +17,11 @@ import org.springframework.boot.context.properties.source.MapConfigurationProper
 import org.springframework.util.ClassUtils;
 
 /**
- * Convenience class for building a {@link DataSource} with common implementations and
- * properties. If HikariCP, Tomcat or Commons DBCP are on the classpath one of them will
- * be selected (in that order with Hikari first). In the interest of a uniform interface,
- * and so that there can be a fallback to an embedded database if one can be detected on
- * the classpath, only a small set of common configuration properties are supported. To
- * inject additional properties into the result you can downcast it, or use
- * {@code @ConfigurationProperties}.
- *
+ * Convenience class for building a {@link DataSource} with common implementations and properties.
+ * If HikariCP, Tomcat or Commons DBCP are on the classpath one of them will be selected (in that order with Hikari first).
+ * In the interest of a uniform interface,and so that there can be a fallback to an embedded database if one can be detected on the classpath,
+ * only a small set of common configuration properties are supported.
+ * To inject additional properties into the result you can downcast it, or use {@code @ConfigurationProperties}.
  * @param <T> type of DataSource produced by the builder
  * @since 2.0.0
  */
@@ -50,25 +47,33 @@ public final class DataSourceBuilder<T extends DataSource> {
 		this.classLoader = classLoader;
 	}
 
+	// 构建数据源
 	@SuppressWarnings("unchecked")
 	public T build() {
+		//返回数据源的类 类型
 		Class<? extends DataSource> type = getType();
+		// 实例化这个数据源
 		DataSource result = BeanUtils.instantiateClass(type);
+		// 向读取配置文件中的 driverClassName
 		maybeGetDriverClassName();
+		// tm的我猜是将配置属性绑定到数据源上
 		bind(result);
 		return (T) result;
 	}
 
 	private void maybeGetDriverClassName() {
-		if (!this.properties.containsKey("driverClassName") && this.properties.containsKey("url")) {
-			String url = this.properties.get("url");
+		// 如果this.properties不存在driverClassName 并且存在url
+		if (!properties.containsKey("driverClassName") && properties.containsKey("url")) {
+			String url = properties.get("url");
+			// 根据url 获取 DateBaseDriver 进一步获取到 驱动名 这就是为什么不配置驱动名也可以加载驱动的原因吧,通过url来判断驱动类型
 			String driverClass = DatabaseDriver.fromJdbcUrl(url).getDriverClassName();
-			this.properties.put("driverClassName", driverClass);
+			properties.put("driverClassName", driverClass);
 		}
 	}
 
+
 	private void bind(DataSource result) {
-		ConfigurationPropertySource source = new MapConfigurationPropertySource(this.properties);
+		ConfigurationPropertySource source = new MapConfigurationPropertySource(properties);
 		ConfigurationPropertyNameAliases aliases = new ConfigurationPropertyNameAliases();
 		aliases.addAliases("url", "jdbc-url");
 		aliases.addAliases("username", "user");

@@ -29,23 +29,18 @@ import org.springframework.util.ObjectUtils;
  * <li>{@code server.hosts[0].name}</li>
  * <li>{@code log[org.springboot].level}</li>
  * </ul>
- *
- * @author Phillip Webb
- * @author Madhura Bhave
  * @since 2.0.0
  * @see #of(CharSequence)
  * @see ConfigurationPropertySource
  */
-public final class ConfigurationPropertyName
-		implements Comparable<ConfigurationPropertyName> {
+public final class ConfigurationPropertyName implements Comparable<ConfigurationPropertyName> {
 
 	private static final String EMPTY_STRING = "";
 
 	/**
 	 * An empty {@link ConfigurationPropertyName}.
 	 */
-	public static final ConfigurationPropertyName EMPTY = new ConfigurationPropertyName(
-			new String[0]);
+	public static final ConfigurationPropertyName EMPTY = new ConfigurationPropertyName(new String[0]);
 
 	private final CharSequence[] elements;
 
@@ -97,8 +92,7 @@ public final class ConfigurationPropertyName
 	 * @return {@code true} if the element is indexed and numeric
 	 */
 	public boolean isNumericIndex(int elementIndex) {
-		return isIndexed(elementIndex)
-				&& isNumeric(getElement(elementIndex, Form.ORIGINAL));
+		return isIndexed(elementIndex) && isNumeric(getElement(elementIndex, Form.ORIGINAL));
 	}
 
 	private boolean isNumeric(CharSequence element) {
@@ -139,10 +133,8 @@ public final class ConfigurationPropertyName
 			result = this.elements[elementIndex];
 			if (isIndexed(result)) {
 				result = result.subSequence(1, result.length() - 1);
-			}
-			else {
-				result = cleanupCharSequence(result, (c, i) -> c == '-' || c == '_',
-						CharProcessor.LOWERCASE);
+			}else {
+				result = cleanupCharSequence(result, (c, i) -> c == '-' || c == '_',CharProcessor.LOWERCASE);
 			}
 			this.uniformElements[elementIndex] = result;
 		}
@@ -165,15 +157,10 @@ public final class ConfigurationPropertyName
 	 * @throws InvalidConfigurationPropertyNameException if elementValue is not valid
 	 */
 	public ConfigurationPropertyName append(String elementValue) {
-		if (elementValue == null) {
-			return this;
-		}
-		process(elementValue, '.', (value, start, end, indexed) -> Assert.isTrue(
-				start == 0,
-				() -> "Element value '" + elementValue + "' must be a single item"));
+		if (elementValue == null) return this;
+		process(elementValue, '.', (value, start, end, indexed) -> Assert.isTrue(start == 0,() -> "Element value '" + elementValue + "' must be a single item"));
 		if (!isIndexed(elementValue)) {
-			InvalidConfigurationPropertyNameException.throwIfHasInvalidChars(elementValue,
-					ElementValidator.getInvalidChars(elementValue));
+			InvalidConfigurationPropertyNameException.throwIfHasInvalidChars(elementValue,ElementValidator.getInvalidChars(elementValue));
 		}
 		int length = this.elements.length;
 		CharSequence[] elements = new CharSequence[length + 1];
@@ -186,8 +173,7 @@ public final class ConfigurationPropertyName
 
 	/**
 	 * Return a new {@link ConfigurationPropertyName} by chopping this name to the given
-	 * {@code size}. For example, {@code chop(1)} on the name {@code foo.bar} will return
-	 * {@code foo}.
+	 * {@code size}. For example, {@code chop(1)} on the name {@code foo.bar} will return {@code foo}.
 	 * @param size the size to chop
 	 * @return the chopped name
 	 */
@@ -216,8 +202,7 @@ public final class ConfigurationPropertyName
 	}
 
 	/**
-	 * Returns {@code true} if this element is an ancestor (immediate or nested parent) of
-	 * the specified name.
+	 * Returns {@code true} if this element is an ancestor (immediate or nested parent) of the specified name.
 	 * @param name the name to check
 	 * @return {@code true} if this name is an ancestor
 	 */
@@ -258,12 +243,8 @@ public final class ConfigurationPropertyName
 	}
 
 	private int compare(String e1, boolean indexed1, String e2, boolean indexed2) {
-		if (e1 == null) {
-			return -1;
-		}
-		if (e2 == null) {
-			return 1;
-		}
+		if (e1 == null) return -1;
+		if (e2 == null) return 1;
 		int result = Boolean.compare(indexed2, indexed1);
 		if (result != 0) {
 			return result;
@@ -273,8 +254,7 @@ public final class ConfigurationPropertyName
 				long v1 = Long.parseLong(e1);
 				long v2 = Long.parseLong(e2);
 				return Long.compare(v1, v2);
-			}
-			catch (NumberFormatException ex) {
+			}catch (NumberFormatException ex) {
 				// Fallback to string comparison
 			}
 		}
@@ -283,9 +263,7 @@ public final class ConfigurationPropertyName
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
+		if (obj == this) return true;
 		if (obj == null || obj.getClass() != getClass()) {
 			return false;
 		}
@@ -318,14 +296,11 @@ public final class ConfigurationPropertyName
 			char ch2 = indexed2 ? e2.charAt(i2) : Character.toLowerCase(e2.charAt(i2));
 			if (ch1 == '-' || ch1 == '_') {
 				i1++;
-			}
-			else if (ch2 == '-' || ch2 == '_') {
+			}else if (ch2 == '-' || ch2 == '_') {
 				i2++;
-			}
-			else if (ch1 != ch2) {
+			}else if (ch1 != ch2) {
 				return false;
-			}
-			else {
+			}else {
 				i1++;
 				i2++;
 			}
@@ -360,8 +335,7 @@ public final class ConfigurationPropertyName
 		boolean indexed = isIndexed(element);
 		int offset = indexed ? 1 : 0;
 		for (int i = 0 + offset; i < element.length() - offset; i++) {
-			char ch = (indexed ? element.charAt(i)
-					: Character.toLowerCase(element.charAt(i)));
+			char ch = (indexed ? element.charAt(i) : Character.toLowerCase(element.charAt(i)));
 			hash = (ch == '-' || ch == '_') ? hash : 31 * hash + Character.hashCode(ch);
 		}
 		return hash;
@@ -384,8 +358,7 @@ public final class ConfigurationPropertyName
 			}
 			if (indexed) {
 				result.append(element);
-			}
-			else {
+			}else {
 				for (int i = 0; i < element.length(); i++) {
 					char ch = Character.toLowerCase(element.charAt(i));
 					result.append((ch != '_') ? ch : "");
@@ -406,12 +379,8 @@ public final class ConfigurationPropertyName
 	 * @return {@code true} if the name is valid
 	 */
 	public static boolean isValid(CharSequence name) {
-		if (name == null) {
-			return false;
-		}
-		if (name.equals(EMPTY_STRING)) {
-			return true;
-		}
+		if (name == null) return false;
+		if (name.equals(EMPTY_STRING)) return true;
 		if (name.charAt(0) == '.' || name.charAt(name.length() - 1) == '.') {
 			return false;
 		}
@@ -428,10 +397,8 @@ public final class ConfigurationPropertyName
 	 */
 	public static ConfigurationPropertyName of(CharSequence name) {
 		Assert.notNull(name, "Name must not be null");
-		if (name.length() >= 1
-				&& (name.charAt(0) == '.' || name.charAt(name.length() - 1) == '.')) {
-			throw new InvalidConfigurationPropertyNameException(name,
-					Collections.singletonList('.'));
+		if (name.length() >= 1 && (name.charAt(0) == '.' || name.charAt(name.length() - 1) == '.')) {
+			throw new InvalidConfigurationPropertyNameException(name,Collections.singletonList('.'));
 		}
 		if (name.length() == 0) {
 			return EMPTY;
@@ -440,8 +407,7 @@ public final class ConfigurationPropertyName
 		process(name, '.', (elementValue, start, end, indexed) -> {
 			if (elementValue.length() > 0) {
 				if (!indexed) {
-					InvalidConfigurationPropertyNameException.throwIfHasInvalidChars(name,
-							ElementValidator.getInvalidChars(elementValue));
+					InvalidConfigurationPropertyNameException.throwIfHasInvalidChars(name,ElementValidator.getInvalidChars(elementValue));
 				}
 				elements.add(elementValue);
 			}
@@ -450,8 +416,7 @@ public final class ConfigurationPropertyName
 	}
 
 	/**
-	 * Create a {@link ConfigurationPropertyName} by adapting the given source. See
-	 * {@link #adapt(CharSequence, char, Function)} for details.
+	 * Create a {@link ConfigurationPropertyName} by adapting the given source. See @link #adapt(CharSequence, char, Function)} for details.
 	 * @param name the name to parse
 	 * @param separator the separator used to split the name
 	 * @return a {@link ConfigurationPropertyName}
@@ -465,29 +430,21 @@ public final class ConfigurationPropertyName
 	 * is split into elements around the given {@code separator}. This method is more
 	 * lenient than {@link #of} in that it allows mixed case names and '{@code _}'
 	 * characters. Other invalid characters are stripped out during parsing.
-	 * <p>
-	 * The {@code elementValueProcessor} function may be used if additional processing is
-	 * required on the extracted element values.
+	 * The {@code elementValueProcessor} function may be used if additional processing is required on the extracted element values.
 	 * @param name the name to parse
 	 * @param separator the separator used to split the name
 	 * @param elementValueProcessor a function to process element values
 	 * @return a {@link ConfigurationPropertyName}
 	 */
-	static ConfigurationPropertyName adapt(CharSequence name, char separator,
-			Function<CharSequence, CharSequence> elementValueProcessor) {
+	static ConfigurationPropertyName adapt(CharSequence name, char separator,Function<CharSequence, CharSequence> elementValueProcessor) {
 		Assert.notNull(name, "Name must not be null");
 		Assert.notNull(elementValueProcessor, "ElementValueProcessor must not be null");
-		if (name.length() == 0) {
-			return EMPTY;
-		}
+		if (name.length() == 0) return EMPTY;
 		List<CharSequence> elements = new ArrayList<>();
 		process(name, separator, (elementValue, start, end, indexed) -> {
 			elementValue = elementValueProcessor.apply(elementValue);
 			if (!isIndexed(elementValue)) {
-				elementValue = cleanupCharSequence(elementValue,
-						(ch, index) -> ch != '_' && !ElementValidator
-								.isValidChar(Character.toLowerCase(ch), index),
-						CharProcessor.NONE);
+				elementValue = cleanupCharSequence(elementValue,(ch, index) -> ch != '_' && !ElementValidator.isValidChar(Character.toLowerCase(ch), index),CharProcessor.NONE);
 			}
 			if (elementValue.length() > 0) {
 				elements.add(elementValue);
@@ -496,8 +453,7 @@ public final class ConfigurationPropertyName
 		return new ConfigurationPropertyName(elements.toArray(new CharSequence[0]));
 	}
 
-	private static void process(CharSequence name, char separator,
-			ElementProcessor processor) {
+	private static void process(CharSequence name, char separator,ElementProcessor processor) {
 		int start = 0;
 		boolean indexed = false;
 		int length = name.length();
@@ -511,16 +467,14 @@ public final class ConfigurationPropertyName
 					start = i + 1;
 					indexed = false;
 				}
-			}
-			else if (ch == '[') {
+			}else if (ch == '[') {
 				openBracketCount++;
 				if (!indexed) {
 					processElement(processor, name, start, i, indexed);
 					start = i;
 					indexed = true;
 				}
-			}
-			else if (!indexed && ch == separator) {
+			}else if (!indexed && ch == separator) {
 				processElement(processor, name, start, i, indexed);
 				start = i + 1;
 			}
@@ -528,15 +482,13 @@ public final class ConfigurationPropertyName
 		processElement(processor, name, start, length, false);
 	}
 
-	private static void processElement(ElementProcessor processor, CharSequence name,
-			int start, int end, boolean indexed) {
+	private static void processElement(ElementProcessor processor, CharSequence name,int start, int end, boolean indexed) {
 		if ((end - start) >= 1) {
 			processor.process(name.subSequence(start, end), start, end, indexed);
 		}
 	}
 
-	private static CharSequence cleanupCharSequence(CharSequence name, CharFilter filter,
-			CharProcessor processor) {
+	private static CharSequence cleanupCharSequence(CharSequence name, CharFilter filter,CharProcessor processor) {
 		for (int i = 0; i < name.length(); i++) {
 			char ch = name.charAt(i);
 			char processed = processor.process(ch, i);
@@ -592,31 +544,23 @@ public final class ConfigurationPropertyName
 	 */
 	@FunctionalInterface
 	private interface ElementProcessor {
-
 		void process(CharSequence elementValue, int start, int end, boolean indexed);
-
 	}
 
 	/**
 	 * Internal filter used to strip out characters.
 	 */
 	private interface CharFilter {
-
 		boolean isExcluded(char ch, int index);
-
 	}
 
 	/**
 	 * Internal processor used to change characters.
 	 */
 	private interface CharProcessor {
-
 		CharProcessor NONE = (c, i) -> c;
-
 		CharProcessor LOWERCASE = (c, i) -> Character.toLowerCase(c);
-
 		char process(char c, int index);
-
 	}
 
 	/**
@@ -627,8 +571,7 @@ public final class ConfigurationPropertyName
 		private boolean valid = true;
 
 		@Override
-		public void process(CharSequence elementValue, int start, int end,
-				boolean indexed) {
+		public void process(CharSequence elementValue, int start, int end,boolean indexed) {
 			if (this.valid && !indexed) {
 				this.valid = isValidElement(elementValue);
 			}
@@ -658,19 +601,14 @@ public final class ConfigurationPropertyName
 			}
 			return chars;
 		}
-
 		public static boolean isValidChar(char ch, int index) {
 			return isAlpha(ch) || isNumeric(ch) || (index != 0 && ch == '-');
 		}
-
 		private static boolean isAlpha(char ch) {
 			return ch >= 'a' && ch <= 'z';
 		}
-
 		private static boolean isNumeric(char ch) {
 			return ch >= '0' && ch <= '9';
 		}
-
 	}
-
 }

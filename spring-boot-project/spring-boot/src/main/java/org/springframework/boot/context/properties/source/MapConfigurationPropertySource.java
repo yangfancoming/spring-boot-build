@@ -12,14 +12,9 @@ import org.springframework.core.env.MapPropertySource;
 import org.springframework.util.Assert;
 
 /**
- * An {@link ConfigurationPropertySource} backed by a {@link Map} and using standard name
- * mapping rules.
- *
- * @author Phillip Webb
- * @author Madhura Bhave
+ * An {@link ConfigurationPropertySource} backed by a {@link Map} and using standard name mapping rules.
  */
-public class MapConfigurationPropertySource
-		implements IterableConfigurationPropertySource {
+public class MapConfigurationPropertySource implements IterableConfigurationPropertySource {
 
 	private final Map<String, Object> source;
 
@@ -33,15 +28,12 @@ public class MapConfigurationPropertySource
 	}
 
 	/**
-	 * Create a new {@link MapConfigurationPropertySource} instance with entries copies
-	 * from the specified map.
+	 * Create a new {@link MapConfigurationPropertySource} instance with entries copies from the specified map.
 	 * @param map the source map
 	 */
 	public MapConfigurationPropertySource(Map<?, ?> map) {
 		this.source = new LinkedHashMap<>();
-		this.delegate = new SpringIterableConfigurationPropertySource(
-				new MapPropertySource("source", this.source),
-				DefaultPropertyMapper.INSTANCE);
+		this.delegate = new SpringIterableConfigurationPropertySource(new MapPropertySource("source", this.source),DefaultPropertyMapper.INSTANCE);
 		putAll(map);
 	}
 
@@ -70,8 +62,7 @@ public class MapConfigurationPropertySource
 	}
 
 	@Override
-	public ConfigurationProperty getConfigurationProperty(
-			ConfigurationPropertyName name) {
+	public ConfigurationProperty getConfigurationProperty(ConfigurationPropertyName name) {
 		return this.delegate.getConfigurationProperty(name);
 	}
 
@@ -88,10 +79,8 @@ public class MapConfigurationPropertySource
 	private void assertNotReadOnlySystemAttributesMap(Map<?, ?> map) {
 		try {
 			map.size();
-		}
-		catch (UnsupportedOperationException ex) {
-			throw new IllegalArgumentException(
-					"Security restricted maps are not supported", ex);
+		}catch (UnsupportedOperationException ex) {
+			throw new IllegalArgumentException("Security restricted maps are not supported", ex);
 		}
 	}
 

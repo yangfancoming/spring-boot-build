@@ -13,9 +13,6 @@ import org.springframework.util.MultiValueMap;
 
 /**
  * Maintains a mapping of {@link ConfigurationPropertyName} aliases.
- *
- * @author Phillip Webb
- * @author Madhura Bhave
  * @since 2.0.0
  * @see ConfigurationPropertySource#withAliases(ConfigurationPropertyNameAliases)
  */
@@ -30,21 +27,17 @@ public final class ConfigurationPropertyNameAliases {
 		addAliases(name, aliases);
 	}
 
-	public ConfigurationPropertyNameAliases(ConfigurationPropertyName name,
-			ConfigurationPropertyName... aliases) {
+	public ConfigurationPropertyNameAliases(ConfigurationPropertyName name,ConfigurationPropertyName... aliases) {
 		addAliases(name, aliases);
 	}
 
 	public void addAliases(String name, String... aliases) {
 		Assert.notNull(name, "Name must not be null");
 		Assert.notNull(aliases, "Aliases must not be null");
-		addAliases(ConfigurationPropertyName.of(name),
-				Arrays.stream(aliases).map(ConfigurationPropertyName::of)
-						.toArray(ConfigurationPropertyName[]::new));
+		addAliases(ConfigurationPropertyName.of(name),Arrays.stream(aliases).map(ConfigurationPropertyName::of).toArray(ConfigurationPropertyName[]::new));
 	}
 
-	public void addAliases(ConfigurationPropertyName name,
-			ConfigurationPropertyName... aliases) {
+	public void addAliases(ConfigurationPropertyName name,ConfigurationPropertyName... aliases) {
 		Assert.notNull(name, "Name must not be null");
 		Assert.notNull(aliases, "Aliases must not be null");
 		this.aliases.addAll(name, Arrays.asList(aliases));

@@ -20,22 +20,16 @@ import org.springframework.util.ObjectUtils;
  * {@link ConfigurationPropertySource} backed by an {@link EnumerablePropertySource}.
  * Extends {@link SpringConfigurationPropertySource} with full "relaxed" mapping support.
  * In order to use this adapter the underlying {@link PropertySource} must be fully
- * enumerable. A security restricted {@link SystemEnvironmentPropertySource} cannot be
- * adapted.
- *
- * @author Phillip Webb
- * @author Madhura Bhave
+ * enumerable. A security restricted {@link SystemEnvironmentPropertySource} cannot be adapted.
  * @see PropertyMapper
  */
-class SpringIterableConfigurationPropertySource extends SpringConfigurationPropertySource
-		implements IterableConfigurationPropertySource {
+class SpringIterableConfigurationPropertySource extends SpringConfigurationPropertySource implements IterableConfigurationPropertySource {
 
 	private volatile Object cacheKey;
 
 	private volatile Cache cache;
 
-	SpringIterableConfigurationPropertySource(EnumerablePropertySource<?> propertySource,
-			PropertyMapper mapper) {
+	SpringIterableConfigurationPropertySource(EnumerablePropertySource<?> propertySource,PropertyMapper mapper) {
 		super(propertySource, mapper, null);
 		assertEnumerablePropertySource();
 	}
@@ -44,19 +38,15 @@ class SpringIterableConfigurationPropertySource extends SpringConfigurationPrope
 		if (getPropertySource() instanceof MapPropertySource) {
 			try {
 				((MapPropertySource) getPropertySource()).getSource().size();
-			}
-			catch (UnsupportedOperationException ex) {
-				throw new IllegalArgumentException(
-						"PropertySource must be fully enumerable");
+			}catch (UnsupportedOperationException ex) {
+				throw new IllegalArgumentException("PropertySource must be fully enumerable");
 			}
 		}
 	}
 
 	@Override
-	public ConfigurationProperty getConfigurationProperty(
-			ConfigurationPropertyName name) {
-		ConfigurationProperty configurationProperty = super.getConfigurationProperty(
-				name);
+	public ConfigurationProperty getConfigurationProperty(ConfigurationPropertyName name) {
+		ConfigurationProperty configurationProperty = super.getConfigurationProperty(name);
 		if (configurationProperty == null) {
 			configurationProperty = find(getPropertyMappings(getCache()), name);
 		}
@@ -74,8 +64,7 @@ class SpringIterableConfigurationPropertySource extends SpringConfigurationPrope
 	}
 
 	@Override
-	public ConfigurationPropertyState containsDescendantOf(
-			ConfigurationPropertyName name) {
+	public ConfigurationPropertyState containsDescendantOf(ConfigurationPropertyName name) {
 		return ConfigurationPropertyState.search(this, name::isAncestorOf);
 	}
 
@@ -118,9 +107,7 @@ class SpringIterableConfigurationPropertySource extends SpringConfigurationPrope
 
 	private Cache getCache() {
 		CacheKey cacheKey = CacheKey.get(getPropertySource());
-		if (cacheKey == null) {
-			return null;
-		}
+		if (cacheKey == null) return null;
 		if (ObjectUtils.nullSafeEquals(cacheKey, this.cacheKey)) {
 			return this.cache;
 		}
@@ -179,9 +166,7 @@ class SpringIterableConfigurationPropertySource extends SpringConfigurationPrope
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
+			if (this == obj) return true;
 			if (obj == null || getClass() != obj.getClass()) {
 				return false;
 			}

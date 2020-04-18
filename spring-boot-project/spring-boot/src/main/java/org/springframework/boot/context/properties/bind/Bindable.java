@@ -16,10 +16,7 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Source that can be bound by a {@link Binder}.
- *
  * @param <T> the source type
- * @author Phillip Webb
- * @author Madhura Bhave
  * @since 2.0.0
  * @see Bindable#of(Class)
  * @see Bindable#of(ResolvableType)
@@ -36,8 +33,7 @@ public final class Bindable<T> {
 
 	private final Annotation[] annotations;
 
-	private Bindable(ResolvableType type, ResolvableType boxedType, Supplier<T> value,
-			Annotation[] annotations) {
+	private Bindable(ResolvableType type, ResolvableType boxedType, Supplier<T> value,Annotation[] annotations) {
 		this.type = type;
 		this.boxedType = boxedType;
 		this.value = value;
@@ -94,9 +90,7 @@ public final class Bindable<T> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
+		if (this == obj) return true;
 		if (obj == null || getClass() != obj.getClass()) {
 			return false;
 		}
@@ -135,8 +129,7 @@ public final class Bindable<T> {
 	 * @return an updated {@link Bindable}
 	 */
 	public Bindable<T> withAnnotations(Annotation... annotations) {
-		return new Bindable<>(this.type, this.boxedType, this.value,
-				(annotations != null) ? annotations : NO_ANNOTATIONS);
+		return new Bindable<>(this.type, this.boxedType, this.value,(annotations != null) ? annotations : NO_ANNOTATIONS);
 	}
 
 	/**
@@ -145,10 +138,7 @@ public final class Bindable<T> {
 	 * @return an updated {@link Bindable}
 	 */
 	public Bindable<T> withExistingValue(T existingValue) {
-		Assert.isTrue(
-				existingValue == null || this.type.isArray()
-						|| this.boxedType.resolve().isInstance(existingValue),
-				() -> "ExistingValue must be an instance of " + this.type);
+		Assert.isTrue(existingValue == null || this.type.isArray()|| this.boxedType.resolve().isInstance(existingValue),() -> "ExistingValue must be an instance of " + this.type);
 		Supplier<T> value = (existingValue != null) ? () -> existingValue : null;
 		return new Bindable<>(this.type, this.boxedType, value, NO_ANNOTATIONS);
 	}
