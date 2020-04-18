@@ -31,102 +31,61 @@ public class DataSourceProperties implements BeanClassLoaderAware, InitializingB
 
 	private ClassLoader classLoader;
 
-	/**
-	 * Name of the datasource. Default to "testdb" when using an embedded database.
-	 */
+	// Name of the datasource. Default to "testdb" when using an embedded database.
 	private String name;
 
-	/**
-	 * Whether to generate a random datasource name.
-	 */
+	// Whether to generate a random datasource name.
 	private boolean generateUniqueName;
 
-	/**
-	 * Fully qualified name of the connection pool implementation to use. By default, it
-	 * is auto-detected from the classpath.
-	 */
+	//  Fully qualified name of the connection pool implementation to use. By default, it is auto-detected from the classpath.
 	private Class<? extends DataSource> type;
 
-	/**
-	 * Fully qualified name of the JDBC driver. Auto-detected based on the URL by default.
-	 */
+	// Fully qualified name of the JDBC driver. Auto-detected based on the URL by default.
 	private String driverClassName;
 
-	/**
-	 * JDBC URL of the database.
-	 */
+	// JDBC URL of the database.
 	private String url;
 
-	/**
-	 * Login username of the database.
-	 */
+	// Login username of the database.
 	private String username;
 
-	/**
-	 * Login password of the database.
-	 */
+	// Login password of the database.
 	private String password;
 
-	/**
-	 * JNDI location of the datasource. Class, url, username & password are ignored when
-	 * set.
-	 */
+	// JNDI location of the datasource. Class, url, username & password are ignored when set.
 	private String jndiName;
 
-	/**
-	 * Initialize the datasource with available DDL and DML scripts.
-	 */
+	//  Initialize the datasource with available DDL and DML scripts.
 	private DataSourceInitializationMode initializationMode = DataSourceInitializationMode.EMBEDDED;
 
-	/**
-	 * Platform to use in the DDL or DML scripts (such as schema-${platform}.sql or
-	 * data-${platform}.sql).
-	 */
+	// Platform to use in the DDL or DML scripts (such as schema-${platform}.sql or  data-${platform}.sql).
 	private String platform = "all";
 
-	/**
-	 * Schema (DDL) script resource references.
-	 */
+	//  Schema (DDL) script resource references.
 	private List<String> schema;
 
-	/**
-	 * Username of the database to execute DDL scripts (if different).
-	 */
+	//  Username of the database to execute DDL scripts (if different).
 	private String schemaUsername;
 
-	/**
-	 * Password of the database to execute DDL scripts (if different).
-	 */
+	// Password of the database to execute DDL scripts (if different).
 	private String schemaPassword;
 
-	/**
-	 * Data (DML) script resource references.
-	 */
+	// Data (DML) script resource references.
 	private List<String> data;
 
-	/**
-	 * Username of the database to execute DML scripts (if different).
-	 */
+	// Username of the database to execute DML scripts (if different).
 	private String dataUsername;
 
-	/**
-	 * Password of the database to execute DML scripts (if different).
-	 */
+	//  Password of the database to execute DML scripts (if different).
 	private String dataPassword;
 
-	/**
-	 * Whether to stop if an error occurs while initializing the database.
-	 */
+	// Whether to stop if an error occurs while initializing the database.
 	private boolean continueOnError = false;
 
-	/**
-	 * Statement separator in SQL initialization scripts.
-	 */
+	// Statement separator in SQL initialization scripts.
 	private String separator = ";";
 
-	/**
-	 * SQL scripts encoding.
-	 */
+	//  SQL scripts encoding.
 	private Charset sqlScriptEncoding;
 
 	private EmbeddedDatabaseConnection embeddedDatabaseConnection = EmbeddedDatabaseConnection.NONE;

@@ -20,6 +20,16 @@
 		<module>spring-boot-integration-tests</module>
 		<module>spring-boot-goat-tests</module>
 	</modules>
+
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+
+	</dependencies>
 	<profiles>
 		<!-- M2E profile to allow easy import into Eclipse -->
 		<profile>

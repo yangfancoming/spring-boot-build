@@ -5,10 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Created by 64274 on 2019/6/26.
- *
- * @ Description: TODO
  * @ author  山羊来了
  * @ date 2019/6/26---19:02
+ *
+ * 项目启动后 查看控制台：
+ * 2020-04-18 11:13:07.884  INFO 8580 --- [ main] o.s.j.e.a.AnnotationMBeanExporter
+ * : Located MBean 'dataSource': registering with JMX server as MBean [com.zaxxer.hikari:name=dataSource,type=HikariDataSource]
  */
 @SpringBootApplication
 public class MyTestJDBCApplication {
