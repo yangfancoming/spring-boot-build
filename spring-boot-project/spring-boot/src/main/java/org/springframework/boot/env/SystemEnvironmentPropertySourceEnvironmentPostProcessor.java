@@ -19,39 +19,30 @@ import org.springframework.core.env.SystemEnvironmentPropertySource;
  * {@link SystemEnvironmentPropertySource} with an
  * {@link OriginAwareSystemEnvironmentPropertySource} that can track the
  * {@link SystemEnvironmentOrigin} for every system environment property.
- *
- * @author Madhura Bhave
  * @since 2.0.0
  */
-public class SystemEnvironmentPropertySourceEnvironmentPostProcessor
-		implements EnvironmentPostProcessor, Ordered {
+public class SystemEnvironmentPropertySourceEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
 	/**
 	 * The default order for the processor.
 	 */
-	public static final int DEFAULT_ORDER = SpringApplicationJsonEnvironmentPostProcessor.DEFAULT_ORDER
-			- 1;
+	public static final int DEFAULT_ORDER = SpringApplicationJsonEnvironmentPostProcessor.DEFAULT_ORDER - 1;
 
 	private int order = DEFAULT_ORDER;
 
 	@Override
-	public void postProcessEnvironment(ConfigurableEnvironment environment,
-			SpringApplication application) {
+	public void postProcessEnvironment(ConfigurableEnvironment environment,SpringApplication application) {
 		String sourceName = StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME;
-		PropertySource<?> propertySource = environment.getPropertySources()
-				.get(sourceName);
+		PropertySource<?> propertySource = environment.getPropertySources().get(sourceName);
 		if (propertySource != null) {
 			replacePropertySource(environment, sourceName, propertySource);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void replacePropertySource(ConfigurableEnvironment environment,
-			String sourceName, PropertySource<?> propertySource) {
-		Map<String, Object> originalSource = (Map<String, Object>) propertySource
-				.getSource();
-		SystemEnvironmentPropertySource source = new OriginAwareSystemEnvironmentPropertySource(
-				sourceName, originalSource);
+	private void replacePropertySource(ConfigurableEnvironment environment,String sourceName, PropertySource<?> propertySource) {
+		Map<String, Object> originalSource = (Map<String, Object>) propertySource.getSource();
+		SystemEnvironmentPropertySource source = new OriginAwareSystemEnvironmentPropertySource(sourceName, originalSource);
 		environment.getPropertySources().replace(sourceName, source);
 	}
 
@@ -67,11 +58,9 @@ public class SystemEnvironmentPropertySourceEnvironmentPostProcessor
 	/**
 	 * {@link SystemEnvironmentPropertySource} that also tracks {@link Origin}.
 	 */
-	protected static class OriginAwareSystemEnvironmentPropertySource
-			extends SystemEnvironmentPropertySource implements OriginLookup<String> {
+	protected static class OriginAwareSystemEnvironmentPropertySource extends SystemEnvironmentPropertySource implements OriginLookup<String> {
 
-		OriginAwareSystemEnvironmentPropertySource(String name,
-				Map<String, Object> source) {
+		OriginAwareSystemEnvironmentPropertySource(String name,Map<String, Object> source) {
 			super(name, source);
 		}
 

@@ -2,7 +2,6 @@
 
 package org.springframework.boot.env;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,14 +22,12 @@ public class YamlPropertySourceLoader implements PropertySourceLoader {
 	}
 
 	@Override
-	public List<PropertySource<?>> load(String name, Resource resource) throws IOException {
+	public List<PropertySource<?>> load(String name, Resource resource) {
 		if (!ClassUtils.isPresent("org.yaml.snakeyaml.Yaml", null)) {
 			throw new IllegalStateException("Attempted to load " + name + " but snakeyaml was not found on the classpath");
 		}
 		List<Map<String, Object>> loaded = new OriginTrackedYamlLoader(resource).load();
-		if (loaded.isEmpty()) {
-			return Collections.emptyList();
-		}
+		if (loaded.isEmpty()) return Collections.emptyList();
 		List<PropertySource<?>> propertySources = new ArrayList<>(loaded.size());
 		for (int i = 0; i < loaded.size(); i++) {
 			String documentNumber = (loaded.size() != 1) ? " (document #" + i + ")" : "";

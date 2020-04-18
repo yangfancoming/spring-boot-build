@@ -4,8 +4,6 @@ package org.springframework.boot.origin;
 
 /**
  * Interface to provide access to the origin of an item.
- *
- * @author Phillip Webb
  * @since 2.0.0
  * @see Origin
  */

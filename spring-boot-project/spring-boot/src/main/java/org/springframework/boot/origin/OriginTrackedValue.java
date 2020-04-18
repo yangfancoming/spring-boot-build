@@ -6,9 +6,6 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * A wrapper for an {@link Object} value and {@link Origin}.
- *
- * @author Madhura Bhave
- * @author Phillip Webb
  * @since 2.0.0
  * @see #of(Object)
  * @see #of(Object, Origin)
@@ -69,9 +66,7 @@ public class OriginTrackedValue implements OriginProvider {
 	 * {@code null}.
 	 */
 	public static OriginTrackedValue of(Object value, Origin origin) {
-		if (value == null) {
-			return null;
-		}
+		if (value == null) return null;
 		if (value instanceof CharSequence) {
 			return new OriginTrackedCharSequence((CharSequence) value, origin);
 		}
@@ -81,8 +76,7 @@ public class OriginTrackedValue implements OriginProvider {
 	/**
 	 * {@link OriginTrackedValue} for a {@link CharSequence}.
 	 */
-	private static class OriginTrackedCharSequence extends OriginTrackedValue
-			implements CharSequence {
+	private static class OriginTrackedCharSequence extends OriginTrackedValue implements CharSequence {
 
 		OriginTrackedCharSequence(CharSequence value, Origin origin) {
 			super(value, origin);

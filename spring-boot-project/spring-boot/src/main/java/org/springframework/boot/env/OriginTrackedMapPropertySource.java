@@ -10,16 +10,11 @@ import org.springframework.boot.origin.OriginTrackedValue;
 import org.springframework.core.env.MapPropertySource;
 
 /**
- * {@link OriginLookup} backed by a {@link Map} containing {@link OriginTrackedValue
- * OriginTrackedValues}.
- *
- * @author Madhura Bhave
- * @author Phillip Webb
+ * {@link OriginLookup} backed by a {@link Map} containing {@link OriginTrackedValue OriginTrackedValues}.
  * @since 2.0.0
  * @see OriginTrackedValue
  */
-public final class OriginTrackedMapPropertySource extends MapPropertySource
-		implements OriginLookup<String> {
+public final class OriginTrackedMapPropertySource extends MapPropertySource implements OriginLookup<String> {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public OriginTrackedMapPropertySource(String name, Map source) {

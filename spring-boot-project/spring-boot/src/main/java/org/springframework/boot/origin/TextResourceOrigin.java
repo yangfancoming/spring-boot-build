@@ -8,9 +8,6 @@ import org.springframework.util.ObjectUtils;
 /**
  * {@link Origin} for an item loaded from a text resource. Provides access to the original
  * {@link Resource} that loaded the text and a {@link Location} within it.
- *
- * @author Madhura Bhave
- * @author Phillip Webb
  * @since 2.0.0
  */
 public class TextResourceOrigin implements Origin {
@@ -42,12 +39,8 @@ public class TextResourceOrigin implements Origin {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
+		if (obj == this) return true;
+		if (obj == null) return false;
 		if (obj instanceof TextResourceOrigin) {
 			TextResourceOrigin other = (TextResourceOrigin) obj;
 			boolean result = true;
@@ -69,8 +62,7 @@ public class TextResourceOrigin implements Origin {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append((this.resource != null) ? this.resource.getDescription()
-				: "unknown resource [?]");
+		result.append((this.resource != null) ? this.resource.getDescription() : "unknown resource [?]");
 		if (this.location != null) {
 			result.append(":").append(this.location);
 		}
@@ -81,9 +73,7 @@ public class TextResourceOrigin implements Origin {
 	 * A location (line and column number) within the resource.
 	 */
 	public static final class Location {
-
 		private final int line;
-
 		private final int column;
 
 		/**
@@ -114,29 +104,21 @@ public class TextResourceOrigin implements Origin {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (this == obj) {
-				return true;
-			}
-			if (obj == null || getClass() != obj.getClass()) {
-				return false;
-			}
+			if (this == obj) return true;
+			if (obj == null || getClass() != obj.getClass()) return false;
 			Location other = (Location) obj;
 			boolean result = true;
 			result = result && this.line == other.line;
 			result = result && this.column == other.column;
 			return result;
 		}
-
 		@Override
 		public int hashCode() {
 			return (31 * this.line) + this.column;
 		}
-
 		@Override
 		public String toString() {
 			return (this.line + 1) + ":" + (this.column + 1);
 		}
-
 	}
-
 }

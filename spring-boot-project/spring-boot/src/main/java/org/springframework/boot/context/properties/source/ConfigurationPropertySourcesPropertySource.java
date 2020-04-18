@@ -10,18 +10,11 @@ import org.springframework.core.env.PropertySource;
 
 /**
  * {@link PropertySource} that exposes {@link ConfigurationPropertySource} instances so
- * that they can be used with a {@link PropertyResolver} or added to the
- * {@link Environment}.
- *
- * @author Phillip Webb
- * @author Madhura Bhave
+ * that they can be used with a {@link PropertyResolver} or added to the {@link Environment}.
  */
-class ConfigurationPropertySourcesPropertySource
-		extends PropertySource<Iterable<ConfigurationPropertySource>>
-		implements OriginLookup<String> {
+class ConfigurationPropertySourcesPropertySource extends PropertySource<Iterable<ConfigurationPropertySource>> implements OriginLookup<String> {
 
-	ConfigurationPropertySourcesPropertySource(String name,
-			Iterable<ConfigurationPropertySource> source) {
+	ConfigurationPropertySourcesPropertySource(String name,Iterable<ConfigurationPropertySource> source) {
 		super(name, source);
 	}
 
@@ -41,20 +34,14 @@ class ConfigurationPropertySourcesPropertySource
 			if (ConfigurationPropertyName.isValid(name)) {
 				return findConfigurationProperty(ConfigurationPropertyName.of(name));
 			}
-		}
-		catch (Exception ex) {
-		}
+		}catch (Exception ex) {}
 		return null;
 	}
 
-	private ConfigurationProperty findConfigurationProperty(
-			ConfigurationPropertyName name) {
-		if (name == null) {
-			return null;
-		}
+	private ConfigurationProperty findConfigurationProperty(ConfigurationPropertyName name) {
+		if (name == null) return null;
 		for (ConfigurationPropertySource configurationPropertySource : getSource()) {
-			ConfigurationProperty configurationProperty = configurationPropertySource
-					.getConfigurationProperty(name);
+			ConfigurationProperty configurationProperty = configurationPropertySource.getConfigurationProperty(name);
 			if (configurationProperty != null) {
 				return configurationProperty;
 			}

@@ -69,16 +69,14 @@ class OriginTrackedYamlLoader extends YamlProcessor {
 				if (!(node instanceof KeyScalarNode)) {
 					return constructTrackedObject(node, super.constructObject(node));
 				}
-			}
-			else if (node instanceof MappingNode) {
+			}else if (node instanceof MappingNode) {
 				replaceMappingNodeKeys((MappingNode) node);
 			}
 			return super.constructObject(node);
 		}
 
 		private void replaceMappingNodeKeys(MappingNode node) {
-			node.setValue(node.getValue().stream().map(KeyScalarNode::get)
-					.collect(Collectors.toList()));
+			node.setValue(node.getValue().stream().map(KeyScalarNode::get).collect(Collectors.toList()));
 		}
 
 		private Object constructTrackedObject(Node node, Object value) {
@@ -93,10 +91,8 @@ class OriginTrackedYamlLoader extends YamlProcessor {
 		private Origin getOrigin(Node node) {
 			Mark mark = node.getStartMark();
 			Location location = new Location(mark.getLine(), mark.getColumn());
-			return new TextResourceOrigin(OriginTrackedYamlLoader.this.resource,
-					location);
+			return new TextResourceOrigin(OriginTrackedYamlLoader.this.resource,location);
 		}
-
 	}
 
 	/**
@@ -105,8 +101,7 @@ class OriginTrackedYamlLoader extends YamlProcessor {
 	private static class KeyScalarNode extends ScalarNode {
 
 		KeyScalarNode(ScalarNode node) {
-			super(node.getTag(), node.getValue(), node.getStartMark(), node.getEndMark(),
-					node.getStyle());
+			super(node.getTag(), node.getValue(), node.getStartMark(), node.getEndMark(),node.getStyle());
 		}
 
 		public static NodeTuple get(NodeTuple nodeTuple) {
@@ -121,19 +116,15 @@ class OriginTrackedYamlLoader extends YamlProcessor {
 			}
 			return node;
 		}
-
 	}
 
 	/**
 	 * {@link Resolver} that limits {@link Tag#TIMESTAMP} tags.
 	 */
 	private static class LimitedResolver extends Resolver {
-
 		@Override
 		public void addImplicitResolver(Tag tag, Pattern regexp, String first) {
-			if (tag == Tag.TIMESTAMP) {
-				return;
-			}
+			if (tag == Tag.TIMESTAMP) return;
 			super.addImplicitResolver(tag, regexp, first);
 		}
 

@@ -6,14 +6,9 @@ import java.io.File;
 
 /**
  * Interface that uniquely represents the origin of an item. For example, an item loaded
- * from a {@link File} may have an origin made up of the file name along with line/column
- * numbers.
- * <p>
+ * from a {@link File} may have an origin made up of the file name along with line/column numbers.
  * Implementations must provide sensible {@code hashCode()}, {@code equals(...)} and
  * {@code #toString()} implementations.
- *
- * @author Madhura Bhave
- * @author Phillip Webb
  * @since 2.0.0
  * @see OriginProvider
  */

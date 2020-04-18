@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="0.0" y="79.0">org.springframework.boot.env.PropertiesPropertySourceLoader</node>
+    <node x="54.0" y="153.0">org.springframework.boot.origin.OriginLookup</node>
+    <node x="30.0" y="306.0">org.springframework.beans.factory.config.YamlProcessor</node>
+    <node x="0.0" y="385.0">org.springframework.boot.env.OriginTrackedYamlLoader</node>
+    <node x="144.0" y="0.0">org.springframework.boot.env.PropertySourceLoader</node>
+    <node x="246.0" y="79.0">org.springframework.boot.env.YamlPropertySourceLoader</node>
+    <node x="0.0" y="232.0">org.springframework.boot.env.OriginTrackedMapPropertySource</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.springframework.boot.env.OriginTrackedMapPropertySource" target="org.springframework.boot.origin.OriginLookup">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.env.YamlPropertySourceLoader" target="org.springframework.boot.env.PropertySourceLoader">
+      <point x="0.0" y="-14.5" />
+      <point x="341.0" y="54.0" />
+      <point x="268.5" y="54.0" />
+      <point x="41.5" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.env.PropertiesPropertySourceLoader" target="org.springframework.boot.env.PropertySourceLoader">
+      <point x="0.0" y="-14.5" />
+      <point x="113.0" y="54.0" />
+      <point x="185.5" y="54.0" />
+      <point x="-41.5" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.env.OriginTrackedYamlLoader" target="org.springframework.beans.factory.config.YamlProcessor">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="0.0" y="0.0" />
+  <SelectedNodes>
+    <node>org.springframework.beans.factory.config.YamlProcessor</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -70,8 +70,7 @@ import org.springframework.util.StringUtils;
  * and the 'spring.config.location' property can be used to specify alternative search
  * locations or specific files.
  */
-public class ConfigFileApplicationListener
-		implements EnvironmentPostProcessor, SmartApplicationListener, Ordered {
+public class ConfigFileApplicationListener implements EnvironmentPostProcessor, SmartApplicationListener, Ordered {
 
 	private static final String DEFAULT_PROPERTIES = "defaultProperties";
 
@@ -82,34 +81,22 @@ public class ConfigFileApplicationListener
 
 	private static final Set<String> NO_SEARCH_NAMES = Collections.singleton(null);
 
-	/**
-	 * The "active profiles" property name.
-	 */
+	// The "active profiles" property name.
 	public static final String ACTIVE_PROFILES_PROPERTY = "spring.profiles.active";
 
-	/**
-	 * The "includes profiles" property name.
-	 */
+	// The "includes profiles" property name.
 	public static final String INCLUDE_PROFILES_PROPERTY = "spring.profiles.include";
 
-	/**
-	 * The "config name" property name.
-	 */
+	// The "config name" property name.
 	public static final String CONFIG_NAME_PROPERTY = "spring.config.name";
 
-	/**
-	 * The "config location" property name.
-	 */
+	// The "config location" property name.
 	public static final String CONFIG_LOCATION_PROPERTY = "spring.config.location";
 
-	/**
-	 * The "config additional location" property name.
-	 */
+	// The "config additional location" property name.
 	public static final String CONFIG_ADDITIONAL_LOCATION_PROPERTY = "spring.config.additional-location";
 
-	/**
-	 * The default order for the processor.
-	 */
+	// The default order for the processor.
 	public static final int DEFAULT_ORDER = Ordered.HIGHEST_PRECEDENCE + 10;
 
 	/**
@@ -337,7 +324,7 @@ public class ConfigFileApplicationListener
 
 		void addActiveProfiles(Set<Profile> profiles) {
 			if (profiles.isEmpty()) return;
-			if (this.activatedProfiles) {
+			if (activatedProfiles) {
 				if (logger.isDebugEnabled()) logger.debug("Profiles already activated, '" + profiles + "' will not be applied");
 				return;
 			}
@@ -348,8 +335,7 @@ public class ConfigFileApplicationListener
 		}
 
 		private void removeUnprocessedDefaultProfiles() {
-			profiles.removeIf(
-					(profile) -> (profile != null && profile.isDefaultProfile()));
+			profiles.removeIf((profile) -> (profile != null && profile.isDefaultProfile()));
 		}
 
 		private DocumentFilter getPositiveProfileFilter(Profile profile) {
@@ -432,23 +418,17 @@ public class ConfigFileApplicationListener
 			try {
 				Resource resource = resourceLoader.getResource(location);
 				if (resource == null || !resource.exists()) {
-					if (logger.isTraceEnabled()) {
-						logger.trace("Skipped missing config " + getDescription(location, resource, profile));
-					}
+					if (logger.isTraceEnabled()) logger.trace("Skipped missing config " + getDescription(location, resource, profile));
 					return;
 				}
 				if (!StringUtils.hasText(StringUtils.getFilenameExtension(resource.getFilename()))) {
-					if (logger.isTraceEnabled()) {
-						logger.trace("Skipped empty config extension " + getDescription(location, resource, profile));
-					}
+					if (logger.isTraceEnabled()) logger.trace("Skipped empty config extension " + getDescription(location, resource, profile));
 					return;
 				}
 				String name = "applicationConfig: [" + location + "]";
 				List<Document> documents = loadDocuments(loader, name, resource);
 				if (CollectionUtils.isEmpty(documents)) {
-					if (logger.isTraceEnabled()) {
-						logger.trace("Skipped unloaded config " + getDescription(location, resource, profile));
-					}
+					if (logger.isTraceEnabled()) logger.trace("Skipped unloaded config " + getDescription(location, resource, profile));
 					return;
 				}
 				List<Document> loaded = new ArrayList<>();
@@ -462,9 +442,7 @@ public class ConfigFileApplicationListener
 				Collections.reverse(loaded);
 				if (!loaded.isEmpty()) {
 					loaded.forEach((document) -> consumer.accept(profile, document));
-					if (logger.isDebugEnabled()) {
-						logger.debug("Loaded config file " + getDescription(location, resource, profile));
-					}
+					if (logger.isDebugEnabled()) logger.debug("Loaded config file " + getDescription(location, resource, profile));
 				}
 			}catch (Exception ex) {
 				throw new IllegalStateException("Failed to load property " + "source from location '" + location + "'", ex);
