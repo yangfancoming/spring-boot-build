@@ -21,24 +21,16 @@ import org.springframework.util.ClassUtils;
  */
 public enum EmbeddedDatabaseConnection {
 
-	/**
-	 * No Connection.
-	 */
+	// No Connection.
 	NONE(null, null, null),
 
-	/**
-	 * H2 Database Connection.
-	 */
+	// H2 Database Connection.
 	H2(EmbeddedDatabaseType.H2, "org.h2.Driver","jdbc:h2:mem:%s;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"),
 
-	/**
-	 * Derby Database Connection.
-	 */
+	// Derby Database Connection.
 	DERBY(EmbeddedDatabaseType.DERBY, "org.apache.derby.jdbc.EmbeddedDriver","jdbc:derby:memory:%s;create=true"),
 
-	/**
-	 * HSQL Database Connection.
-	 */
+	// HSQL Database Connection.
 	HSQL(EmbeddedDatabaseType.HSQL, "org.hsqldb.jdbcDriver", "jdbc:hsqldb:mem:%s");
 
 	private final EmbeddedDatabaseType type;

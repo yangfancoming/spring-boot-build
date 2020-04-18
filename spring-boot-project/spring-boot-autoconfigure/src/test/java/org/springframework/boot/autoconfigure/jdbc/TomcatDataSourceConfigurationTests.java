@@ -76,10 +76,8 @@ public class TomcatDataSourceConfigurationTests {
 		assertDataSourceHasInterceptors(ds);
 	}
 
-	private void assertDataSourceHasInterceptors(DataSourceProxy ds)
-			throws ClassNotFoundException {
-		PoolProperties.InterceptorDefinition[] interceptors = ds
-				.getJdbcInterceptorsAsArray();
+	private void assertDataSourceHasInterceptors(DataSourceProxy ds) throws ClassNotFoundException {
+		PoolProperties.InterceptorDefinition[] interceptors = ds.getJdbcInterceptorsAsArray();
 		for (PoolProperties.InterceptorDefinition interceptor : interceptors) {
 			if (SlowQueryReport.class == interceptor.getInterceptorClass()) {
 				return;

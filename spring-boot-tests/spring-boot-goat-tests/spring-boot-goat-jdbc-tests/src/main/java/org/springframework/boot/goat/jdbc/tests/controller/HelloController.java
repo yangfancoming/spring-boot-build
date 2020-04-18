@@ -1,10 +1,10 @@
 package org.springframework.boot.goat.jdbc.tests.controller;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,6 +29,12 @@ public class HelloController {
 		Connection connection = dataSource.getConnection();
 		// HikariProxyConnection@1515248124 wrapping com.mysql.jdbc.JDBC4Connection@106d77da
 		System.out.println(connection);
+		if (dataSource instanceof com.zaxxer.hikari.HikariDataSource) {
+			com.zaxxer.hikari.HikariDataSource dataSourceHK = (HikariDataSource) dataSource;
+			System.out.println(dataSourceHK);
+		}
 		connection.close();
 	}
+
+
 }
