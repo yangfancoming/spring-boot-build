@@ -200,10 +200,9 @@ public class SpringApplication {
 	}
 
 	/**
-	 * Create a new {@link SpringApplication} instance. The application context will load
-	 * beans from the specified primary sources (see {@link SpringApplication class-level}
-	 * documentation for details. The instance can be customized before calling
-	 * {@link #run(String...)}.
+	 * Create a new {@link SpringApplication} instance.
+	 * The application context will load beans from the specified primary sources (see {@link SpringApplication class-level} documentation for details.
+	 * The instance can be customized before calling {@link #run(String...)}.
 	 * @param resourceLoader the resource loader to use
 	 * @param primarySources the primary bean sources
 	 * @see #run(Class, String[])

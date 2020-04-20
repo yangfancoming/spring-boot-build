@@ -66,7 +66,6 @@ public class SpringBootTestContextBootstrapper extends DefaultTestContextBootstr
 
 	private static final String ACTIVATE_SERVLET_LISTENER = "org.springframework.test.context.web.ServletTestExecutionListener.activateListener";
 
-
 	private static final Log logger = LogFactory.getLog(SpringBootTestContextBootstrapper.class);
 
 	@Override
@@ -224,8 +223,7 @@ public class SpringBootTestContextBootstrapper extends DefaultTestContextBootstr
 	}
 
 	/**
-	 * Post process the property source properties, adding or removing elements as
-	 * required.
+	 * Post process the property source properties, adding or removing elements as required.
 	 * @param mergedConfig the merged context configuration
 	 * @param propertySourceProperties the property source properties to process
 	 */
@@ -233,8 +231,7 @@ public class SpringBootTestContextBootstrapper extends DefaultTestContextBootstr
 		Class<?> testClass = mergedConfig.getTestClass();
 		String[] properties = getProperties(testClass);
 		if (!ObjectUtils.isEmpty(properties)) {
-			// Added first so that inlined properties from @TestPropertySource take
-			// precedence
+			// Added first so that inlined properties from @TestPropertySource take precedence
 			propertySourceProperties.addAll(0, Arrays.asList(properties));
 		}
 		if (getWebEnvironment(testClass) == WebEnvironment.RANDOM_PORT) {
@@ -288,8 +285,7 @@ public class SpringBootTestContextBootstrapper extends DefaultTestContextBootstr
 	}
 
 	/**
-	 * Create a new {@link MergedContextConfiguration} with different classes and
-	 * properties.
+	 * Create a new {@link MergedContextConfiguration} with different classes and properties.
 	 * @param mergedConfig the source config
 	 * @param classes the replacement classes
 	 * @param propertySourceProperties the replacement properties
