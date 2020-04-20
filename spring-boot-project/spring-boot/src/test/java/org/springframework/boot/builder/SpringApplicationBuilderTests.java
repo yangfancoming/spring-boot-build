@@ -29,17 +29,10 @@ import static org.mockito.Mockito.verify;
 
 /**
  * Tests for {@link SpringApplicationBuilder}.
- *
- * @author Dave Syer
  */
 public class SpringApplicationBuilderTests {
 
 	private ConfigurableApplicationContext context;
-
-	@After
-	public void close() {
-		close(this.context);
-	}
 
 	private void close(ApplicationContext context) {
 		if (context != null) {
@@ -52,9 +45,7 @@ public class SpringApplicationBuilderTests {
 
 	@Test
 	public void profileAndProperties() {
-		SpringApplicationBuilder application = new SpringApplicationBuilder()
-				.sources(ExampleConfig.class).contextClass(StaticApplicationContext.class)
-				.profiles("foo").properties("foo=bar");
+		SpringApplicationBuilder application = new SpringApplicationBuilder().sources(ExampleConfig.class).contextClass(StaticApplicationContext.class).profiles("foo").properties("foo=bar");
 		this.context = application.run();
 		assertThat(this.context).isInstanceOf(StaticApplicationContext.class);
 		assertThat(this.context.getEnvironment().getProperty("foo")).isEqualTo("bucket");
@@ -63,19 +54,14 @@ public class SpringApplicationBuilderTests {
 
 	@Test
 	public void propertiesAsMap() {
-		SpringApplicationBuilder application = new SpringApplicationBuilder()
-				.sources(ExampleConfig.class).contextClass(StaticApplicationContext.class)
-				.properties(Collections.singletonMap("bar", "foo"));
+		SpringApplicationBuilder application = new SpringApplicationBuilder().sources(ExampleConfig.class).contextClass(StaticApplicationContext.class).properties(Collections.singletonMap("bar", "foo"));
 		this.context = application.run();
 		assertThat(this.context.getEnvironment().getProperty("bar")).isEqualTo("foo");
 	}
 
 	@Test
 	public void propertiesAsProperties() {
-		SpringApplicationBuilder application = new SpringApplicationBuilder()
-				.sources(ExampleConfig.class).contextClass(StaticApplicationContext.class)
-				.properties(StringUtils.splitArrayElementsIntoProperties(
-						new String[] { "bar=foo" }, "="));
+		SpringApplicationBuilder application = new SpringApplicationBuilder().sources(ExampleConfig.class).contextClass(StaticApplicationContext.class).properties(StringUtils.splitArrayElementsIntoProperties(new String[] { "bar=foo" }, "="));
 		this.context = application.run();
 		assertThat(this.context.getEnvironment().getProperty("bar")).isEqualTo("foo");
 	}
@@ -84,8 +70,7 @@ public class SpringApplicationBuilderTests {
 	public void propertiesWithRepeatSeparator() {
 		SpringApplicationBuilder application = new SpringApplicationBuilder()
 				.sources(ExampleConfig.class).contextClass(StaticApplicationContext.class)
-				.properties("one=c:\\logging.file", "two=a:b", "three:c:\\logging.file",
-						"four:a:b");
+				.properties("one=c:\\logging.file", "two=a:b", "three:c:\\logging.file","four:a:b");
 		this.context = application.run();
 		ConfigurableEnvironment environment = this.context.getEnvironment();
 		assertThat(environment.getProperty("one")).isEqualTo("c:\\logging.file");
@@ -105,18 +90,13 @@ public class SpringApplicationBuilderTests {
 
 	@Test
 	public void parentContextCreationThatIsRunDirectly() {
-		SpringApplicationBuilder application = new SpringApplicationBuilder(
-				ChildConfig.class).contextClass(SpyApplicationContext.class);
+		SpringApplicationBuilder application = new SpringApplicationBuilder(ChildConfig.class).contextClass(SpyApplicationContext.class);
 		application.parent(ExampleConfig.class);
 		this.context = application.run("foo.bar=baz");
-		verify(((SpyApplicationContext) this.context).getApplicationContext())
-				.setParent(any(ApplicationContext.class));
-		assertThat(((SpyApplicationContext) this.context).getRegisteredShutdownHook())
-				.isFalse();
-		assertThat(this.context.getParent().getBean(ApplicationArguments.class)
-				.getNonOptionArgs()).contains("foo.bar=baz");
-		assertThat(this.context.getBean(ApplicationArguments.class).getNonOptionArgs())
-				.contains("foo.bar=baz");
+		verify(((SpyApplicationContext) this.context).getApplicationContext()).setParent(any(ApplicationContext.class));
+		assertThat(((SpyApplicationContext) this.context).getRegisteredShutdownHook()).isFalse();
+		assertThat(this.context.getParent().getBean(ApplicationArguments.class).getNonOptionArgs()).contains("foo.bar=baz");
+		assertThat(this.context.getBean(ApplicationArguments.class).getNonOptionArgs()).contains("foo.bar=baz");
 	}
 
 	@Test
@@ -295,23 +275,22 @@ public class SpringApplicationBuilderTests {
 		this.context.getBean(ChildConfig.class);
 	}
 
-	@Configuration
-	static class ExampleConfig {
-
+	@After
+	public void close() {
+		close(this.context);
 	}
 
 	@Configuration
-	static class ChildConfig {
+	static class ExampleConfig {}
 
-	}
+
+	@Configuration
+	static class ChildConfig {}
 
 	public static class SpyApplicationContext extends AnnotationConfigApplicationContext {
 
-		private final ConfigurableApplicationContext applicationContext = spy(
-				new AnnotationConfigApplicationContext());
-
+		private final ConfigurableApplicationContext applicationContext = spy(new AnnotationConfigApplicationContext());
 		private ResourceLoader resourceLoader;
-
 		private boolean registeredShutdownHook;
 
 		@Override
@@ -353,7 +332,6 @@ public class SpringApplicationBuilderTests {
 		public ApplicationContext getParent() {
 			return this.applicationContext.getParent();
 		}
-
 	}
 
 }

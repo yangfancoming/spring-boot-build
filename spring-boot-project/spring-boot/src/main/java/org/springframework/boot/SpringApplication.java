@@ -134,14 +134,11 @@ public class SpringApplication {
 	private static final String MVC_WEB_ENVIRONMENT_CLASS = "org.springframework.web.servlet.DispatcherServlet";
 
 	private static final String JERSEY_WEB_ENVIRONMENT_CLASS = "org.glassfish.jersey.server.ResourceConfig";
-	/**
-	 * Default banner location.
-	 */
+
+	// Default banner location.
 	public static final String BANNER_LOCATION_PROPERTY_VALUE = SpringApplicationBannerPrinter.DEFAULT_BANNER_LOCATION;
 
-	/**
-	 * Banner location property key.
-	 */
+	// Banner location property key.
 	public static final String BANNER_LOCATION_PROPERTY = SpringApplicationBannerPrinter.BANNER_LOCATION_PROPERTY;
 
 	private static final String SYSTEM_PROPERTY_JAVA_AWT_HEADLESS = "java.awt.headless";
@@ -219,8 +216,8 @@ public class SpringApplication {
 		// 4、推断当前 WEB 应用类型，一共有三种：
 		this.webApplicationType = deduceWebApplicationType();
 		// 5、设置应用上线文初始化器,从"META-INF/spring.factories"读取ApplicationContextInitializer类的实例名称集合并去重，并进行set去重。（一共4个）
-		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
-		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+		setInitializers((Collection)getSpringFactoriesInstances(ApplicationContextInitializer.class));
+		setListeners((Collection)getSpringFactoriesInstances(ApplicationListener.class));
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 

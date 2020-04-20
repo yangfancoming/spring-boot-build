@@ -14,21 +14,14 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
 import org.springframework.util.StringUtils;
 
 /**
- * An {@link AbstractFailureAnalyzer} that performs analysis of failures caused by a
- * {@link BeanCurrentlyInCreationException}.
- *
- * @author Andy Wilkinson
+ * An {@link AbstractFailureAnalyzer} that performs analysis of failures caused by a {@link BeanCurrentlyInCreationException}.
  */
-class BeanCurrentlyInCreationFailureAnalyzer
-		extends AbstractFailureAnalyzer<BeanCurrentlyInCreationException> {
+class BeanCurrentlyInCreationFailureAnalyzer extends AbstractFailureAnalyzer<BeanCurrentlyInCreationException> {
 
 	@Override
-	protected FailureAnalysis analyze(Throwable rootFailure,
-			BeanCurrentlyInCreationException cause) {
+	protected FailureAnalysis analyze(Throwable rootFailure,BeanCurrentlyInCreationException cause) {
 		DependencyCycle dependencyCycle = findCycle(rootFailure);
-		if (dependencyCycle == null) {
-			return null;
-		}
+		if (dependencyCycle == null) return null;
 		return new FailureAnalysis(buildMessage(dependencyCycle), null, cause);
 	}
 
@@ -55,16 +48,14 @@ class BeanCurrentlyInCreationFailureAnalyzer
 
 	private String buildMessage(DependencyCycle dependencyCycle) {
 		StringBuilder message = new StringBuilder();
-		message.append(String.format("The dependencies of some of the beans in the "
-				+ "application context form a cycle:%n%n"));
+		message.append(String.format("The dependencies of some of the beans in the application context form a cycle:%n%n"));
 		List<BeanInCycle> beansInCycle = dependencyCycle.getBeansInCycle();
 		int cycleStart = dependencyCycle.getCycleStart();
 		for (int i = 0; i < beansInCycle.size(); i++) {
 			BeanInCycle beanInCycle = beansInCycle.get(i);
 			if (i == cycleStart) {
 				message.append(String.format("┌─────┐%n"));
-			}
-			else if (i > 0) {
+			}else if (i > 0) {
 				String leftSide = (i < cycleStart) ? " " : "↑";
 				message.append(String.format("%s     ↓%n", leftSide));
 			}

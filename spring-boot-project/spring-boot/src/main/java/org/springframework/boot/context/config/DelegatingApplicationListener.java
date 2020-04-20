@@ -20,14 +20,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ApplicationListener} that delegates to other listeners that are specified under
- * a {@literal context.listener.classes} environment property.
- *
- * @author Dave Syer
- * @author Phillip Webb
+ * {@link ApplicationListener} that delegates to other listeners that are specified under a {@literal context.listener.classes} environment property.
  */
-public class DelegatingApplicationListener
-		implements ApplicationListener<ApplicationEvent>, Ordered {
+public class DelegatingApplicationListener implements ApplicationListener<ApplicationEvent>, Ordered {
 
 	// NOTE: Similar to org.springframework.web.context.ContextLoader
 
@@ -40,8 +35,7 @@ public class DelegatingApplicationListener
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ApplicationEnvironmentPreparedEvent) {
-			List<ApplicationListener<ApplicationEvent>> delegates = getListeners(
-					((ApplicationEnvironmentPreparedEvent) event).getEnvironment());
+			List<ApplicationListener<ApplicationEvent>> delegates = getListeners(((ApplicationEnvironmentPreparedEvent) event).getEnvironment());
 			if (delegates.isEmpty()) {
 				return;
 			}
@@ -56,27 +50,18 @@ public class DelegatingApplicationListener
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<ApplicationListener<ApplicationEvent>> getListeners(
-			ConfigurableEnvironment environment) {
-		if (environment == null) {
-			return Collections.emptyList();
-		}
+	private List<ApplicationListener<ApplicationEvent>> getListeners(ConfigurableEnvironment environment) {
+		if (environment == null) return Collections.emptyList();
 		String classNames = environment.getProperty(PROPERTY_NAME);
 		List<ApplicationListener<ApplicationEvent>> listeners = new ArrayList<>();
 		if (StringUtils.hasLength(classNames)) {
 			for (String className : StringUtils.commaDelimitedListToSet(classNames)) {
 				try {
-					Class<?> clazz = ClassUtils.forName(className,
-							ClassUtils.getDefaultClassLoader());
-					Assert.isAssignable(ApplicationListener.class, clazz, "class ["
-							+ className + "] must implement ApplicationListener");
-					listeners.add((ApplicationListener<ApplicationEvent>) BeanUtils
-							.instantiateClass(clazz));
-				}
-				catch (Exception ex) {
-					throw new ApplicationContextException(
-							"Failed to load context listener class [" + className + "]",
-							ex);
+					Class<?> clazz = ClassUtils.forName(className,ClassUtils.getDefaultClassLoader());
+					Assert.isAssignable(ApplicationListener.class, clazz, "class [" + className + "] must implement ApplicationListener");
+					listeners.add((ApplicationListener<ApplicationEvent>) BeanUtils.instantiateClass(clazz));
+				}catch (Exception ex) {
+					throw new ApplicationContextException("Failed to load context listener class [" + className + "]",ex);
 				}
 			}
 		}

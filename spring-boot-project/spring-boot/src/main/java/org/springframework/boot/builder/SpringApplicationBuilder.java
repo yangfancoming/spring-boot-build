@@ -27,27 +27,16 @@ import org.springframework.util.StringUtils;
 
 /**
  * Builder for {@link SpringApplication} and {@link ApplicationContext} instances with
- * convenient fluent API and context hierarchy support. Simple example of a context
- * hierarchy:
+ * convenient fluent API and context hierarchy support. Simple example of a context hierarchy:
  *
- * <pre class="code">
  * new SpringApplicationBuilder(ParentConfig.class).child(ChildConfig.class).run(args);
- * </pre>
  *
- * Another common use case is setting active profiles and default properties to set up the
- * environment for an application:
+ * Another common use case is setting active profiles and default properties to set up the environment for an application:
  *
- * <pre class="code">
  * new SpringApplicationBuilder(Application.class).profiles(&quot;server&quot;)
  * 		.properties(&quot;transport=local&quot;).run(args);
- * </pre>
  *
- * <p>
- * If your needs are simpler, consider using the static convenience methods in
- * SpringApplication instead.
- *
- * @author Dave Syer
- * @author Andy Wilkinson
+ * If your needs are simpler, consider using the static convenience methods in SpringApplication instead.
  * @see SpringApplication
  */
 public class SpringApplicationBuilder {
@@ -78,8 +67,7 @@ public class SpringApplicationBuilder {
 
 	/**
 	 * Creates a new {@link org.springframework.boot.SpringApplication} instances from the
-	 * given sources. Subclasses may override in order to provide a custom subclass of
-	 * {@link org.springframework.boot.SpringApplication}
+	 * given sources. Subclasses may override in order to provide a custom subclass of {@link org.springframework.boot.SpringApplication}
 	 * @param sources the sources
 	 * @return the {@link org.springframework.boot.SpringApplication} instance
 	 * @since 1.1.0
@@ -106,8 +94,7 @@ public class SpringApplicationBuilder {
 
 	/**
 	 * Create an application context (and its parent if specified) with the command line
-	 * args provided. The parent is run first with the same arguments if has not yet been
-	 * started.
+	 * args provided. The parent is run first with the same arguments if has not yet been started.
 	 * @param args the command line arguments
 	 * @return an application context created from the current state
 	 */
@@ -132,8 +119,7 @@ public class SpringApplicationBuilder {
 			if (!this.registerShutdownHookApplied) {
 				this.application.setRegisterShutdownHook(false);
 			}
-			initializers(new ParentContextApplicationContextInitializer(
-					this.parent.run(args)));
+			initializers(new ParentContextApplicationContextInitializer(this.parent.run(args)));
 		}
 	}
 
@@ -166,23 +152,16 @@ public class SpringApplicationBuilder {
 	public SpringApplicationBuilder child(Class<?>... sources) {
 		SpringApplicationBuilder child = new SpringApplicationBuilder();
 		child.sources(sources);
-
 		// Copy environment stuff from parent to child
-		child.properties(this.defaultProperties).environment(this.environment)
-				.additionalProfiles(this.additionalProfiles);
+		child.properties(this.defaultProperties).environment(this.environment).additionalProfiles(this.additionalProfiles);
 		child.parent = this;
-
 		// It's not possible if embedded web server are enabled to support web contexts as
-		// parents because the servlets cannot be initialized at the right point in
-		// lifecycle.
+		// parents because the servlets cannot be initialized at the right point in lifecycle.
 		web(WebApplicationType.NONE);
-
 		// Probably not interested in multiple banners
 		bannerMode(Banner.Mode.OFF);
-
 		// Make sure sources get copied over
 		this.application.addPrimarySources(this.sources);
-
 		return child;
 	}
 
@@ -194,11 +173,8 @@ public class SpringApplicationBuilder {
 	 */
 	public SpringApplicationBuilder parent(Class<?>... sources) {
 		if (this.parent == null) {
-			this.parent = new SpringApplicationBuilder(sources)
-					.web(WebApplicationType.NONE).properties(this.defaultProperties)
-					.environment(this.environment);
-		}
-		else {
+			this.parent = new SpringApplicationBuilder(sources).web(WebApplicationType.NONE).properties(this.defaultProperties).environment(this.environment);
+		}else {
 			this.parent.sources(sources);
 		}
 		return this.parent;
@@ -211,8 +187,7 @@ public class SpringApplicationBuilder {
 		if (this.parent != null) {
 			return this.parent;
 		}
-		throw new IllegalStateException(
-				"No parent defined yet (please use the other overloaded parent methods to set one)");
+		throw new IllegalStateException("No parent defined yet (please use the other overloaded parent methods to set one)");
 	}
 
 	/**
@@ -258,8 +233,7 @@ public class SpringApplicationBuilder {
 	 * @param cls the context class to use
 	 * @return the current builder
 	 */
-	public SpringApplicationBuilder contextClass(
-			Class<? extends ConfigurableApplicationContext> cls) {
+	public SpringApplicationBuilder contextClass(Class<? extends ConfigurableApplicationContext> cls) {
 		this.application.setApplicationContextClass(cls);
 		return this;
 	}
@@ -275,8 +249,7 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * Flag to explicitly request a web or non-web environment (auto detected based on
-	 * classpath if not set).
+	 * Flag to explicitly request a web or non-web environment (auto detected based on classpath if not set).
 	 * @param webEnvironment the flag to set
 	 * @return the current builder
 	 * @deprecated since 2.0.0 in favour of {@link #web(WebApplicationType)}
@@ -310,8 +283,7 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * Sets the {@link Banner} instance which will be used to print the banner when no
-	 * static banner file is provided.
+	 * Sets the {@link Banner} instance which will be used to print the banner when no static banner file is provided.
 	 * @param banner the banner to use
 	 * @return the current builder
 	 */
@@ -326,8 +298,7 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * Sets if the application is headless and should not instantiate AWT. Defaults to
-	 * {@code true} to prevent java icons appearing.
+	 * Sets if the application is headless and should not instantiate AWT. Defaults to {@code true} to prevent java icons appearing.
 	 * @param headless if the application is headless
 	 * @return the current builder
 	 */
@@ -337,8 +308,7 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * Sets if the created {@link ApplicationContext} should have a shutdown hook
-	 * registered.
+	 * Sets if the created {@link ApplicationContext} should have a shutdown hook registered.
 	 * @param registerShutdownHook if the shutdown hook should be registered
 	 * @return the current builder
 	 */
@@ -363,15 +333,13 @@ public class SpringApplicationBuilder {
 	 * @param addCommandLineProperties the flag to set. Default true.
 	 * @return the current builder
 	 */
-	public SpringApplicationBuilder addCommandLineProperties(
-			boolean addCommandLineProperties) {
+	public SpringApplicationBuilder addCommandLineProperties(boolean addCommandLineProperties) {
 		this.application.setAddCommandLineProperties(addCommandLineProperties);
 		return this;
 	}
 
 	/**
-	 * Default properties for the environment in the form {@code key=value} or
-	 * {@code key:value}.
+	 * Default properties for the environment in the form {@code key=value} or {@code key:value}.
 	 * @param defaultProperties the properties to set.
 	 * @return the current builder
 	 */
@@ -402,8 +370,7 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * Default properties for the environment in the form {@code key=value} or
-	 * {@code key:value}.
+	 * Default properties for the environment in the form {@code key=value} or {@code key:value}.
 	 * @param defaultProperties the properties to set.
 	 * @return the current builder
 	 */
@@ -420,8 +387,7 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * Default properties for the environment. Multiple calls to this method are
-	 * cumulative.
+	 * Default properties for the environment. Multiple calls to this method are cumulative.
 	 * @param defaults the default properties
 	 * @return the current builder
 	 * @see SpringApplicationBuilder#properties(String...)
@@ -443,27 +409,22 @@ public class SpringApplicationBuilder {
 	 */
 	public SpringApplicationBuilder profiles(String... profiles) {
 		this.additionalProfiles.addAll(Arrays.asList(profiles));
-		this.application.setAdditionalProfiles(
-				StringUtils.toStringArray(this.additionalProfiles));
+		this.application.setAdditionalProfiles(StringUtils.toStringArray(this.additionalProfiles));
 		return this;
 	}
 
-	private SpringApplicationBuilder additionalProfiles(
-			Collection<String> additionalProfiles) {
+	private SpringApplicationBuilder additionalProfiles(Collection<String> additionalProfiles) {
 		this.additionalProfiles = new LinkedHashSet<>(additionalProfiles);
-		this.application.setAdditionalProfiles(
-				StringUtils.toStringArray(this.additionalProfiles));
+		this.application.setAdditionalProfiles(StringUtils.toStringArray(this.additionalProfiles));
 		return this;
 	}
 
 	/**
-	 * Bean name generator for automatically generated bean names in the application
-	 * context.
+	 * Bean name generator for automatically generated bean names in the application context.
 	 * @param beanNameGenerator the generator to set.
 	 * @return the current builder
 	 */
-	public SpringApplicationBuilder beanNameGenerator(
-			BeanNameGenerator beanNameGenerator) {
+	public SpringApplicationBuilder beanNameGenerator(BeanNameGenerator beanNameGenerator) {
 		this.application.setBeanNameGenerator(beanNameGenerator);
 		return this;
 	}
@@ -480,8 +441,7 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * {@link ResourceLoader} for the application context. If a custom class loader is
-	 * needed, this is where it would be added.
+	 * {@link ResourceLoader} for the application context. If a custom class loader is  needed, this is where it would be added.
 	 * @param resourceLoader the resource loader to set.
 	 * @return the current builder
 	 */
@@ -491,22 +451,18 @@ public class SpringApplicationBuilder {
 	}
 
 	/**
-	 * Add some initializers to the application (applied to the {@link ApplicationContext}
-	 * before any bean definitions are loaded).
+	 * Add some initializers to the application (applied to the {@link ApplicationContext} before any bean definitions are loaded).
 	 * @param initializers some initializers to add
 	 * @return the current builder
 	 */
-	public SpringApplicationBuilder initializers(
-			ApplicationContextInitializer<?>... initializers) {
+	public SpringApplicationBuilder initializers(ApplicationContextInitializer<?>... initializers) {
 		this.application.addInitializers(initializers);
 		return this;
 	}
 
 	/**
-	 * Add some listeners to the application (listening for SpringApplication events as
-	 * well as regular Spring events once the context is running). Any listeners that are
-	 * also {@link ApplicationContextInitializer} will be added to the
-	 * {@link #initializers(ApplicationContextInitializer...) initializers} automatically.
+	 * Add some listeners to the application (listening for SpringApplication events as well as regular Spring events once the context is running).
+	 * Any listeners that are also {@link ApplicationContextInitializer} will be added to the {@link #initializers(ApplicationContextInitializer...) initializers} automatically.
 	 * @param listeners some listeners to add
 	 * @return the current builder
 	 */

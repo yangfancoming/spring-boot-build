@@ -19,8 +19,7 @@ import org.springframework.util.ErrorHandler;
 
 /**
  * {@link SpringApplicationRunListener} to publish {@link SpringApplicationEvent}s.
- * Uses an internal {@link ApplicationEventMulticaster} for the events that are fired
- * before the context is actually refreshed.
+ * Uses an internal {@link ApplicationEventMulticaster} for the events that are fired before the context is actually refreshed.
  */
 public class EventPublishingRunListener implements SpringApplicationRunListener, Ordered {
 
@@ -56,7 +55,6 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 
 	@Override
 	public void contextPrepared(ConfigurableApplicationContext context) {
-
 	}
 
 	@Override
@@ -101,14 +99,11 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 	}
 
 	private static class LoggingErrorHandler implements ErrorHandler {
-
 		private static Log logger = LogFactory.getLog(EventPublishingRunListener.class);
-
 		@Override
 		public void handleError(Throwable throwable) {
 			logger.warn("Error calling ApplicationEventListener", throwable);
 		}
-
 	}
 
 }

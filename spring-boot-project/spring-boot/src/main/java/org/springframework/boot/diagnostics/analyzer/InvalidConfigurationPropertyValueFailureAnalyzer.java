@@ -24,12 +24,8 @@ import org.springframework.util.StringUtils;
 /**
  * A {@link FailureAnalyzer} that performs analysis of failures caused by an
  * {@link InvalidConfigurationPropertyValueException}.
- *
- * @author Stephane Nicoll
  */
-class InvalidConfigurationPropertyValueFailureAnalyzer
-		extends AbstractFailureAnalyzer<InvalidConfigurationPropertyValueException>
-		implements EnvironmentAware {
+class InvalidConfigurationPropertyValueFailureAnalyzer extends AbstractFailureAnalyzer<InvalidConfigurationPropertyValueException> implements EnvironmentAware {
 
 	private ConfigurableEnvironment environment;
 
@@ -39,12 +35,9 @@ class InvalidConfigurationPropertyValueFailureAnalyzer
 	}
 
 	@Override
-	protected FailureAnalysis analyze(Throwable rootFailure,
-			InvalidConfigurationPropertyValueException cause) {
+	protected FailureAnalysis analyze(Throwable rootFailure,InvalidConfigurationPropertyValueException cause) {
 		List<Descriptor> descriptors = getDescriptors(cause.getName());
-		if (descriptors.isEmpty()) {
-			return null;
-		}
+		if (descriptors.isEmpty()) return null;
 		StringBuilder description = new StringBuilder();
 		appendDetails(description, cause, descriptors);
 		appendReason(description, cause);
@@ -60,43 +53,31 @@ class InvalidConfigurationPropertyValueFailureAnalyzer
 	}
 
 	private Stream<PropertySource<?>> getPropertySources() {
-		Iterable<PropertySource<?>> sources = (this.environment != null)
-				? this.environment.getPropertySources() : Collections.emptyList();
+		Iterable<PropertySource<?>> sources = (this.environment != null) ? this.environment.getPropertySources() : Collections.emptyList();
 		return StreamSupport.stream(sources.spliterator(), false)
-				.filter((source) -> !ConfigurationPropertySources
-						.isAttachedConfigurationPropertySource(source));
+				.filter((source) -> !ConfigurationPropertySources.isAttachedConfigurationPropertySource(source));
 	}
 
-	private void appendDetails(StringBuilder message,
-			InvalidConfigurationPropertyValueException cause,
-			List<Descriptor> descriptors) {
+	private void appendDetails(StringBuilder message,InvalidConfigurationPropertyValueException cause,List<Descriptor> descriptors) {
 		Descriptor mainDescriptor = descriptors.get(0);
-		message.append("Invalid value '" + mainDescriptor.getValue()
-				+ "' for configuration property '" + cause.getName() + "'");
+		message.append("Invalid value '" + mainDescriptor.getValue() + "' for configuration property '" + cause.getName() + "'");
 		mainDescriptor.appendOrigin(message);
 		message.append(".");
 	}
 
-	private void appendReason(StringBuilder message,
-			InvalidConfigurationPropertyValueException cause) {
+	private void appendReason(StringBuilder message,InvalidConfigurationPropertyValueException cause) {
 		if (StringUtils.hasText(cause.getReason())) {
-			message.append(String
-					.format(" Validation failed for the following " + "reason:%n%n"));
+			message.append(String.format(" Validation failed for the following " + "reason:%n%n"));
 			message.append(cause.getReason());
-		}
-		else {
+		}else {
 			message.append(" No reason was provided.");
 		}
 	}
 
-	private void appendAdditionalProperties(StringBuilder message,
-			List<Descriptor> descriptors) {
+	private void appendAdditionalProperties(StringBuilder message,List<Descriptor> descriptors) {
 		List<Descriptor> others = descriptors.subList(1, descriptors.size());
 		if (!others.isEmpty()) {
-			message.append(String.format(
-					"%n%nAdditionally, this property is also set in the following "
-							+ "property %s:%n%n",
-					(others.size() > 1) ? "sources" : "source"));
+			message.append(String.format("%n%nAdditionally, this property is also set in the following property %s:%n%n",(others.size() > 1) ? "sources" : "source"));
 			for (Descriptor other : others) {
 				message.append("\t- In '" + other.getPropertySource() + "'");
 				message.append(" with the value '" + other.getValue() + "'");

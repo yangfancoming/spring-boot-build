@@ -11,22 +11,16 @@ import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 
 /**
- * An {@link AbstractFailureAnalyzer} that performs analysis of failures caused by a
- * {@link BeanNotOfRequiredTypeException}.
- *
- * @author Andy Wilkinson
+ * An {@link AbstractFailureAnalyzer} that performs analysis of failures caused by a {@link BeanNotOfRequiredTypeException}.
  */
-public class BeanNotOfRequiredTypeFailureAnalyzer
-		extends AbstractFailureAnalyzer<BeanNotOfRequiredTypeException> {
+public class BeanNotOfRequiredTypeFailureAnalyzer extends AbstractFailureAnalyzer<BeanNotOfRequiredTypeException> {
 
-	private static final String ACTION = "Consider injecting the bean as one of its "
-			+ "interfaces or forcing the use of CGLib-based "
-			+ "proxies by setting proxyTargetClass=true on @EnableAsync and/or "
-			+ "@EnableCaching.";
+	private static final String ACTION = "Consider injecting the bean as one of its interfaces or forcing the use of CGLib-based "
+			+ "proxies by setting proxyTargetClass=true on @EnableAsync and/or @EnableCaching.";
+
 
 	@Override
-	protected FailureAnalysis analyze(Throwable rootFailure,
-			BeanNotOfRequiredTypeException cause) {
+	protected FailureAnalysis analyze(Throwable rootFailure,BeanNotOfRequiredTypeException cause) {
 		if (!Proxy.isProxyClass(cause.getActualType())) {
 			return null;
 		}
@@ -36,10 +30,7 @@ public class BeanNotOfRequiredTypeFailureAnalyzer
 	private String getDescription(BeanNotOfRequiredTypeException ex) {
 		StringWriter description = new StringWriter();
 		PrintWriter printer = new PrintWriter(description);
-		printer.printf(
-				"The bean '%s' could not be injected as a '%s' because it is a "
-						+ "JDK dynamic proxy that implements:%n",
-				ex.getBeanName(), ex.getRequiredType().getName());
+		printer.printf("The bean '%s' could not be injected as a '%s' because it is a JDK dynamic proxy that implements:%n",ex.getBeanName(), ex.getRequiredType().getName());
 		for (Class<?> requiredTypeInterface : ex.getRequiredType().getInterfaces()) {
 			printer.println("\t" + requiredTypeInterface.getName());
 		}

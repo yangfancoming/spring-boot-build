@@ -70,15 +70,10 @@ import org.springframework.util.StringUtils;
  * N.B. this initializer is mainly intended for informational use (the application and
  * instance ids are particularly useful). For service binding you might find that Spring
  * Cloud is more convenient and more robust against potential changes in Cloud Foundry.
- *
- * @author Dave Syer
- * @author Andy Wilkinson
  */
-public class CloudFoundryVcapEnvironmentPostProcessor
-		implements EnvironmentPostProcessor, Ordered {
+public class CloudFoundryVcapEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
-	private static final Log logger = LogFactory
-			.getLog(CloudFoundryVcapEnvironmentPostProcessor.class);
+	private static final Log logger = LogFactory.getLog(CloudFoundryVcapEnvironmentPostProcessor.class);
 
 	private static final String VCAP_APPLICATION = "VCAP_APPLICATION";
 
@@ -99,24 +94,16 @@ public class CloudFoundryVcapEnvironmentPostProcessor
 	}
 
 	@Override
-	public void postProcessEnvironment(ConfigurableEnvironment environment,
-			SpringApplication application) {
+	public void postProcessEnvironment(ConfigurableEnvironment environment,SpringApplication application) {
 		if (CloudPlatform.CLOUD_FOUNDRY.isActive(environment)) {
 			Properties properties = new Properties();
-			addWithPrefix(properties, getPropertiesFromApplication(environment),
-					"vcap.application.");
-			addWithPrefix(properties, getPropertiesFromServices(environment),
-					"vcap.services.");
+			addWithPrefix(properties, getPropertiesFromApplication(environment),"vcap.application.");
+			addWithPrefix(properties, getPropertiesFromServices(environment),"vcap.services.");
 			MutablePropertySources propertySources = environment.getPropertySources();
-			if (propertySources.contains(
-					CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME)) {
-				propertySources.addAfter(
-						CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME,
-						new PropertiesPropertySource("vcap", properties));
-			}
-			else {
-				propertySources
-						.addFirst(new PropertiesPropertySource("vcap", properties));
+			if (propertySources.contains(CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME)) {
+				propertySources.addAfter(CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME,new PropertiesPropertySource("vcap", properties));
+			}else {
+				propertySources.addFirst(new PropertiesPropertySource("vcap", properties));
 			}
 		}
 	}
@@ -134,8 +121,7 @@ public class CloudFoundryVcapEnvironmentPostProcessor
 			String property = environment.getProperty(VCAP_APPLICATION, "{}");
 			Map<String, Object> map = this.parser.parseMap(property);
 			extractPropertiesFromApplication(properties, map);
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			logger.error("Could not parse VCAP_APPLICATION", ex);
 		}
 		return properties;
@@ -147,22 +133,19 @@ public class CloudFoundryVcapEnvironmentPostProcessor
 			String property = environment.getProperty(VCAP_SERVICES, "{}");
 			Map<String, Object> map = this.parser.parseMap(property);
 			extractPropertiesFromServices(properties, map);
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			logger.error("Could not parse VCAP_SERVICES", ex);
 		}
 		return properties;
 	}
 
-	private void extractPropertiesFromApplication(Properties properties,
-			Map<String, Object> map) {
+	private void extractPropertiesFromApplication(Properties properties,Map<String, Object> map) {
 		if (map != null) {
 			flatten(properties, map, "");
 		}
 	}
 
-	private void extractPropertiesFromServices(Properties properties,
-			Map<String, Object> map) {
+	private void extractPropertiesFromServices(Properties properties,Map<String, Object> map) {
 		if (map != null) {
 			for (Object services : map.values()) {
 				@SuppressWarnings("unchecked")
@@ -171,9 +154,7 @@ public class CloudFoundryVcapEnvironmentPostProcessor
 					@SuppressWarnings("unchecked")
 					Map<String, Object> service = (Map<String, Object>) object;
 					String key = (String) service.get("name");
-					if (key == null) {
-						key = (String) service.get("label");
-					}
+					if (key == null) key = (String) service.get("label");
 					flatten(properties, service, key);
 				}
 			}
@@ -187,28 +168,22 @@ public class CloudFoundryVcapEnvironmentPostProcessor
 			if (value instanceof Map) {
 				// Need a compound key
 				flatten(properties, (Map<String, Object>) value, name);
-			}
-			else if (value instanceof Collection) {
+			}else if (value instanceof Collection) {
 				// Need a compound key
 				Collection<Object> collection = (Collection<Object>) value;
-				properties.put(name,
-						StringUtils.collectionToCommaDelimitedString(collection));
+				properties.put(name,StringUtils.collectionToCommaDelimitedString(collection));
 				int count = 0;
 				for (Object item : collection) {
 					String itemKey = "[" + (count++) + "]";
 					flatten(properties, Collections.singletonMap(itemKey, item), name);
 				}
-			}
-			else if (value instanceof String) {
+			}else if (value instanceof String) {
 				properties.put(name, value);
-			}
-			else if (value instanceof Number) {
+			}else if (value instanceof Number) {
 				properties.put(name, value.toString());
-			}
-			else if (value instanceof Boolean) {
+			}else if (value instanceof Boolean) {
 				properties.put(name, value.toString());
-			}
-			else {
+			}else {
 				properties.put(name, (value != null) ? value : "");
 			}
 		});

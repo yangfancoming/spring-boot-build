@@ -14,14 +14,9 @@ import org.springframework.util.StringUtils;
 /**
  * {@link ApplicationContextInitializer} that sets the Spring
  * {@link ApplicationContext#getId() ApplicationContext ID}. The
- * {@code spring.application.name} property is used to create the ID. If the property is
- * not set {@code application} is used.
- *
- * @author Dave Syer
- * @author Andy Wilkinson
+ * {@code spring.application.name} property is used to create the ID. If the property is not set {@code application} is used.
  */
-public class ContextIdApplicationContextInitializer implements
-		ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
+public class ContextIdApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
 	private int order = Ordered.LOWEST_PRECEDENCE - 10;
 
@@ -38,8 +33,7 @@ public class ContextIdApplicationContextInitializer implements
 	public void initialize(ConfigurableApplicationContext applicationContext) {
 		ContextId contextId = getContextId(applicationContext);
 		applicationContext.setId(contextId.getId());
-		applicationContext.getBeanFactory().registerSingleton(ContextId.class.getName(),
-				contextId);
+		applicationContext.getBeanFactory().registerSingleton(ContextId.class.getName(),contextId);
 	}
 
 	private ContextId getContextId(ConfigurableApplicationContext applicationContext) {

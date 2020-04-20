@@ -16,8 +16,6 @@ import org.springframework.validation.ObjectError;
  * An {@link AbstractFailureAnalyzer} that performs analysis of any bind validation
  * failures caused by {@link BindValidationException} or
  * {@link org.springframework.validation.BindException}.
- *
- * @author Madhura Bhave
  */
 class BindValidationFailureAnalyzer extends AbstractFailureAnalyzer<Throwable> {
 
@@ -31,16 +29,13 @@ class BindValidationFailureAnalyzer extends AbstractFailureAnalyzer<Throwable> {
 	}
 
 	private ExceptionDetails getBindValidationExceptionDetails(Throwable rootFailure) {
-		BindValidationException validationException = findCause(rootFailure,
-				BindValidationException.class);
+		BindValidationException validationException = findCause(rootFailure,BindValidationException.class);
 		if (validationException != null) {
 			BindException target = findCause(rootFailure, BindException.class);
-			List<ObjectError> errors = validationException.getValidationErrors()
-					.getAllErrors();
+			List<ObjectError> errors = validationException.getValidationErrors().getAllErrors();
 			return new ExceptionDetails(errors, target, validationException);
 		}
-		org.springframework.validation.BindException bindException = findCause(
-				rootFailure, org.springframework.validation.BindException.class);
+		org.springframework.validation.BindException bindException = findCause(rootFailure, org.springframework.validation.BindException.class);
 		if (bindException != null) {
 			List<ObjectError> errors = bindException.getAllErrors();
 			return new ExceptionDetails(errors, bindException.getTarget(), bindException);
@@ -49,22 +44,19 @@ class BindValidationFailureAnalyzer extends AbstractFailureAnalyzer<Throwable> {
 	}
 
 	private FailureAnalysis analyzeBindValidationException(ExceptionDetails details) {
-		StringBuilder description = new StringBuilder(
-				String.format("Binding to target %s failed:%n", details.getTarget()));
+		StringBuilder description = new StringBuilder(String.format("Binding to target %s failed:%n", details.getTarget()));
 		for (ObjectError error : details.getErrors()) {
 			if (error instanceof FieldError) {
 				appendFieldError(description, (FieldError) error);
 			}
-			description.append(
-					String.format("%n    Reason: %s%n", error.getDefaultMessage()));
+			description.append(String.format("%n    Reason: %s%n", error.getDefaultMessage()));
 		}
 		return getFailureAnalysis(description, details.getCause());
 	}
 
 	private void appendFieldError(StringBuilder description, FieldError error) {
 		Origin origin = Origin.from(error);
-		description.append(String.format("%n    Property: %s",
-				error.getObjectName() + "." + error.getField()));
+		description.append(String.format("%n    Property: %s",error.getObjectName() + "." + error.getField()));
 		description.append(String.format("%n    Value: %s", error.getRejectedValue()));
 		if (origin != null) {
 			description.append(String.format("%n    Origin: %s", origin));
@@ -72,8 +64,7 @@ class BindValidationFailureAnalyzer extends AbstractFailureAnalyzer<Throwable> {
 	}
 
 	private FailureAnalysis getFailureAnalysis(Object description, Throwable cause) {
-		return new FailureAnalysis(description.toString(),
-				"Update your application's configuration", cause);
+		return new FailureAnalysis(description.toString(),"Update your application's configuration", cause);
 	}
 
 	private static class ExceptionDetails {

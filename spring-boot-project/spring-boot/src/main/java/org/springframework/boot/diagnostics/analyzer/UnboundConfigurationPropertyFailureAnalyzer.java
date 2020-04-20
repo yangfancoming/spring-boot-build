@@ -11,23 +11,17 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
 /**
  * An {@link AbstractFailureAnalyzer} that performs analysis of failures caused by any
  * {@link UnboundConfigurationPropertiesException}.
- *
- * @author Madhura Bhave
  */
-class UnboundConfigurationPropertyFailureAnalyzer
-		extends AbstractFailureAnalyzer<UnboundConfigurationPropertiesException> {
+class UnboundConfigurationPropertyFailureAnalyzer extends AbstractFailureAnalyzer<UnboundConfigurationPropertiesException> {
 
 	@Override
-	protected FailureAnalysis analyze(Throwable rootFailure,
-			UnboundConfigurationPropertiesException cause) {
+	protected FailureAnalysis analyze(Throwable rootFailure,UnboundConfigurationPropertiesException cause) {
 		BindException exception = findCause(rootFailure, BindException.class);
 		return analyzeUnboundConfigurationPropertiesException(exception, cause);
 	}
 
-	private FailureAnalysis analyzeUnboundConfigurationPropertiesException(
-			BindException cause, UnboundConfigurationPropertiesException exception) {
-		StringBuilder description = new StringBuilder(
-				String.format("Binding to target %s failed:%n", cause.getTarget()));
+	private FailureAnalysis analyzeUnboundConfigurationPropertiesException(BindException cause, UnboundConfigurationPropertiesException exception) {
+		StringBuilder description = new StringBuilder(String.format("Binding to target %s failed:%n", cause.getTarget()));
 		for (ConfigurationProperty property : exception.getUnboundProperties()) {
 			buildDescription(description, property);
 			description.append(String.format("%n    Reason: %s", exception.getMessage()));
@@ -45,8 +39,7 @@ class UnboundConfigurationPropertyFailureAnalyzer
 	}
 
 	private FailureAnalysis getFailureAnalysis(Object description, BindException cause) {
-		return new FailureAnalysis(description.toString(),
-				"Update your application's configuration", cause);
+		return new FailureAnalysis(description.toString(),"Update your application's configuration", cause);
 	}
 
 }

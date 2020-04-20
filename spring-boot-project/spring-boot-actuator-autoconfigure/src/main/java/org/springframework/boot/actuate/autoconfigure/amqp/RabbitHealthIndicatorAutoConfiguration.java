@@ -22,8 +22,6 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link RabbitHealthIndicator}.
- *
- * @author Christian Dupuis
  * @since 2.0.0
  */
 @Configuration
@@ -32,8 +30,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnEnabledHealthIndicator("rabbit")
 @AutoConfigureBefore(HealthIndicatorAutoConfiguration.class)
 @AutoConfigureAfter(RabbitAutoConfiguration.class)
-public class RabbitHealthIndicatorAutoConfiguration extends
-		CompositeHealthIndicatorConfiguration<RabbitHealthIndicator, RabbitTemplate> {
+public class RabbitHealthIndicatorAutoConfiguration extends CompositeHealthIndicatorConfiguration<RabbitHealthIndicator, RabbitTemplate> {
 
 	private final Map<String, RabbitTemplate> rabbitTemplates;
 

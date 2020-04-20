@@ -17,8 +17,6 @@ import org.springframework.util.StringUtils;
 
 /**
  * Class used by {@link SpringApplication} to print the application banner.
- *
- * @author Phillip Webb
  */
 class SpringApplicationBannerPrinter {
 
@@ -45,8 +43,7 @@ class SpringApplicationBannerPrinter {
 		Banner banner = getBanner(environment);
 		try {
 			logger.info(createStringFromBanner(banner, environment, sourceClass));
-		}
-		catch (UnsupportedEncodingException ex) {
+		}catch (UnsupportedEncodingException ex) {
 			logger.warn("Failed to create String for banner", ex);
 		}
 		return new PrintedBanner(banner, sourceClass);
@@ -72,8 +69,7 @@ class SpringApplicationBannerPrinter {
 	}
 
 	private Banner getTextBanner(Environment environment) {
-		String location = environment.getProperty(BANNER_LOCATION_PROPERTY,
-				DEFAULT_BANNER_LOCATION);
+		String location = environment.getProperty(BANNER_LOCATION_PROPERTY,DEFAULT_BANNER_LOCATION);
 		Resource resource = this.resourceLoader.getResource(location);
 		if (resource.exists()) {
 			return new ResourceBanner(resource);
@@ -96,8 +92,7 @@ class SpringApplicationBannerPrinter {
 		return null;
 	}
 
-	private String createStringFromBanner(Banner banner, Environment environment,
-			Class<?> mainApplicationClass) throws UnsupportedEncodingException {
+	private String createStringFromBanner(Banner banner, Environment environment,Class<?> mainApplicationClass) throws UnsupportedEncodingException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		banner.printBanner(environment, mainApplicationClass, new PrintStream(baos));
 		String charset = environment.getProperty("spring.banner.charset", "UTF-8");
@@ -112,9 +107,7 @@ class SpringApplicationBannerPrinter {
 		private final List<Banner> banners = new ArrayList<>();
 
 		public void addIfNotNull(Banner banner) {
-			if (banner != null) {
-				this.banners.add(banner);
-			}
+			if (banner != null) this.banners.add(banner);
 		}
 
 		public boolean hasAtLeastOneBanner() {
@@ -122,18 +115,15 @@ class SpringApplicationBannerPrinter {
 		}
 
 		@Override
-		public void printBanner(Environment environment, Class<?> sourceClass,
-				PrintStream out) {
+		public void printBanner(Environment environment, Class<?> sourceClass,PrintStream out) {
 			for (Banner banner : this.banners) {
 				banner.printBanner(environment, sourceClass, out);
 			}
 		}
-
 	}
 
 	/**
-	 * Decorator that allows a {@link Banner} to be printed again without needing to
-	 * specify the source class.
+	 * Decorator that allows a {@link Banner} to be printed again without needing to specify the source class.
 	 */
 	private static class PrintedBanner implements Banner {
 
@@ -147,12 +137,10 @@ class SpringApplicationBannerPrinter {
 		}
 
 		@Override
-		public void printBanner(Environment environment, Class<?> sourceClass,
-				PrintStream out) {
+		public void printBanner(Environment environment, Class<?> sourceClass,PrintStream out) {
 			sourceClass = (sourceClass != null) ? sourceClass : this.sourceClass;
 			this.banner.printBanner(environment, sourceClass, out);
 		}
-
 	}
 
 }

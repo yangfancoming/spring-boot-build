@@ -29,22 +29,16 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link ApplicationContextInitializer} to report warnings for common misconfiguration
- * mistakes.
- *
- * @author Phillip Webb
+ * {@link ApplicationContextInitializer} to report warnings for common misconfiguration mistakes.
  * @since 1.2.0
  */
-public class ConfigurationWarningsApplicationContextInitializer
-		implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+public class ConfigurationWarningsApplicationContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-	private static final Log logger = LogFactory
-			.getLog(ConfigurationWarningsApplicationContextInitializer.class);
+	private static final Log logger = LogFactory.getLog(ConfigurationWarningsApplicationContextInitializer.class);
 
 	@Override
 	public void initialize(ConfigurableApplicationContext context) {
-		context.addBeanFactoryPostProcessor(
-				new ConfigurationWarningsPostProcessor(getChecks()));
+		context.addBeanFactoryPostProcessor(new ConfigurationWarningsPostProcessor(getChecks()));
 	}
 
 	/**
@@ -58,8 +52,7 @@ public class ConfigurationWarningsApplicationContextInitializer
 	/**
 	 * {@link BeanDefinitionRegistryPostProcessor} to report warnings.
 	 */
-	protected static final class ConfigurationWarningsPostProcessor
-			implements PriorityOrdered, BeanDefinitionRegistryPostProcessor {
+	protected static final class ConfigurationWarningsPostProcessor implements PriorityOrdered, BeanDefinitionRegistryPostProcessor {
 
 		private Check[] checks;
 
@@ -73,28 +66,21 @@ public class ConfigurationWarningsApplicationContextInitializer
 		}
 
 		@Override
-		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
-				throws BeansException {
+		public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		}
 
 		@Override
-		public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry)
-				throws BeansException {
+		public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 			for (Check check : this.checks) {
 				String message = check.getWarning(registry);
 				if (StringUtils.hasLength(message)) {
 					warn(message);
 				}
 			}
-
 		}
-
 		private void warn(String message) {
-			if (logger.isWarnEnabled()) {
-				logger.warn(String.format("%n%n** WARNING ** : %s%n%n", message));
-			}
+			if (logger.isWarnEnabled()) logger.warn(String.format("%n%n** WARNING ** : %s%n%n", message));
 		}
-
 	}
 
 	/**
@@ -102,14 +88,12 @@ public class ConfigurationWarningsApplicationContextInitializer
 	 */
 	@FunctionalInterface
 	protected interface Check {
-
 		/**
 		 * Returns a warning if the check fails or {@code null} if there are no problems.
 		 * @param registry the {@link BeanDefinitionRegistry}
 		 * @return a warning message or {@code null}
 		 */
 		String getWarning(BeanDefinitionRegistry registry);
-
 	}
 
 	/**
@@ -130,34 +114,25 @@ public class ConfigurationWarningsApplicationContextInitializer
 		public String getWarning(BeanDefinitionRegistry registry) {
 			Set<String> scannedPackages = getComponentScanningPackages(registry);
 			List<String> problematicPackages = getProblematicPackages(scannedPackages);
-			if (problematicPackages.isEmpty()) {
-				return null;
-			}
-			return "Your ApplicationContext is unlikely to "
-					+ "start due to a @ComponentScan of "
-					+ StringUtils.collectionToDelimitedString(problematicPackages, ", ")
-					+ ".";
+			if (problematicPackages.isEmpty()) return null;
+			return "Your ApplicationContext is unlikely to start due to a @ComponentScan of " + StringUtils.collectionToDelimitedString(problematicPackages, ", ") + ".";
 		}
 
-		protected Set<String> getComponentScanningPackages(
-				BeanDefinitionRegistry registry) {
+		protected Set<String> getComponentScanningPackages(BeanDefinitionRegistry registry) {
 			Set<String> packages = new LinkedHashSet<>();
 			String[] names = registry.getBeanDefinitionNames();
 			for (String name : names) {
 				BeanDefinition definition = registry.getBeanDefinition(name);
 				if (definition instanceof AnnotatedBeanDefinition) {
 					AnnotatedBeanDefinition annotatedDefinition = (AnnotatedBeanDefinition) definition;
-					addComponentScanningPackages(packages,
-							annotatedDefinition.getMetadata());
+					addComponentScanningPackages(packages,annotatedDefinition.getMetadata());
 				}
 			}
 			return packages;
 		}
 
-		private void addComponentScanningPackages(Set<String> packages,
-				AnnotationMetadata metadata) {
-			AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata
-					.getAnnotationAttributes(ComponentScan.class.getName(), true));
+		private void addComponentScanningPackages(Set<String> packages,AnnotationMetadata metadata) {
+			AnnotationAttributes attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(ComponentScan.class.getName(), true));
 			if (attributes != null) {
 				addPackages(packages, attributes.getStringArray("value"));
 				addPackages(packages, attributes.getStringArray("basePackages"));
@@ -193,16 +168,12 @@ public class ConfigurationWarningsApplicationContextInitializer
 		}
 
 		private boolean isProblematicPackage(String scannedPackage) {
-			if (scannedPackage == null || scannedPackage.isEmpty()) {
-				return true;
-			}
+			if (scannedPackage == null || scannedPackage.isEmpty()) return true;
 			return PROBLEM_PACKAGES.contains(scannedPackage);
 		}
 
 		private String getDisplayName(String scannedPackage) {
-			if (scannedPackage == null || scannedPackage.isEmpty()) {
-				return "the default package";
-			}
+			if (scannedPackage == null || scannedPackage.isEmpty()) return "the default package";
 			return "'" + scannedPackage + "'";
 		}
 

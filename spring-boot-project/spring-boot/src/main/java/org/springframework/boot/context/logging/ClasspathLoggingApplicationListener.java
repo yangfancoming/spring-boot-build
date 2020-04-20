@@ -20,27 +20,21 @@ import org.springframework.core.ResolvableType;
  * {@link ApplicationEnvironmentPreparedEvent environment prepared events} and to
  * {@link ApplicationFailedEvent failed events} by logging the classpath of the thread
  * context class loader (TCCL) at {@code DEBUG} level.
- *
- * @author Andy Wilkinson
  * @since 2.0.0
  */
-public final class ClasspathLoggingApplicationListener
-		implements GenericApplicationListener {
+public final class ClasspathLoggingApplicationListener implements GenericApplicationListener {
 
 	private static final int ORDER = LoggingApplicationListener.DEFAULT_ORDER + 1;
 
-	private static final Log logger = LogFactory
-			.getLog(ClasspathLoggingApplicationListener.class);
+	private static final Log logger = LogFactory.getLog(ClasspathLoggingApplicationListener.class);
 
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (logger.isDebugEnabled()) {
 			if (event instanceof ApplicationEnvironmentPreparedEvent) {
 				logger.debug("Application started with classpath: " + getClasspath());
-			}
-			else if (event instanceof ApplicationFailedEvent) {
-				logger.debug(
-						"Application failed to start with classpath: " + getClasspath());
+			}else if (event instanceof ApplicationFailedEvent) {
+				logger.debug("Application failed to start with classpath: " + getClasspath());
 			}
 		}
 	}
@@ -53,11 +47,8 @@ public final class ClasspathLoggingApplicationListener
 	@Override
 	public boolean supportsEventType(ResolvableType resolvableType) {
 		Class<?> type = resolvableType.getRawClass();
-		if (type == null) {
-			return false;
-		}
-		return ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(type)
-				|| ApplicationFailedEvent.class.isAssignableFrom(type);
+		if (type == null) return false;
+		return ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(type) || ApplicationFailedEvent.class.isAssignableFrom(type);
 	}
 
 	@Override

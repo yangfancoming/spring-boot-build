@@ -12,22 +12,15 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.util.ClassUtils;
 
 /**
- * {@link ApplicationListener} that replaces the liquibase {@link ServiceLocator} with a
- * version that works with Spring Boot executable archives.
- *
- * @author Phillip Webb
- * @author Dave Syer
+ * {@link ApplicationListener} that replaces the liquibase {@link ServiceLocator} with a version that works with Spring Boot executable archives.
  */
-public class LiquibaseServiceLocatorApplicationListener
-		implements ApplicationListener<ApplicationStartingEvent> {
+public class LiquibaseServiceLocatorApplicationListener implements ApplicationListener<ApplicationStartingEvent> {
 
-	private static final Log logger = LogFactory
-			.getLog(LiquibaseServiceLocatorApplicationListener.class);
+	private static final Log logger = LogFactory.getLog(LiquibaseServiceLocatorApplicationListener.class);
 
 	@Override
 	public void onApplicationEvent(ApplicationStartingEvent event) {
-		if (ClassUtils.isPresent("liquibase.servicelocator.CustomResolverServiceLocator",
-				event.getSpringApplication().getClassLoader())) {
+		if (ClassUtils.isPresent("liquibase.servicelocator.CustomResolverServiceLocator",event.getSpringApplication().getClassLoader())) {
 			new LiquibasePresent().replaceServiceLocator();
 		}
 	}
@@ -38,10 +31,8 @@ public class LiquibaseServiceLocatorApplicationListener
 	private static class LiquibasePresent {
 
 		public void replaceServiceLocator() {
-			CustomResolverServiceLocator customResolverServiceLocator = new CustomResolverServiceLocator(
-					new SpringPackageScanClassResolver(logger));
-			customResolverServiceLocator.addPackageToScan(
-					CommonsLoggingLiquibaseLogger.class.getPackage().getName());
+			CustomResolverServiceLocator customResolverServiceLocator = new CustomResolverServiceLocator(new SpringPackageScanClassResolver(logger));
+			customResolverServiceLocator.addPackageToScan(CommonsLoggingLiquibaseLogger.class.getPackage().getName());
 			ServiceLocator.setInstance(customResolverServiceLocator);
 			liquibase.logging.LogFactory.reset();
 		}

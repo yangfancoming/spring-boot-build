@@ -10,11 +10,8 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * {@link ApplicationListener} to cleanup caches once the context is loaded.
- *
- * @author Phillip Webb
  */
-class ClearCachesApplicationListener
-		implements ApplicationListener<ContextRefreshedEvent> {
+class ClearCachesApplicationListener implements ApplicationListener<ContextRefreshedEvent> {
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -23,15 +20,11 @@ class ClearCachesApplicationListener
 	}
 
 	private void clearClassLoaderCaches(ClassLoader classLoader) {
-		if (classLoader == null) {
-			return;
-		}
+		if (classLoader == null) return;
 		try {
-			Method clearCacheMethod = classLoader.getClass()
-					.getDeclaredMethod("clearCache");
+			Method clearCacheMethod = classLoader.getClass().getDeclaredMethod("clearCache");
 			clearCacheMethod.invoke(classLoader);
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			// Ignore
 		}
 		clearClassLoaderCaches(classLoader.getParent());
