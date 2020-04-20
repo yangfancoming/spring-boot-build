@@ -7,8 +7,6 @@ import java.util.Set;
 
 /**
  * Provides access to the arguments that were used to run a {@link SpringApplication}.
- *
- * @author Phillip Webb
  * @since 1.3.0
  */
 public interface ApplicationArguments {
@@ -35,9 +33,7 @@ public interface ApplicationArguments {
 	boolean containsOption(String name);
 
 	/**
-	 * Return the collection of values associated with the arguments option having the
-	 * given name.
-	 * <ul>
+	 * Return the collection of values associated with the arguments option having the given name.
 	 * <li>if the option is present and has no argument (e.g.: "--foo"), return an empty
 	 * collection ({@code []})</li>
 	 * <li>if the option is present and has a single value (e.g. "--foo=bar"), return a
@@ -45,7 +41,6 @@ public interface ApplicationArguments {
 	 * <li>if the option is present and has multiple values (e.g. "--foo=bar --foo=baz"),
 	 * return a collection having elements for each value ({@code ["bar", "baz"]})</li>
 	 * <li>if the option is not present, return {@code null}</li>
-	 * </ul>
 	 * @param name the name of the option
 	 * @return a list of option values for the given name
 	 */

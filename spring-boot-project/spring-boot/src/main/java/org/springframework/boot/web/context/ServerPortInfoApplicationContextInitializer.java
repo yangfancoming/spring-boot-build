@@ -21,12 +21,10 @@ import org.springframework.util.StringUtils;
 /**
  * {@link ApplicationContextInitializer} that sets {@link Environment} properties for the
  * ports that {@link WebServer} servers are actually listening on. The property
- * {@literal "local.server.port"} can be injected directly into tests using
- * {@link Value @Value} or obtained via the {@link Environment}.
- * If the {@link WebServerInitializedEvent} has a
- * {@link WebServerApplicationContext#getServerNamespace() server namespace} , it will be
- * used to construct the property name. For example, the "management" actuator context
- * will have the property name {@literal "local.management.port"}.
+ * {@literal "local.server.port"} can be injected directly into tests using {@link Value @Value} or obtained via the {@link Environment}.
+ * If the {@link WebServerInitializedEvent} has a {@link WebServerApplicationContext#getServerNamespace() server namespace} ,
+ * it will be  used to construct the property name.
+ * For example, the "management" actuator context will have the property name {@literal "local.management.port"}.
  * Properties are automatically propagated up to any parent context.
  * @since 2.0.0
  */
@@ -48,8 +46,7 @@ public class ServerPortInfoApplicationContextInitializer implements ApplicationC
 		return StringUtils.hasText(name) ? name : "server";
 	}
 
-	private void setPortProperty(ApplicationContext context, String propertyName,
-			int port) {
+	private void setPortProperty(ApplicationContext context, String propertyName,int port) {
 		if (context instanceof ConfigurableApplicationContext) {
 			setPortProperty(((ConfigurableApplicationContext) context).getEnvironment(),propertyName, port);
 		}

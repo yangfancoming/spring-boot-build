@@ -26,9 +26,7 @@ public class PropertiesPropertySourceLoader implements PropertySourceLoader {
 	@Override
 	public List<PropertySource<?>> load(String name, Resource resource) throws IOException {
 		Map<String, ?> properties = loadProperties(resource);
-		if (properties.isEmpty()) {
-			return Collections.emptyList();
-		}
+		if (properties.isEmpty()) return Collections.emptyList();
 		return Collections.singletonList(new OriginTrackedMapPropertySource(name, properties));
 	}
 

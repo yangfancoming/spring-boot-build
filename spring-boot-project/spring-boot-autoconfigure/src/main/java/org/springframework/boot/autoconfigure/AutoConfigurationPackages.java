@@ -63,8 +63,7 @@ public abstract class AutoConfigurationPackages {
 	 * registered. You can use this method to manually define the base packages that will
 	 * be used for a given {@link BeanDefinitionRegistry}. Generally it's recommended that
 	 * you don't call this method directly, but instead rely on the default convention
-	 * where the package name is set from your {@code @EnableAutoConfiguration}
-	 * configuration class or classes.
+	 * where the package name is set from your {@code @EnableAutoConfiguration} configuration class or classes.
 	 * @param registry the bean definition registry
 	 * @param packageNames the package names to set
 	 */

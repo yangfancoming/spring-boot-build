@@ -168,9 +168,7 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 		};
 
 		private static boolean isPresent(String className, ClassLoader classLoader) {
-			if (classLoader == null) {
-				classLoader = ClassUtils.getDefaultClassLoader();
-			}
+			if (classLoader == null) classLoader = ClassUtils.getDefaultClassLoader();
 			try {
 				forName(className, classLoader);
 				return true;
@@ -186,7 +184,6 @@ class OnClassCondition extends SpringBootCondition implements AutoConfigurationI
 			return Class.forName(className);
 		}
 		public abstract boolean matches(String className, ClassLoader classLoader);
-
 	}
 
 	private interface OutcomesResolver {

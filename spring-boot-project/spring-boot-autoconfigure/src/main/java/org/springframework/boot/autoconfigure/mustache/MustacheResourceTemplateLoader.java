@@ -17,10 +17,7 @@ import org.springframework.core.io.ResourceLoader;
 /**
  * Mustache TemplateLoader implementation that uses a prefix, suffix and the Spring
  * Resource abstraction to load a template from a file, classpath, URL etc. A
- * {@link TemplateLoader} is needed in the {@link Compiler} when you want to render
- * partials (i.e. tiles-like features).
- *
- * @author Dave Syer
+ * {@link TemplateLoader} is needed in the {@link Compiler} when you want to render partials (i.e. tiles-like features).
  * @since 1.2.2
  * @see Mustache
  * @see Resource
@@ -63,9 +60,7 @@ public class MustacheResourceTemplateLoader
 
 	@Override
 	public Reader getTemplate(String name) throws Exception {
-		return new InputStreamReader(this.resourceLoader
-				.getResource(this.prefix + name + this.suffix).getInputStream(),
-				this.charSet);
+		return new InputStreamReader(this.resourceLoader.getResource(this.prefix + name + this.suffix).getInputStream(),this.charSet);
 	}
 
 }

@@ -151,7 +151,7 @@ public class SpringApplication {
 
 	// 标有 @SpringBootApplication 注解的启动类
 	private Class<?> mainApplicationClass;
-
+	// banner打印方式
 	private Banner.Mode bannerMode = Banner.Mode.CONSOLE;
 
 	private boolean logStartupInfo = true;
@@ -233,6 +233,7 @@ public class SpringApplication {
 		return WebApplicationType.SERVLET;
 	}
 
+	// 4.判定主程序是哪个类 通过遍历栈信息，找到调用main方法的类型，将其加载，赋值给变量mainApplicationClass
 	private Class<?> deduceMainApplicationClass() {
 		try {
 			StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
@@ -258,10 +259,12 @@ public class SpringApplication {
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
 		configureHeadlessProperty();
+		// 1.加载所有的监听器，和上述一样，加载指定好的类都是根据spring.factories中的对应的监听器，加载EventPublishingRunListener,之后调用该类的starting：
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
+			// 准备容器环境
 			ConfigurableEnvironment environment = prepareEnvironment(listeners,applicationArguments);
 			configureIgnoreBeanInfo(environment);
 			Banner printedBanner = printBanner(environment);
@@ -374,8 +377,8 @@ public class SpringApplication {
 	}
 
 	private ConfigurableEnvironment getOrCreateEnvironment() {
-		if (this.environment != null) {
-			return this.environment;
+		if (environment != null) {
+			return environment;
 		}
 		if (this.webApplicationType == WebApplicationType.SERVLET) {
 			return new StandardServletEnvironment();
@@ -461,9 +464,7 @@ public class SpringApplication {
 	}
 
 	private Banner printBanner(ConfigurableEnvironment environment) {
-		if (this.bannerMode == Banner.Mode.OFF) {
-			return null;
-		}
+		if (this.bannerMode == Banner.Mode.OFF) return null;
 		ResourceLoader resourceLoader = (this.resourceLoader != null) ? this.resourceLoader : new DefaultResourceLoader(getClassLoader());
 		SpringApplicationBannerPrinter bannerPrinter = new SpringApplicationBannerPrinter(resourceLoader, this.banner);
 		if (this.bannerMode == Mode.LOG) {

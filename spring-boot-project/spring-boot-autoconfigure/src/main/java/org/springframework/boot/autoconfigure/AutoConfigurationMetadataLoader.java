@@ -19,8 +19,8 @@ import org.springframework.util.StringUtils;
  */
 final class AutoConfigurationMetadataLoader {
 
-	protected static final String PATH = "META-INF/"
-			+ "spring-autoconfigure-metadata.properties";
+	protected static final String PATH = "META-INF/spring-autoconfigure-metadata.properties";
+
 
 	private AutoConfigurationMetadataLoader() {
 	}
@@ -94,7 +94,6 @@ final class AutoConfigurationMetadataLoader {
 			String value = this.properties.getProperty(className + "." + key);
 			return (value != null) ? value : defaultValue;
 		}
-
 	}
 
 }

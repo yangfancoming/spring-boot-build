@@ -13,8 +13,6 @@ import org.springframework.util.Assert;
 
 /**
  * Default implementation of {@link ApplicationArguments}.
- *
- * @author Phillip Webb
  * @since 1.4.1
  */
 public class DefaultApplicationArguments implements ApplicationArguments {
