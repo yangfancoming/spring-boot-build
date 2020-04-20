@@ -873,8 +873,7 @@ public class SpringApplication {
 	}
 
 	/**
-	 * Sets the mode used to display the banner when the application runs. Defaults to
-	 * {@code Banner.Mode.CONSOLE}.
+	 * Sets the mode used to display the banner when the application runs. Defaults to {@code Banner.Mode.CONSOLE}.
 	 * @param bannerMode the mode used to display the banner
 	 */
 	public void setBannerMode(Banner.Mode bannerMode) {
@@ -882,8 +881,7 @@ public class SpringApplication {
 	}
 
 	/**
-	 * Sets if the application information should be logged when the application starts.
-	 * Defaults to {@code true}.
+	 * Sets if the application information should be logged when the application starts. Defaults to {@code true}.
 	 * @param logStartupInfo if startup info should be logged.
 	 */
 	public void setLogStartupInfo(boolean logStartupInfo) {
@@ -937,8 +935,7 @@ public class SpringApplication {
 	}
 
 	/**
-	 * Sets the underlying environment that should be used with the created application
-	 * context.
+	 * Sets the underlying environment that should be used with the created application context.
 	 * @param environment the environment
 	 */
 	public void setEnvironment(ConfigurableEnvironment environment) {
@@ -948,7 +945,6 @@ public class SpringApplication {
 	/**
 	 * Add additional items to the primary sources that will be added to an
 	 * ApplicationContext when {@link #run(String...)} is called.
-	 * <p>
 	 * The sources here are added to those that were set in the constructor. Most users
 	 * should consider using {@link #getSources()}/{@link #setSources(Set)} rather than
 	 * calling this method.
@@ -965,9 +961,7 @@ public class SpringApplication {
 	/**
 	 * Returns a mutable set of the sources that will be added to an ApplicationContext
 	 * when {@link #run(String...)} is called.
-	 * <p>
-	 * Sources set here will be used in addition to any primary sources set in the
-	 * constructor.
+	 * Sources set here will be used in addition to any primary sources set in the constructor.
 	 * @return the application sources.
 	 * @see #SpringApplication(Class...)
 	 * @see #getAllSources()
@@ -979,9 +973,7 @@ public class SpringApplication {
 	/**
 	 * Set additional sources that will be used to create an ApplicationContext. A source
 	 * can be: a class name, package name, or an XML resource location.
-	 * <p>
-	 * Sources set here will be used in addition to any primary sources set in the
-	 * constructor.
+	 * Sources set here will be used in addition to any primary sources set in the constructor.
 	 * @param sources the application sources to set
 	 * @see #SpringApplication(Class...)
 	 * @see #getAllSources()
@@ -994,8 +986,7 @@ public class SpringApplication {
 	/**
 	 * Return an immutable set of all the sources that will be added to an
 	 * ApplicationContext when {@link #run(String...)} is called. This method combines any
-	 * primary sources specified in the constructor with any additional ones that have
-	 * been {@link #setSources(Set) explicitly set}.
+	 * primary sources specified in the constructor with any additional ones that have been {@link #setSources(Set) explicitly set}.
 	 * @return an immutable set of all sources
 	 */
 	public Set<Object> getAllSources() {
@@ -1116,24 +1107,21 @@ public class SpringApplication {
 	/**
 	 * A basic main that can be used to launch an application. This method is useful when
 	 * application sources are defined via a {@literal --spring.main.sources} command line argument.
-	 * Most developers will want to define their own main method and call the
-	 * {@link #run(Class, String...) run} method instead.
+	 * Most developers will want to define their own main method and call the {@link #run(Class, String...) run} method instead.
 	 * @param args command line arguments
 	 * @throws Exception if the application cannot be started
 	 * @see SpringApplication#run(Class[], String[])
 	 * @see SpringApplication#run(Class, String...)
 	 */
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		SpringApplication.run(new Class<?>[0], args);
 	}
 
 	/**
-	 * Static helper that can be used to exit a {@link SpringApplication} and obtain a
-	 * code indicating success (0) or otherwise. Does not throw exceptions but should
-	 * print stack traces of any encountered. Applies the specified
+	 * Static helper that can be used to exit a {@link SpringApplication} and obtain a code indicating success (0) or otherwise.
+	 * Does not throw exceptions but should print stack traces of any encountered. Applies the specified
 	 * {@link ExitCodeGenerator} in addition to any Spring beans that implement
-	 * {@link ExitCodeGenerator}. In the case of multiple exit codes the highest value
-	 * will be used (or if all values are negative, the lowest value will be used)
+	 * {@link ExitCodeGenerator}. In the case of multiple exit codes the highest value will be used (or if all values are negative, the lowest value will be used)
 	 * @param context the context to close if possible
 	 * @param exitCodeGenerators exist code generators
 	 * @return the outcome (0 if successful)

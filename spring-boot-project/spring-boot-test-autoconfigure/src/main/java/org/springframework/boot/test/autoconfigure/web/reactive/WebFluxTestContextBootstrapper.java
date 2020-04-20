@@ -9,16 +9,12 @@ import org.springframework.test.context.TestContextBootstrapper;
 
 /**
  * {@link TestContextBootstrapper} for {@link WebFluxTest @WebFluxTest} support.
- *
- * @author Stephane Nicoll
  */
 class WebFluxTestContextBootstrapper extends SpringBootTestContextBootstrapper {
 
 	@Override
-	protected MergedContextConfiguration processMergedContextConfiguration(
-			MergedContextConfiguration mergedConfig) {
-		return new ReactiveWebMergedContextConfiguration(
-				super.processMergedContextConfiguration(mergedConfig));
+	protected MergedContextConfiguration processMergedContextConfiguration(MergedContextConfiguration mergedConfig) {
+		return new ReactiveWebMergedContextConfiguration(super.processMergedContextConfiguration(mergedConfig));
 	}
 
 }

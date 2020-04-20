@@ -8,10 +8,6 @@ import org.springframework.core.env.Environment;
 
 /**
  * Interface class for writing a banner programmatically.
- *
- * @author Phillip Webb
- * @author Michael Stummvoll
- * @author Jeremy Rickard
  * @since 1.2.0
  */
 @FunctionalInterface
@@ -29,22 +25,9 @@ public interface Banner {
 	 * An enumeration of possible values for configuring the Banner.
 	 */
 	enum Mode {
-
-		/**
-		 * Disable printing of the banner.
-		 */
-		OFF,
-
-		/**
-		 * Print the banner to System.out.
-		 */
-		CONSOLE,
-
-		/**
-		 * Print the banner to the log file.
-		 */
-		LOG
-
+		OFF,// Disable printing of the banner.
+		CONSOLE, // Print the banner to System.out.
+		LOG // Print the banner to the log file.
 	}
 
 }

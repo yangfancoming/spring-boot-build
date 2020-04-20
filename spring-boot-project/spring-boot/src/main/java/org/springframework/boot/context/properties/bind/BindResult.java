@@ -14,10 +14,7 @@ import org.springframework.util.ObjectUtils;
 /**
  * A container object to return result of a {@link Binder} bind operation. May contain
  * either a successfully bound object or an empty result.
- *
  * @param <T> the result type
- * @author Phillip Webb
- * @author Madhura Bhave
  * @since 2.0.0
  */
 public final class BindResult<T> {
@@ -89,10 +86,8 @@ public final class BindResult<T> {
 	}
 
 	/**
-	 * Return the object that was bound, or the result of invoking {@code other} if no
-	 * value has been bound.
-	 * @param other a {@link Supplier} of the value to be returned if there is no bound
-	 * value
+	 * Return the object that was bound, or the result of invoking {@code other} if no value has been bound.
+	 * @param other a {@link Supplier} of the value to be returned if there is no bound value
 	 * @return the value, if bound, otherwise the supplied {@code other}
 	 */
 	public T orElseGet(Supplier<? extends T> other) {
