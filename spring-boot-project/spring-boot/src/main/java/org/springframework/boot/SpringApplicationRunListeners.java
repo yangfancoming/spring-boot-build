@@ -14,8 +14,6 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * A collection of {@link SpringApplicationRunListener}.
- *
- * @author Phillip Webb
  */
 class SpringApplicationRunListeners {
 
@@ -23,8 +21,7 @@ class SpringApplicationRunListeners {
 
 	private final List<SpringApplicationRunListener> listeners;
 
-	SpringApplicationRunListeners(Log log,
-			Collection<? extends SpringApplicationRunListener> listeners) {
+	SpringApplicationRunListeners(Log log,Collection<? extends SpringApplicationRunListener> listeners) {
 		this.log = log;
 		this.listeners = new ArrayList<>(listeners);
 	}
@@ -71,19 +68,14 @@ class SpringApplicationRunListeners {
 		}
 	}
 
-	private void callFailedListener(SpringApplicationRunListener listener,
-			ConfigurableApplicationContext context, Throwable exception) {
+	private void callFailedListener(SpringApplicationRunListener listener,ConfigurableApplicationContext context, Throwable exception) {
 		try {
 			listener.failed(context, exception);
-		}
-		catch (Throwable ex) {
-			if (exception == null) {
-				ReflectionUtils.rethrowRuntimeException(ex);
-			}
+		}catch (Throwable ex) {
+			if (exception == null) ReflectionUtils.rethrowRuntimeException(ex);
 			if (this.log.isDebugEnabled()) {
 				this.log.error("Error handling failed", ex);
-			}
-			else {
+			}else {
 				String message = ex.getMessage();
 				message = (message != null) ? message : "no error message";
 				this.log.warn("Error handling failed (" + message + ")");

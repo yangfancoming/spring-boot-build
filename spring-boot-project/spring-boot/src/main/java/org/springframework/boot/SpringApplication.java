@@ -211,10 +211,15 @@ public class SpringApplication {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources) {
+		// 1、资源初始化资源加载器为 null，默认为空
 		this.resourceLoader = resourceLoader;
+		// 2、断言主要加载资源类不能为 null，否则报错
 		Assert.notNull(primarySources, "PrimarySources must not be null");
+		// 3、初始化主要加载资源类集合并去重
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
+		// 4、推断当前 WEB 应用类型，一共有三种：
 		this.webApplicationType = deduceWebApplicationType();
+		// 5、设置应用上线文初始化器,从"META-INF/spring.factories"读取ApplicationContextInitializer类的实例名称集合并去重，并进行set去重。（一共4个）
 		setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
 		this.mainApplicationClass = deduceMainApplicationClass();
@@ -559,9 +564,7 @@ public class SpringApplication {
 	 * @return the application log
 	 */
 	protected Log getApplicationLog() {
-		if (this.mainApplicationClass == null) {
-			return logger;
-		}
+		if (this.mainApplicationClass == null) return logger;
 		return LogFactory.getLog(this.mainApplicationClass);
 	}
 
@@ -571,9 +574,7 @@ public class SpringApplication {
 	 * @param sources the sources to load
 	 */
 	protected void load(ApplicationContext context, Object[] sources) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Loading source " + StringUtils.arrayToCommaDelimitedString(sources));
-		}
+		if (logger.isDebugEnabled()) logger.debug("Loading source " + StringUtils.arrayToCommaDelimitedString(sources));
 		BeanDefinitionLoader loader = createBeanDefinitionLoader(getBeanDefinitionRegistry(context), sources);
 		if (this.beanNameGenerator != null) {
 			loader.setBeanNameGenerator(this.beanNameGenerator);
@@ -701,8 +702,7 @@ public class SpringApplication {
 		ReflectionUtils.rethrowRuntimeException(exception);
 	}
 
-	private void reportFailure(Collection<SpringBootExceptionReporter> exceptionReporters,
-			Throwable failure) {
+	private void reportFailure(Collection<SpringBootExceptionReporter> exceptionReporters,Throwable failure) {
 		try {
 			for (SpringBootExceptionReporter reporter : exceptionReporters) {
 				if (reporter.reportException(failure)) {
@@ -1104,8 +1104,7 @@ public class SpringApplication {
 	}
 
 	/**
-	 * Static helper that can be used to run a {@link SpringApplication} from the
-	 * specified sources using default settings and user supplied arguments.
+	 * Static helper that can be used to run a {@link SpringApplication} from the specified sources using default settings and user supplied arguments.
 	 * @param primarySources the primary sources to load
 	 * @param args the application arguments (usually passed from a Java main method)
 	 * @return the running {@link ApplicationContext}
