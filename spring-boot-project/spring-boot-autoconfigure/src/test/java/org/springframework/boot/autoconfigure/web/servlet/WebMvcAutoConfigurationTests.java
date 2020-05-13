@@ -92,14 +92,6 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link WebMvcAutoConfiguration}.
- *
- * @author Phillip Webb
- * @author Dave Syer
- * @author Andy Wilkinson
- * @author Stephane Nicoll
- * @author Brian Clozel
- * @author Eddú Meléndez
- * @author Kristine Jetzke
  */
 public class WebMvcAutoConfigurationTests {
 
@@ -115,16 +107,13 @@ public class WebMvcAutoConfigurationTests {
 	public void handlerAdaptersCreated() {
 		this.contextRunner.run((context) -> {
 			assertThat(context).getBeans(HandlerAdapter.class).hasSize(3);
-			assertThat(context.getBean(RequestMappingHandlerAdapter.class)
-					.getMessageConverters()).isNotEmpty().isEqualTo(
-							context.getBean(HttpMessageConverters.class).getConverters());
+			assertThat(context.getBean(RequestMappingHandlerAdapter.class).getMessageConverters()).isNotEmpty().isEqualTo(context.getBean(HttpMessageConverters.class).getConverters());
 		});
 	}
 
 	@Test
 	public void handlerMappingsCreated() {
-		this.contextRunner.run((context) -> assertThat(context)
-				.getBeans(HandlerMapping.class).hasSize(7));
+		this.contextRunner.run((context) -> assertThat(context).getBeans(HandlerMapping.class).hasSize(7));
 	}
 
 	@Test

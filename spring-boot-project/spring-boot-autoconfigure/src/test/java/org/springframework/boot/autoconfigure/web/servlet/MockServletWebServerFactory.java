@@ -18,9 +18,6 @@ import static org.mockito.Mockito.spy;
 
 /**
  * Mock {@link ServletWebServerFactory}.
- *
- * @author Phillip Webb
- * @author Andy Wilkinson
  */
 public class MockServletWebServerFactory extends AbstractServletWebServerFactory {
 

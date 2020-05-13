@@ -18,21 +18,13 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 /**
  * An {@link AbstractApplicationContextRunner ApplicationContext runner} for a Servlet
  * based {@link ConfigurableWebApplicationContext}.
- * <p>
  * See {@link AbstractApplicationContextRunner} for details.
- *
- * @author Andy Wilkinson
- * @author Stephane Nicoll
- * @author Phillip Webb
  * @since 2.0.0
  */
-public final class WebApplicationContextRunner extends
-		AbstractApplicationContextRunner<WebApplicationContextRunner, ConfigurableWebApplicationContext, AssertableWebApplicationContext> {
+public final class WebApplicationContextRunner extends AbstractApplicationContextRunner<WebApplicationContextRunner, ConfigurableWebApplicationContext, AssertableWebApplicationContext> {
 
 	/**
-	 * Create a new {@link WebApplicationContextRunner} instance using an
-	 * {@link AnnotationConfigWebApplicationContext} with a {@link MockServletContext} as
-	 * the underlying source.
+	 * Create a new {@link WebApplicationContextRunner} instance using an {@link AnnotationConfigWebApplicationContext} with a {@link MockServletContext} as the underlying source.
 	 * @see #withMockServletContext(Supplier)
 	 */
 	public WebApplicationContextRunner() {
@@ -44,8 +36,7 @@ public final class WebApplicationContextRunner extends
 	 * {@code contextFactory} as the underlying source.
 	 * @param contextFactory a supplier that returns a new instance on each call
 	 */
-	public WebApplicationContextRunner(
-			Supplier<ConfigurableWebApplicationContext> contextFactory) {
+	public WebApplicationContextRunner(Supplier<ConfigurableWebApplicationContext> contextFactory) {
 		super(contextFactory);
 	}
 
@@ -55,8 +46,7 @@ public final class WebApplicationContextRunner extends
 			TestPropertyValues environmentProperties, TestPropertyValues systemProperties,
 			ClassLoader classLoader, ApplicationContext parent,
 			List<Configurations> configurations) {
-		super(contextFactory, initializers, environmentProperties, systemProperties,
-				classLoader, parent, configurations);
+		super(contextFactory, initializers, environmentProperties, systemProperties,classLoader, parent, configurations);
 	}
 
 	@Override
@@ -66,9 +56,7 @@ public final class WebApplicationContextRunner extends
 			TestPropertyValues environmentProperties, TestPropertyValues systemProperties,
 			ClassLoader classLoader, ApplicationContext parent,
 			List<Configurations> configurations) {
-		return new WebApplicationContextRunner(contextFactory, initializers,
-				environmentProperties, systemProperties, classLoader, parent,
-				configurations);
+		return new WebApplicationContextRunner(contextFactory, initializers,environmentProperties, systemProperties, classLoader, parent,configurations);
 	}
 
 	/**
@@ -77,8 +65,7 @@ public final class WebApplicationContextRunner extends
 	 * @param contextFactory the context factory to decorate
 	 * @return an updated supplier that will set the {@link MockServletContext}
 	 */
-	public static Supplier<ConfigurableWebApplicationContext> withMockServletContext(
-			Supplier<ConfigurableWebApplicationContext> contextFactory) {
+	public static Supplier<ConfigurableWebApplicationContext> withMockServletContext(Supplier<ConfigurableWebApplicationContext> contextFactory) {
 		return (contextFactory != null) ? () -> {
 			ConfigurableWebApplicationContext context = contextFactory.get();
 			context.setServletContext(new MockServletContext());

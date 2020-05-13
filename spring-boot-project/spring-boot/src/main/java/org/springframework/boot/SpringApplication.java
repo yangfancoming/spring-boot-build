@@ -254,41 +254,59 @@ public class SpringApplication {
 	 * @return a running {@link ApplicationContext}
 	 */
 	public ConfigurableApplicationContext run(String... args) {
+		// 1、创建并启动计时监控类
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
+		// 2、初始化应用上下文和异常报告集合
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
+		// 3、设置系统属性 `java.awt.headless` 的值，默认值为：true
 		configureHeadlessProperty();
+		// 4、创建所有 Spring 运行监听器并发布应用启动事件
 		// 1.加载所有的监听器，和上述一样，加载指定好的类都是根据spring.factories中的对应的监听器，加载EventPublishingRunListener,之后调用该类的starting：
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		listeners.starting();
 		try {
+			// 5、初始化默认应用参数类
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
 			// 准备容器环境
+			// 6、根据运行监听器和应用参数来准备 Spring 环境
 			ConfigurableEnvironment environment = prepareEnvironment(listeners,applicationArguments);
 			configureIgnoreBeanInfo(environment);
+			// 7、创建 Banner 打印类
 			Banner printedBanner = printBanner(environment);
+			// 8、创建应用上下文
 			context = createApplicationContext();
+			// 9、准备异常报告器
 			exceptionReporters = getSpringFactoriesInstances(SpringBootExceptionReporter.class,new Class[] { ConfigurableApplicationContext.class }, context);
+			// 10、准备应用上下文
 			prepareContext(context, environment, listeners, applicationArguments,printedBanner);
+			// 11、刷新应用上下文
 			refreshContext(context);
+			// 12、应用上下文刷新后置处理
 			afterRefresh(context, applicationArguments);
+			// 13、停止计时监控类
 			stopWatch.stop();
+			// 14、输出日志记录执行主类名、时间信息
 			if (this.logStartupInfo) {
 				new StartupInfoLogger(this.mainApplicationClass).logStarted(getApplicationLog(), stopWatch);
 			}
+			// 15、发布应用上下文启动完成事件
 			listeners.started(context);
+			// 16、执行所有 Runner 运行器
 			callRunners(context, applicationArguments);
 		}catch (Throwable ex) {
 			handleRunFailure(context, ex, exceptionReporters, listeners);
 			throw new IllegalStateException(ex);
 		}
 		try {
+			// 17、发布应用上下文就绪事件
 			listeners.running(context);
 		}catch (Throwable ex) {
 			handleRunFailure(context, ex, exceptionReporters, null);
 			throw new IllegalStateException(ex);
 		}
+		// 18、返回应用上下文
 		return context;
 	}
 
@@ -306,23 +324,30 @@ public class SpringApplication {
 	}
 
 	private void prepareContext(ConfigurableApplicationContext context,ConfigurableEnvironment environment, SpringApplicationRunListeners listeners,ApplicationArguments applicationArguments, Banner printedBanner) {
+		// 10.1）绑定环境到上下文
 		context.setEnvironment(environment);
+		// 10.2）配置上下文的 bean 生成器及资源加载器
 		postProcessApplicationContext(context);
+		// 10.3）为上下文应用所有初始化器
 		applyInitializers(context);
+		// 10.4）触发所有 SpringApplicationRunListener 监听器的 contextPrepared 事件方法
 		listeners.contextPrepared(context);
+		// 10.5）记录启动日志
 		if (this.logStartupInfo) {
 			logStartupInfo(context.getParent() == null);
 			logStartupProfileInfo(context);
 		}
+		// 10.6）注册两个特殊的单例bean
 		// Add boot specific singleton beans
 		context.getBeanFactory().registerSingleton("springApplicationArguments",applicationArguments);
 		if (printedBanner != null) {
 			context.getBeanFactory().registerSingleton("springBootBanner", printedBanner);
 		}
-		// Load the sources
+		// Load the sources  // 10.7）加载所有资源
 		Set<Object> sources = getAllSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
 		load(context, sources.toArray(new Object[0]));
+		// 10.8）触发所有 SpringApplicationRunListener 监听器的 contextLoaded 事件方法
 		listeners.contextLoaded(context);
 	}
 

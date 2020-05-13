@@ -192,12 +192,10 @@ public class AutoConfigurationImportSelectorTests {
 		protected List<AutoConfigurationImportFilter> getAutoConfigurationImportFilters() {
 			return AutoConfigurationImportSelectorTests.this.filters;
 		}
-
 		@Override
 		protected List<AutoConfigurationImportListener> getAutoConfigurationImportListeners() {
 			return Collections.singletonList((event) -> this.lastEvent = event);
 		}
-
 		public AutoConfigurationImportEvent getLastEvent() {
 			return this.lastEvent;
 		}

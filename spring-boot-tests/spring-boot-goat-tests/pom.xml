@@ -18,6 +18,7 @@
 		<module>spring-boot-goat-mvc-tests</module>
 		<module>spring-boot-goat-jdbc-tests</module>
 		<module>spring-boot-goat-base-tests</module>
+		<module>spring-boot-goat-mybatis-tests</module>
 	</modules>
 
 	<description>我的Spring Boot测试模块</description>

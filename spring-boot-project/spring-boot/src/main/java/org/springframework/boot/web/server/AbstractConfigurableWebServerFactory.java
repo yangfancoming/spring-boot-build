@@ -13,14 +13,6 @@ import org.springframework.util.Assert;
 
 /**
  * Abstract base class for {@link ConfigurableWebServerFactory} implementations.
- *
- * @author Phillip Webb
- * @author Dave Syer
- * @author Andy Wilkinson
- * @author Stephane Nicoll
- * @author Ivan Sopov
- * @author Eddú Meléndez
- * @author Brian Clozel
  * @since 2.0.0
  */
 public abstract class AbstractConfigurableWebServerFactory
@@ -161,12 +153,8 @@ public abstract class AbstractConfigurableWebServerFactory
 			tempDir.mkdir();
 			tempDir.deleteOnExit();
 			return tempDir;
-		}
-		catch (IOException ex) {
-			throw new WebServerException(
-					"Unable to create tempDir. java.io.tmpdir is set to "
-							+ System.getProperty("java.io.tmpdir"),
-					ex);
+		}catch (IOException ex) {
+			throw new WebServerException("Unable to create tempDir. java.io.tmpdir is set to "+ System.getProperty("java.io.tmpdir"),ex);
 		}
 	}
 

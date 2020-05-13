@@ -13,12 +13,6 @@ import org.springframework.validation.DefaultMessageCodesResolver;
 
 /**
  * {@link ConfigurationProperties properties} for Spring MVC.
- *
- * @author Phillip Webb
- * @author Sébastien Deleuze
- * @author Stephane Nicoll
- * @author Eddú Meléndez
- * @author Brian Clozel
  * @since 1.1
  */
 @ConfigurationProperties(prefix = "spring.mvc")
@@ -30,8 +24,7 @@ public class WebMvcProperties {
 	private DefaultMessageCodesResolver.Format messageCodesResolverFormat;
 
 	/**
-	 * Locale to use. By default, this locale is overridden by the "Accept-Language"
-	 * header.
+	 * Locale to use. By default, this locale is overridden by the "Accept-Language" header.
 	 */
 	private Locale locale;
 
@@ -56,20 +49,17 @@ public class WebMvcProperties {
 	private boolean dispatchOptionsRequest = true;
 
 	/**
-	 * Whether the content of the "default" model should be ignored during redirect
-	 * scenarios.
+	 * Whether the content of the "default" model should be ignored during redirect scenarios.
 	 */
 	private boolean ignoreDefaultModelOnRedirect = true;
 
 	/**
-	 * Whether a "NoHandlerFoundException" should be thrown if no Handler was found to
-	 * process a request.
+	 * Whether a "NoHandlerFoundException" should be thrown if no Handler was found to process a request.
 	 */
 	private boolean throwExceptionIfNoHandlerFound = false;
 
 	/**
-	 * Whether to enable warn logging of exceptions resolved by a
-	 * "HandlerExceptionResolver".
+	 * Whether to enable warn logging of exceptions resolved by a "HandlerExceptionResolver".
 	 */
 	private boolean logResolvedException = false;
 
@@ -193,9 +183,7 @@ public class WebMvcProperties {
 	public static class Async {
 
 		/**
-		 * Amount of time before asynchronous request handling times out. If this value is
-		 * not set, the default timeout of the underlying implementation is used, e.g. 10
-		 * seconds on Tomcat with Servlet 3.
+		 * Amount of time before asynchronous request handling times out. If this value is not set, the default timeout of the underlying implementation is used, e.g. 10 seconds on Tomcat with Servlet 3.
 		 */
 		private Duration requestTimeout;
 
@@ -259,21 +247,18 @@ public class WebMvcProperties {
 	public static class Contentnegotiation {
 
 		/**
-		 * Whether the path extension in the URL path should be used to determine the
-		 * requested media type. If enabled a request "/users.pdf" will be interpreted as
-		 * a request for "application/pdf" regardless of the 'Accept' header.
+		 * Whether the path extension in the URL path should be used to determine the requested media type.
+		 * If enabled a request "/users.pdf" will be interpreted as a request for "application/pdf" regardless of the 'Accept' header.
 		 */
 		private boolean favorPathExtension = false;
 
 		/**
-		 * Whether a request parameter ("format" by default) should be used to determine
-		 * the requested media type.
+		 * Whether a request parameter ("format" by default) should be used to determine the requested media type.
 		 */
 		private boolean favorParameter = false;
 
 		/**
-		 * Map file extensions to media types for content negotiation. For instance, yml
-		 * to text/yaml.
+		 * Map file extensions to media types for content negotiation. For instance, yml to text/yaml.
 		 */
 		private Map<String, MediaType> mediaTypes = new LinkedHashMap<>();
 
@@ -325,10 +310,8 @@ public class WebMvcProperties {
 		private boolean useSuffixPattern = false;
 
 		/**
-		 * Whether suffix pattern matching should work only against extensions registered
-		 * with "spring.mvc.contentnegotiation.media-types.*". This is generally
-		 * recommended to reduce ambiguity and to avoid issues such as when a "." appears
-		 * in the path for other reasons.
+		 * Whether suffix pattern matching should work only against extensions registered  with "spring.mvc.contentnegotiation.media-types.*".
+		 * This is generally recommended to reduce ambiguity and to avoid issues such as when a "." appears in the path for other reasons.
 		 */
 		private boolean useRegisteredSuffixPattern = false;
 
@@ -351,18 +334,8 @@ public class WebMvcProperties {
 	}
 
 	public enum LocaleResolver {
-
-		/**
-		 * Always use the configured locale.
-		 */
-		FIXED,
-
-		/**
-		 * Use the "Accept-Language" header or the configured locale if the header is not
-		 * set.
-		 */
-		ACCEPT_HEADER
-
+		FIXED,// Always use the configured locale.
+		ACCEPT_HEADER // Use the "Accept-Language" header or the configured locale if the header is not set.
 	}
 
 }

@@ -10,9 +10,6 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 
 /**
  * Configuration for FreeMarker when used in a non-web context.
- *
- * @author Brian Clozel
- * @author Andy Wilkinson
  */
 @Configuration
 @ConditionalOnNotWebApplication

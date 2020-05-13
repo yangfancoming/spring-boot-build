@@ -39,8 +39,7 @@ public class MustacheAutoConfiguration {
 
 	private final ApplicationContext applicationContext;
 
-	public MustacheAutoConfiguration(MustacheProperties mustache, Environment environment,
-			ApplicationContext applicationContext) {
+	public MustacheAutoConfiguration(MustacheProperties mustache, Environment environment,ApplicationContext applicationContext) {
 		this.mustache = mustache;
 		this.environment = environment;
 		this.applicationContext = applicationContext;

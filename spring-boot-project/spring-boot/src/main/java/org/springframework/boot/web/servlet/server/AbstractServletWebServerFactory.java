@@ -32,19 +32,9 @@ import org.springframework.util.ClassUtils;
 
 /**
  * Abstract base class for {@link ConfigurableServletWebServerFactory} implementations.
- *
- * @author Phillip Webb
- * @author Dave Syer
- * @author Andy Wilkinson
- * @author Stephane Nicoll
- * @author Ivan Sopov
- * @author Eddú Meléndez
- * @author Brian Clozel
  * @since 2.0.0
  */
-public abstract class AbstractServletWebServerFactory
-		extends AbstractConfigurableWebServerFactory
-		implements ConfigurableServletWebServerFactory {
+public abstract class AbstractServletWebServerFactory extends AbstractConfigurableWebServerFactory implements ConfigurableServletWebServerFactory {
 
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -77,8 +67,7 @@ public abstract class AbstractServletWebServerFactory
 	}
 
 	/**
-	 * Create a new {@link AbstractServletWebServerFactory} instance with the specified
-	 * port.
+	 * Create a new {@link AbstractServletWebServerFactory} instance with the specified port.
 	 * @param port the port number for the web server
 	 */
 	public AbstractServletWebServerFactory(int port) {
@@ -86,8 +75,7 @@ public abstract class AbstractServletWebServerFactory
 	}
 
 	/**
-	 * Create a new {@link AbstractServletWebServerFactory} instance with the specified
-	 * context path and port.
+	 * Create a new {@link AbstractServletWebServerFactory} instance with the specified context path and port.
 	 * @param contextPath the context path for the web server
 	 * @param port the port number for the web server
 	 */
@@ -98,8 +86,7 @@ public abstract class AbstractServletWebServerFactory
 	}
 
 	/**
-	 * Returns the context path for the web server. The path will start with "/" and not
-	 * end with "/". The root context is represented by an empty string.
+	 * Returns the context path for the web server. The path will start with "/" and not end with "/". The root context is represented by an empty string.
 	 * @return the context path
 	 */
 	public String getContextPath() {
@@ -116,12 +103,10 @@ public abstract class AbstractServletWebServerFactory
 		Assert.notNull(contextPath, "ContextPath must not be null");
 		if (!contextPath.isEmpty()) {
 			if ("/".equals(contextPath)) {
-				throw new IllegalArgumentException(
-						"Root ContextPath must be specified using an empty string");
+				throw new IllegalArgumentException("Root ContextPath must be specified using an empty string");
 			}
 			if (!contextPath.startsWith("/") || contextPath.endsWith("/")) {
-				throw new IllegalArgumentException(
-						"ContextPath must start with '/' and not end with '/'");
+				throw new IllegalArgumentException("ContextPath must start with '/' and not end with '/'");
 			}
 		}
 	}
@@ -162,8 +147,7 @@ public abstract class AbstractServletWebServerFactory
 	}
 
 	/**
-	 * Returns the document root which will be used by the web context to serve static
-	 * files.
+	 * Returns the document root which will be used by the web context to serve static files.
 	 * @return the document root
 	 */
 	public File getDocumentRoot() {
@@ -229,17 +213,13 @@ public abstract class AbstractServletWebServerFactory
 	}
 
 	/**
-	 * Utility method that can be used by subclasses wishing to combine the specified
-	 * {@link ServletContextInitializer} parameters with those defined in this instance.
+	 * Utility method that can be used by subclasses wishing to combine the specified {@link ServletContextInitializer} parameters with those defined in this instance.
 	 * @param initializers the initializers to merge
-	 * @return a complete set of merged initializers (with the specified parameters
-	 * appearing first)
+	 * @return a complete set of merged initializers (with the specified parameters appearing first)
 	 */
-	protected final ServletContextInitializer[] mergeInitializers(
-			ServletContextInitializer... initializers) {
+	protected final ServletContextInitializer[] mergeInitializers(ServletContextInitializer... initializers) {
 		List<ServletContextInitializer> mergedInitializers = new ArrayList<>();
-		mergedInitializers.add((servletContext) -> this.initParameters
-				.forEach(servletContext::setInitParameter));
+		mergedInitializers.add((servletContext) -> this.initParameters.forEach(servletContext::setInitParameter));
 		mergedInitializers.add(new SessionConfiguringInitializer(this.session));
 		mergedInitializers.addAll(Arrays.asList(initializers));
 		mergedInitializers.addAll(this.initializers);
@@ -251,13 +231,11 @@ public abstract class AbstractServletWebServerFactory
 	 * @return {@code true} if the servlet should be registered, otherwise {@code false}
 	 */
 	protected boolean shouldRegisterJspServlet() {
-		return this.jsp != null && this.jsp.getRegistered() && ClassUtils
-				.isPresent(this.jsp.getClassName(), getClass().getClassLoader());
+		return this.jsp != null && this.jsp.getRegistered() && ClassUtils.isPresent(this.jsp.getClassName(), getClass().getClassLoader());
 	}
 
 	/**
-	 * Returns the absolute document root when it points to a valid directory, logging a
-	 * warning and returning {@code null} otherwise.
+	 * Returns the absolute document root when it points to a valid directory, logging a warning and returning {@code null} otherwise.
 	 * @return the valid document root
 	 */
 	protected final File getValidDocumentRoot() {
@@ -278,10 +256,8 @@ public abstract class AbstractServletWebServerFactory
 	protected final String getDecodedFile(URL url) {
 		try {
 			return URLDecoder.decode(url.getFile(), "UTF-8");
-		}
-		catch (UnsupportedEncodingException ex) {
-			throw new IllegalStateException(
-					"Failed to decode '" + url.getFile() + "' using UTF-8");
+		}catch (UnsupportedEncodingException ex) {
+			throw new IllegalStateException("Failed to decode '" + url.getFile() + "' using UTF-8");
 		}
 	}
 
@@ -309,8 +285,7 @@ public abstract class AbstractServletWebServerFactory
 		@Override
 		public void onStartup(ServletContext servletContext) throws ServletException {
 			if (this.session.getTrackingModes() != null) {
-				servletContext
-						.setSessionTrackingModes(unwrap(this.session.getTrackingModes()));
+				servletContext.setSessionTrackingModes(unwrap(this.session.getTrackingModes()));
 			}
 			configureSessionCookie(servletContext.getSessionCookieConfig());
 		}
@@ -340,8 +315,7 @@ public abstract class AbstractServletWebServerFactory
 			}
 		}
 
-		private Set<javax.servlet.SessionTrackingMode> unwrap(
-				Set<Session.SessionTrackingMode> modes) {
+		private Set<javax.servlet.SessionTrackingMode> unwrap(Set<Session.SessionTrackingMode> modes) {
 			if (modes == null) {
 				return null;
 			}
