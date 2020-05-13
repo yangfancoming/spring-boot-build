@@ -11,8 +11,6 @@ import org.springframework.boot.convert.DurationUnit;
 
 /**
  * Session properties.
- *
- * @author Andy Wilkinson
  * @since 2.0.0
  */
 public class Session {

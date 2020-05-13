@@ -25,23 +25,16 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Tests for {@link DispatcherServletAutoConfiguration}.
- *
- * @author Dave Syer
- * @author Andy Wilkinson
- * @author Brian Clozel
  */
 public class DispatcherServletAutoConfigurationTests {
 
-	private WebApplicationContextRunner contextRunner = new WebApplicationContextRunner()
-			.withConfiguration(
-					AutoConfigurations.of(DispatcherServletAutoConfiguration.class));
+	private WebApplicationContextRunner contextRunner = new WebApplicationContextRunner().withConfiguration(AutoConfigurations.of(DispatcherServletAutoConfiguration.class));
 
 	@Test
 	public void registrationProperties() {
 		this.contextRunner.run((context) -> {
 			assertThat(context.getBean(DispatcherServlet.class)).isNotNull();
-			ServletRegistrationBean<?> registration = context
-					.getBean(ServletRegistrationBean.class);
+			ServletRegistrationBean<?> registration = context.getBean(ServletRegistrationBean.class);
 			assertThat(registration.getUrlMappings()).containsExactly("/");
 		});
 	}
@@ -56,16 +49,14 @@ public class DispatcherServletAutoConfigurationTests {
 				});
 	}
 
-	// If a DispatcherServlet instance is registered with a name different
-	// from the default one, we're registering one anyway
+	// If a DispatcherServlet instance is registered with a name different from the default one, we're registering one anyway
 	@Test
 	public void registrationOverrideWithDispatcherServletWrongName() {
 		this.contextRunner
 				.withUserConfiguration(CustomDispatcherServletDifferentName.class,
 						CustomDispatcherServletPath.class)
 				.run((context) -> {
-					ServletRegistrationBean<?> registration = context
-							.getBean(ServletRegistrationBean.class);
+					ServletRegistrationBean<?> registration = context.getBean(ServletRegistrationBean.class);
 					assertThat(registration.getUrlMappings()).containsExactly("/");
 					assertThat(registration.getServletName())
 							.isEqualTo("dispatcherServlet");
@@ -153,17 +144,11 @@ public class DispatcherServletAutoConfigurationTests {
 	@Test
 	public void dispatcherServletDefaultConfig() {
 		this.contextRunner.run((context) -> {
-			DispatcherServlet dispatcherServlet = context
-					.getBean(DispatcherServlet.class);
-			assertThat(dispatcherServlet).extracting("throwExceptionIfNoHandlerFound")
-					.containsExactly(false);
-			assertThat(dispatcherServlet).extracting("dispatchOptionsRequest")
-					.containsExactly(true);
-			assertThat(dispatcherServlet).extracting("dispatchTraceRequest")
-					.containsExactly(false);
-			assertThat(new DirectFieldAccessor(
-					context.getBean("dispatcherServletRegistration"))
-							.getPropertyValue("loadOnStartup")).isEqualTo(-1);
+			DispatcherServlet dispatcherServlet = context.getBean(DispatcherServlet.class);
+			assertThat(dispatcherServlet).extracting("throwExceptionIfNoHandlerFound").containsExactly(false);
+			assertThat(dispatcherServlet).extracting("dispatchOptionsRequest").containsExactly(true);
+			assertThat(dispatcherServlet).extracting("dispatchTraceRequest").containsExactly(false);
+			assertThat(new DirectFieldAccessor(context.getBean("dispatcherServletRegistration")).getPropertyValue("loadOnStartup")).isEqualTo(-1);
 		});
 	}
 

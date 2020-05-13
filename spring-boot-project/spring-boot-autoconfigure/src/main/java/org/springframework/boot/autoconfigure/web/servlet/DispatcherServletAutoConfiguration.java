@@ -38,10 +38,8 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
- * {@link EnableAutoConfiguration Auto-configuration} for the Spring
- * {@link DispatcherServlet}. Should work for a standalone application where an embedded
- * web server is already present and also for a deployable application using
- * {@link SpringBootServletInitializer}.
+ * {@link EnableAutoConfiguration Auto-configuration} for the Spring {@link DispatcherServlet}.
+ * Should work for a standalone application where an embedded web server is already present and also for a deployable application using {@link SpringBootServletInitializer}.
  */
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
@@ -51,14 +49,10 @@ import org.springframework.web.servlet.DispatcherServlet;
 @EnableConfigurationProperties(ServerProperties.class)
 public class DispatcherServletAutoConfiguration {
 
-	/*
-	 * The bean name for a DispatcherServlet that will be mapped to the root URL "/"
-	 */
+	// The bean name for a DispatcherServlet that will be mapped to the root URL "/"
 	public static final String DEFAULT_DISPATCHER_SERVLET_BEAN_NAME = "dispatcherServlet";
 
-	/*
-	 * The bean name for a ServletRegistrationBean for the DispatcherServlet "/"
-	 */
+	// The bean name for a ServletRegistrationBean for the DispatcherServlet "/"
 	public static final String DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME = "dispatcherServletRegistration";
 
 	@Configuration

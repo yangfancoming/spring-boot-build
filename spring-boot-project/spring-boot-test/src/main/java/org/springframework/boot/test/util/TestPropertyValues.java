@@ -100,8 +100,7 @@ public final class TestPropertyValues {
 	}
 
 	/**
-	 * Add the properties to the {@link System#getProperties() system properties} for the
-	 * duration of the {@code call}, restoring previous values when the call completes.
+	 * Add the properties to the {@link System#getProperties() system properties} for the duration of the {@code call}, restoring previous values when the call completes.
 	 * @param <T> the result type
 	 * @param call the call to make
 	 * @return the result of the call

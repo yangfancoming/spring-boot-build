@@ -28,18 +28,6 @@ import org.springframework.util.StringUtils;
 
 /**
  * {@link ConfigurationProperties} for a web server (e.g. port and path settings).
- *
- * @author Dave Syer
- * @author Stephane Nicoll
- * @author Andy Wilkinson
- * @author Ivan Sopov
- * @author Marcos Barbero
- * @author Eddú Meléndez
- * @author Quinten De Swaef
- * @author Venil Noronha
- * @author Aurélien Leboulanger
- * @author Brian Clozel
- * @author Olivier Lamy
  */
 @ConfigurationProperties(prefix = "server", ignoreUnknownFields = true)
 public class ServerProperties {
@@ -998,21 +986,25 @@ public class ServerProperties {
 
 		/**
 		 * Size of each buffer, in bytes.
+		 * buffer-size：每块buffer的空间大小，越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
 		 */
 		private Integer bufferSize;
 
 		/**
 		 * Number of I/O threads to create for the worker.
+		 * io-threads：IO线程数, 它主要执行非阻塞的任务，它们会负责多个连接，默认设置每个CPU核心一个线程，不可设置过大，否则启动项目会报错：打开文件数过多。
 		 */
 		private Integer ioThreads;
 
 		/**
 		 * Number of worker threads.
+		 * worker-threads：阻塞任务线程池，当执行类似servlet请求阻塞IO操作，undertow会从这个线程池中取得线程。它的值取决于系统线程执行任务的阻塞系数，默认值是 io-threads*8
 		 */
 		private Integer workerThreads;
 
 		/**
 		 * Whether to allocate buffers outside the Java heap.
+		 * direct-buffers：是否分配的直接内存(NIO直接分配的堆外内存)
 		 */
 		private Boolean directBuffers;
 

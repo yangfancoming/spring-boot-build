@@ -40,11 +40,13 @@ public class WebMvcProperties {
 
 	/**
 	 * Whether to dispatch TRACE requests to the FrameworkServlet doService method.
+	 * # 发送TRACE请求到FrameworkServlet doService方法
 	 */
 	private boolean dispatchTraceRequest = false;
 
 	/**
 	 * Whether to dispatch OPTIONS requests to the FrameworkServlet doService method.
+	 * 发送OPTIONS请求到FrameworkServlet doService方法
 	 */
 	private boolean dispatchOptionsRequest = true;
 
@@ -82,8 +84,7 @@ public class WebMvcProperties {
 		return this.messageCodesResolverFormat;
 	}
 
-	public void setMessageCodesResolverFormat(
-			DefaultMessageCodesResolver.Format messageCodesResolverFormat) {
+	public void setMessageCodesResolverFormat(DefaultMessageCodesResolver.Format messageCodesResolverFormat) {
 		this.messageCodesResolverFormat = messageCodesResolverFormat;
 	}
 
@@ -337,5 +338,4 @@ public class WebMvcProperties {
 		FIXED,// Always use the configured locale.
 		ACCEPT_HEADER // Use the "Accept-Language" header or the configured locale if the header is not set.
 	}
-
 }

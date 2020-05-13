@@ -16,8 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 
 /**
- * An {@link AbstractApplicationContextRunner ApplicationContext runner} for a Servlet
- * based {@link ConfigurableWebApplicationContext}.
+ * An {@link AbstractApplicationContextRunner ApplicationContext runner} for a Servlet based {@link ConfigurableWebApplicationContext}.
  * See {@link AbstractApplicationContextRunner} for details.
  * @since 2.0.0
  */
@@ -32,8 +31,7 @@ public final class WebApplicationContextRunner extends AbstractApplicationContex
 	}
 
 	/**
-	 * Create a new {@link WebApplicationContextRunner} instance using the specified
-	 * {@code contextFactory} as the underlying source.
+	 * Create a new {@link WebApplicationContextRunner} instance using the specified {@code contextFactory} as the underlying source.
 	 * @param contextFactory a supplier that returns a new instance on each call
 	 */
 	public WebApplicationContextRunner(Supplier<ConfigurableWebApplicationContext> contextFactory) {

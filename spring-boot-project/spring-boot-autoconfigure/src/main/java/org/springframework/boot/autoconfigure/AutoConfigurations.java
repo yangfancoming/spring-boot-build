@@ -16,14 +16,11 @@ import org.springframework.util.ClassUtils;
 
 /**
  * {@link Configurations} representing auto-configuration {@code @Configuration} classes.
- *
- * @author Phillip Webb
  * @since 2.0.0
  */
 public class AutoConfigurations extends Configurations implements Ordered {
 
-	private static final AutoConfigurationSorter SORTER = new AutoConfigurationSorter(
-			new SimpleMetadataReaderFactory(), null);
+	private static final AutoConfigurationSorter SORTER = new AutoConfigurationSorter(new SimpleMetadataReaderFactory(), null);
 
 	private static final Ordered ORDER = new AutoConfigurationImportSelector();
 
@@ -33,12 +30,9 @@ public class AutoConfigurations extends Configurations implements Ordered {
 
 	@Override
 	protected Collection<Class<?>> sort(Collection<Class<?>> classes) {
-		List<String> names = classes.stream().map(Class::getName)
-				.collect(Collectors.toCollection(ArrayList::new));
+		List<String> names = classes.stream().map(Class::getName).collect(Collectors.toCollection(ArrayList::new));
 		List<String> sorted = SORTER.getInPriorityOrder(names);
-		return sorted.stream()
-				.map((className) -> ClassUtils.resolveClassName(className, null))
-				.collect(Collectors.toCollection(ArrayList::new));
+		return sorted.stream().map((className) -> ClassUtils.resolveClassName(className, null)).collect(Collectors.toCollection(ArrayList::new));
 	}
 
 	@Override
@@ -54,5 +48,4 @@ public class AutoConfigurations extends Configurations implements Ordered {
 	public static AutoConfigurations of(Class<?>... classes) {
 		return new AutoConfigurations(Arrays.asList(classes));
 	}
-
 }

@@ -129,8 +129,7 @@ public abstract class AbstractApplicationContextRunner<SELF extends AbstractAppl
 	}
 
 	/**
-	 * Add a {@link ApplicationContextInitializer} to be called when the context is
-	 * created.
+	 * Add a {@link ApplicationContextInitializer} to be called when the context is created.
 	 * @param initializer the initializer to add
 	 * @return a new instance with the updated initializers
 	 */
@@ -226,8 +225,8 @@ public abstract class AbstractApplicationContextRunner<SELF extends AbstractAppl
 			ClassLoader classLoader, ApplicationContext parent,List<Configurations> configurations);
 
 	/**
-	 * Create and refresh a new {@link ApplicationContext} based on the current state of
-	 * this loader. The context is consumed by the specified {@code consumer} and closed upon completion.
+	 * Create and refresh a new {@link ApplicationContext} based on the current state of this loader.
+	 * The context is consumed by the specified {@code consumer} and closed upon completion.
 	 * @param consumer the consumer of the created {@link ApplicationContext}
 	 * @return this instance
 	 */
@@ -305,5 +304,4 @@ public abstract class AbstractApplicationContextRunner<SELF extends AbstractAppl
 	private <E extends Throwable> void rethrow(Throwable e) throws E {
 		throw (E) e;
 	}
-
 }

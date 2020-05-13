@@ -25,25 +25,16 @@ import org.springframework.util.ClassUtils;
 
 /**
  * A set of {@link Configuration @Configuration} classes that can be registered in
- * {@link ApplicationContext}. Classes can be returned from one or more
- * {@link Configurations} instances by using {@link #getClasses(Configurations[])}. The
- * resulting array follows the ordering rules usually applied by the
- * {@link ApplicationContext} and/or custom {@link ImportSelector} implementations.
- * <p>
- * This class is primarily intended for use with tests that need to specify configuration
- * classes but can't use {@link SpringRunner}.
- * <p>
- * Implementations of this class should be annotated with {@code @Order} or implement
- * {@link Ordered}.
- *
- * @author Phillip Webb
+ * {@link ApplicationContext}. Classes can be returned from one or more {@link Configurations} instances by using {@link #getClasses(Configurations[])}.
+ *  The resulting array follows the ordering rules usually applied by the {@link ApplicationContext} and/or custom {@link ImportSelector} implementations.
+ * This class is primarily intended for use with tests that need to specify configuration classes but can't use {@link SpringRunner}.
+ * Implementations of this class should be annotated with {@code @Order} or implement {@link Ordered}.
  * @since 2.0.0
  * @see UserConfigurations
  */
 public abstract class Configurations {
 
-	private static final Comparator<Object> COMPARATOR = OrderComparator.INSTANCE
-			.thenComparing((other) -> other.getClass().getName());
+	private static final Comparator<Object> COMPARATOR = OrderComparator.INSTANCE.thenComparing((other) -> other.getClass().getName());
 
 	private final Set<Class<?>> classes;
 
@@ -68,8 +59,7 @@ public abstract class Configurations {
 
 	/**
 	 * Merge configurations from another source of the same type.
-	 * @param other the other {@link Configurations} (must be of the same type as this
-	 * instance)
+	 * @param other the other {@link Configurations} (must be of the same type as this instance)
 	 * @return a new configurations instance (must be of the same type as this instance)
 	 */
 	protected Configurations merge(Configurations other) {
@@ -96,8 +86,7 @@ public abstract class Configurations {
 	}
 
 	/**
-	 * Return the classes from all the specified configurations in the order that they
-	 * would be registered.
+	 * Return the classes from all the specified configurations in the order that they would be registered.
 	 * @param configurations the source configuration
 	 * @return configuration classes in registration order
 	 */
@@ -105,9 +94,7 @@ public abstract class Configurations {
 		List<Configurations> ordered = new ArrayList<>(configurations);
 		ordered.sort(COMPARATOR);
 		List<Configurations> collated = collate(ordered);
-		LinkedHashSet<Class<?>> classes = collated.stream()
-				.flatMap(Configurations::streamClasses)
-				.collect(Collectors.toCollection(LinkedHashSet::new));
+		LinkedHashSet<Class<?>> classes = collated.stream().flatMap(Configurations::streamClasses).collect(Collectors.toCollection(LinkedHashSet::new));
 		return ClassUtils.toClassArray(classes);
 	}
 
@@ -115,14 +102,12 @@ public abstract class Configurations {
 		return configurations.getClasses().stream();
 	}
 
-	private static List<Configurations> collate(
-			List<Configurations> orderedConfigurations) {
+	private static List<Configurations> collate(List<Configurations> orderedConfigurations) {
 		LinkedList<Configurations> collated = new LinkedList<>();
 		for (Configurations item : orderedConfigurations) {
 			if (collated.isEmpty() || collated.getLast().getClass() != item.getClass()) {
 				collated.add(item);
-			}
-			else {
+			}else {
 				collated.set(collated.size() - 1, collated.getLast().merge(item));
 			}
 		}

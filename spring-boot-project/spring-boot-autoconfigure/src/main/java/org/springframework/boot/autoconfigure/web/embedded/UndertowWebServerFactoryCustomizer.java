@@ -46,13 +46,12 @@ public class UndertowWebServerFactoryCustomizer implements
 	public void customize(ConfigurableUndertowWebServerFactory factory) {
 		ServerProperties properties = this.serverProperties;
 		ServerProperties.Undertow undertowProperties = properties.getUndertow();
-		ServerProperties.Undertow.Accesslog accesslogProperties = undertowProperties
-				.getAccesslog();
+		ServerProperties.Undertow.Accesslog accesslogProperties = undertowProperties.getAccesslog();
 		PropertyMapper propertyMapper = PropertyMapper.get().alwaysApplyingWhenNonNull();
 		propertyMapper.from(undertowProperties::getBufferSize).to(factory::setBufferSize);
 		propertyMapper.from(undertowProperties::getIoThreads).to(factory::setIoThreads);
-		propertyMapper.from(undertowProperties::getWorkerThreads)
-				.to(factory::setWorkerThreads);
+		propertyMapper.from(undertowProperties::getWorkerThreads).to(factory::setWorkerThreads);
+
 		propertyMapper.from(undertowProperties::getDirectBuffers)
 				.to(factory::setUseDirectBuffers);
 		propertyMapper.from(accesslogProperties::isEnabled)
