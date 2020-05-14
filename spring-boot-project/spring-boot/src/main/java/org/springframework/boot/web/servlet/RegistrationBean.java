@@ -13,8 +13,6 @@ import org.springframework.util.StringUtils;
 
 /**
  * Base class for Servlet 3.0+ based registration beans.
- *
- * @author Phillip Webb
  * @since 1.4.0
  * @see ServletRegistrationBean
  * @see FilterRegistrationBean
@@ -33,8 +31,7 @@ public abstract class RegistrationBean implements ServletContextInitializer, Ord
 	public final void onStartup(ServletContext servletContext) throws ServletException {
 		String description = getDescription();
 		if (!isEnabled()) {
-			logger.info(StringUtils.capitalize(description)
-					+ " was not registered (disabled)");
+			logger.info(StringUtils.capitalize(description) + " was not registered (disabled)");
 			return;
 		}
 		register(description, servletContext);
@@ -85,5 +82,4 @@ public abstract class RegistrationBean implements ServletContextInitializer, Ord
 	public int getOrder() {
 		return this.order;
 	}
-
 }

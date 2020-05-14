@@ -16,15 +16,11 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
- * Base class for Servlet 3.0+ {@link javax.servlet.Registration.Dynamic dynamic} based
- * registration beans.
- *
+ * Base class for Servlet 3.0+ {@link javax.servlet.Registration.Dynamic dynamic} based registration beans.
  * @param <D> the dynamic registration result
- * @author Phillip Webb
  * @since 2.0.0
  */
-public abstract class DynamicRegistrationBean<D extends Registration.Dynamic>
-		extends RegistrationBean {
+public abstract class DynamicRegistrationBean<D extends Registration.Dynamic> extends RegistrationBean {
 
 	private static final Log logger = LogFactory.getLog(RegistrationBean.class);
 
@@ -44,8 +40,7 @@ public abstract class DynamicRegistrationBean<D extends Registration.Dynamic>
 	}
 
 	/**
-	 * Sets if asynchronous operations are supported for this registration. If not
-	 * specified defaults to {@code true}.
+	 * Sets if asynchronous operations are supported for this registration. If not specified defaults to {@code true}.
 	 * @param asyncSupported if async is supported
 	 */
 	public void setAsyncSupported(boolean asyncSupported) {
@@ -61,8 +56,7 @@ public abstract class DynamicRegistrationBean<D extends Registration.Dynamic>
 	}
 
 	/**
-	 * Set init-parameters for this registration. Calling this method will replace any
-	 * existing init-parameters.
+	 * Set init-parameters for this registration. Calling this method will replace any existing init-parameters.
 	 * @param initParameters the init parameters
 	 * @see #getInitParameters
 	 * @see #addInitParameter
@@ -94,15 +88,13 @@ public abstract class DynamicRegistrationBean<D extends Registration.Dynamic>
 	protected final void register(String description, ServletContext servletContext) {
 		D registration = addRegistration(description, servletContext);
 		if (registration == null) {
-			logger.info(StringUtils.capitalize(description) + " was not registered "
-					+ "(possibly already registered?)");
+			logger.info(StringUtils.capitalize(description) + " was not registered " + "(possibly already registered?)");
 			return;
 		}
 		configure(registration);
 	}
 
-	protected abstract D addRegistration(String description,
-			ServletContext servletContext);
+	protected abstract D addRegistration(String description,ServletContext servletContext);
 
 	protected void configure(D registration) {
 		registration.setAsyncSupported(this.asyncSupported);
@@ -112,13 +104,11 @@ public abstract class DynamicRegistrationBean<D extends Registration.Dynamic>
 	}
 
 	/**
-	 * Deduces the name for this registration. Will return user specified name or fallback
-	 * to convention based naming.
+	 * Deduces the name for this registration. Will return user specified name or fallback to convention based naming.
 	 * @param value the object used for convention based names
 	 * @return the deduced name
 	 */
 	protected final String getOrDeduceName(Object value) {
 		return (this.name != null) ? this.name : Conventions.getVariableName(value);
 	}
-
 }

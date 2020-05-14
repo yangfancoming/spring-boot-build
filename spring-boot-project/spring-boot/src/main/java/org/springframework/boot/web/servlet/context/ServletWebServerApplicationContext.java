@@ -44,29 +44,20 @@ import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 /**
- * A {@link WebApplicationContext} that can be used to bootstrap itself from a contained
- * {@link ServletWebServerFactory} bean.
- * <p>
+ * A {@link WebApplicationContext} that can be used to bootstrap itself from a contained {@link ServletWebServerFactory} bean.
  * This context will create, initialize and run an {@link WebServer} by searching for a
  * single {@link ServletWebServerFactory} bean within the {@link ApplicationContext}
  * itself. The {@link ServletWebServerFactory} is free to use standard Spring concepts
  * (such as dependency injection, lifecycle callbacks and property placeholder variables).
- * <p>
  * In addition, any {@link Servlet} or {@link Filter} beans defined in the context will be
  * automatically registered with the web server. In the case of a single Servlet bean, the
  * '/' mapping will be used. If multiple Servlet beans are found then the lowercase bean
- * name will be used as a mapping prefix. Any Servlet named 'dispatcherServlet' will
- * always be mapped to '/'. Filter beans will be mapped to all URLs ('/*').
- * <p>
- * For more advanced configuration, the context can instead define beans that implement
- * the {@link ServletContextInitializer} interface (most often
- * {@link ServletRegistrationBean}s and/or {@link FilterRegistrationBean}s). To prevent
- * double registration, the use of {@link ServletContextInitializer} beans will disable
- * automatic Servlet and Filter bean registration.
- * <p>
+ * name will be used as a mapping prefix. Any Servlet named 'dispatcherServlet' will always be mapped to '/'. Filter beans will be mapped to all URLs ('/*').
+ * For more advanced configuration, the context can instead define beans that implement  the {@link ServletContextInitializer} interface (most often
+ * {@link ServletRegistrationBean}s and/or {@link FilterRegistrationBean}s).
+ * To prevent double registration, the use of {@link ServletContextInitializer} beans will disable automatic Servlet and Filter bean registration.
  * Although this context can be used directly, most developers should consider using the
- * {@link AnnotationConfigServletWebServerApplicationContext} or
- * {@link XmlServletWebServerApplicationContext} variants.
+ * {@link AnnotationConfigServletWebServerApplicationContext} or {@link XmlServletWebServerApplicationContext} variants.
  * @see AnnotationConfigServletWebServerApplicationContext
  * @see XmlServletWebServerApplicationContext
  * @see ServletWebServerFactory
@@ -76,9 +67,9 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	private static final Log logger = LogFactory.getLog(ServletWebServerApplicationContext.class);
 
 	/**
-	 * Constant value for the DispatcherServlet bean name. A Servlet bean with this name
-	 * is deemed to be the "main" servlet and is automatically given a mapping of "/" by
-	 * default. To change the default behavior you can use a
+	 * Constant value for the DispatcherServlet bean name.
+	 * A Servlet bean with this name is deemed to be the "main" servlet and is automatically given a mapping of "/" by default.
+	 * To change the default behavior you can use a
 	 * {@link ServletRegistrationBean} or a different bean name.
 	 */
 	public static final String DISPATCHER_SERVLET_NAME = "dispatcherServlet";
@@ -118,8 +109,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	public final void refresh() throws BeansException, IllegalStateException {
 		try {
 			super.refresh();
-		}
-		catch (RuntimeException ex) {
+		}catch (RuntimeException ex) {
 			stopAndReleaseWebServer();
 			throw ex;
 		}
@@ -130,8 +120,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		super.onRefresh();
 		try {
 			createWebServer();
-		}
-		catch (Throwable ex) {
+		}catch (Throwable ex) {
 			throw new ApplicationContextException("Unable to start web server", ex);
 		}
 	}
@@ -155,24 +144,22 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		WebServer webServer = this.webServer;
 		ServletContext servletContext = getServletContext();
 		if (webServer == null && servletContext == null) {
+			//获取指定的 Servlet类型
 			ServletWebServerFactory factory = getWebServerFactory();
+			//指定 ServletContextInitializer 触发逻辑
 			this.webServer = factory.getWebServer(getSelfInitializer());
-		}
-		else if (servletContext != null) {
+		}else if (servletContext != null) {
 			try {
 				getSelfInitializer().onStartup(servletContext);
-			}
-			catch (ServletException ex) {
-				throw new ApplicationContextException("Cannot initialize servlet context",
-						ex);
+			}catch (ServletException ex) {
+				throw new ApplicationContextException("Cannot initialize servlet context",ex);
 			}
 		}
 		initPropertySources();
 	}
 
 	/**
-	 * Returns the {@link ServletWebServerFactory} that should be used to create the
-	 * embedded {@link WebServer}. By default this method searches for a suitable bean in the context itself.
+	 * Returns the {@link ServletWebServerFactory} that should be used to create the embedded {@link WebServer}. By default this method searches for a suitable bean in the context itself.
 	 * @return a {@link ServletWebServerFactory} (never {@code null})
 	 */
 	protected ServletWebServerFactory getWebServerFactory() {
@@ -188,8 +175,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	}
 
 	/**
-	 * Returns the {@link ServletContextInitializer} that will be used to complete the
-	 * setup of this {@link WebApplicationContext}.
+	 * Returns the {@link ServletContextInitializer} that will be used to complete the setup of this {@link WebApplicationContext}.
 	 * @return the self initializer
 	 * @see #prepareWebApplicationContext(ServletContext)
 	 */
@@ -200,23 +186,19 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	private void selfInitialize(ServletContext servletContext) throws ServletException {
 		prepareWebApplicationContext(servletContext);
 		ConfigurableListableBeanFactory beanFactory = getBeanFactory();
-		ExistingWebApplicationScopes existingScopes = new ExistingWebApplicationScopes(
-				beanFactory);
-		WebApplicationContextUtils.registerWebApplicationScopes(beanFactory,
-				getServletContext());
+		ExistingWebApplicationScopes existingScopes = new ExistingWebApplicationScopes(beanFactory);
+		WebApplicationContextUtils.registerWebApplicationScopes(beanFactory,getServletContext());
 		existingScopes.restore();
-		WebApplicationContextUtils.registerEnvironmentBeans(beanFactory,
-				getServletContext());
+		WebApplicationContextUtils.registerEnvironmentBeans(beanFactory,getServletContext());
+		// 这里便是获取所有的 ServletContextInitializer 实现类，会获取所有的注册组件
 		for (ServletContextInitializer beans : getServletContextInitializerBeans()) {
 			beans.onStartup(servletContext);
 		}
 	}
 
 	/**
-	 * Returns {@link ServletContextInitializer}s that should be used with the embedded
-	 * web server. By default this method will first attempt to find
-	 * {@link ServletContextInitializer}, {@link Servlet}, {@link Filter} and certain
-	 * {@link EventListener} beans.
+	 * Returns {@link ServletContextInitializer}s that should be used with the embedded web server. By default this method will first attempt to find
+	 * {@link ServletContextInitializer}, {@link Servlet}, {@link Filter} and certain {@link EventListener} beans.
 	 * @return the servlet initializer beans
 	 */
 	protected Collection<ServletContextInitializer> getServletContextInitializerBeans() {
@@ -231,38 +213,28 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	 * @param servletContext the operational servlet context
 	 */
 	protected void prepareWebApplicationContext(ServletContext servletContext) {
-		Object rootContext = servletContext.getAttribute(
-				WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		Object rootContext = servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		if (rootContext != null) {
 			if (rootContext == this) {
-				throw new IllegalStateException(
-						"Cannot initialize context because there is already a root application context present - "
-								+ "check whether you have multiple ServletContextInitializers!");
+				throw new IllegalStateException("Cannot initialize context because there is already a root application context present - check whether you have multiple ServletContextInitializers!");
 			}
 			return;
 		}
 		Log logger = LogFactory.getLog(ContextLoader.class);
 		servletContext.log("Initializing Spring embedded WebApplicationContext");
 		try {
-			servletContext.setAttribute(
-					WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this);
+			servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this);
 			if (logger.isDebugEnabled()) {
-				logger.debug(
-						"Published root WebApplicationContext as ServletContext attribute with name ["
-								+ WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE
-								+ "]");
+				logger.debug("Published root WebApplicationContext as ServletContext attribute with name [" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE + "]");
 			}
 			setServletContext(servletContext);
 			if (logger.isInfoEnabled()) {
 				long elapsedTime = System.currentTimeMillis() - getStartupDate();
-				logger.info("Root WebApplicationContext: initialization completed in "
-						+ elapsedTime + " ms");
+				logger.info("Root WebApplicationContext: initialization completed in " + elapsedTime + " ms");
 			}
-		}
-		catch (RuntimeException | Error ex) {
+		}catch (RuntimeException | Error ex) {
 			logger.error("Context initialization failed", ex);
-			servletContext.setAttribute(
-					WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, ex);
+			servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, ex);
 			throw ex;
 		}
 	}
@@ -281,8 +253,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 			try {
 				webServer.stop();
 				this.webServer = null;
-			}
-			catch (Exception ex) {
+			}catch (Exception ex) {
 				throw new IllegalStateException(ex);
 			}
 		}
@@ -317,8 +288,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	}
 
 	/**
-	 * Returns the {@link WebServer} that was created by the context or {@code null} if
-	 * the server has not yet been created.
+	 * Returns the {@link WebServer} that was created by the context or {@code null} if the server has not yet been created.
 	 * @return the embedded web server
 	 */
 	@Override
@@ -328,8 +298,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 
 	/**
 	 * Utility class to store and restore any user defined scopes. This allow scopes to be
-	 * registered in an ApplicationContextInitializer in the same way as they would in a
-	 * classic non-embedded web application context.
+	 * registered in an ApplicationContextInitializer in the same way as they would in a classic non-embedded web application context.
 	 */
 	public static class ExistingWebApplicationScopes {
 
@@ -358,9 +327,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 
 		public void restore() {
 			this.scopes.forEach((key, value) -> {
-				if (logger.isInfoEnabled()) {
-					logger.info("Restoring user defined scope " + key);
-				}
+				if (logger.isInfoEnabled()) logger.info("Restoring user defined scope " + key);
 				this.beanFactory.registerScope(key, value);
 			});
 		}

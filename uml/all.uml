@@ -3,9 +3,24 @@
   <ID>JAVA</ID>
   <OriginalElement />
   <nodes>
-    <node x="0.0" y="158.0">org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector</node>
-    <node x="18.0" y="79.0">org.springframework.boot.autoconfigure.AutoConfigurationImportSelector</node>
-    <node x="45.0" y="0.0">org.springframework.context.annotation.DeferredImportSelector</node>
+    <node x="366.0" y="548.0">org.springframework.boot.web.servlet.context.XmlServletWebServerApplicationContext</node>
+    <node x="442.25000000000006" y="79.0">org.springframework.boot.web.servlet.RegistrationBean</node>
+    <node x="0.0" y="780.0">org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector</node>
+    <node x="508.25000000000006" y="0.0">org.springframework.boot.web.servlet.ServletContextInitializer</node>
+    <node x="18.0" y="701.0">org.springframework.boot.autoconfigure.AutoConfigurationImportSelector</node>
+    <node x="511.25000000000006" y="158.0">org.springframework.boot.web.servlet.ServletListenerRegistrationBean</node>
+    <node x="604.25" y="79.0">org.springframework.boot.actuate.endpoint.web.ServletEndpointRegistrar</node>
+    <node x="142.5" y="237.0">org.springframework.boot.web.servlet.AbstractFilterRegistrationBean</node>
+    <node x="307.25000000000006" y="158.0">org.springframework.boot.web.servlet.DynamicRegistrationBean</node>
+    <node x="211.5" y="469.0">org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext</node>
+    <node x="0.0" y="548.0">org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext</node>
+    <node x="288.0" y="316.0">org.springframework.boot.web.servlet.FilterRegistrationBean</node>
+    <node x="313.0" y="622.0">test</node>
+    <node x="0.0" y="316.0">org.springframework.boot.web.servlet.DelegatingFilterProxyRegistrationBean</node>
+    <node x="45.0" y="622.0">org.springframework.context.annotation.DeferredImportSelector</node>
+    <node x="516.0" y="237.0">org.springframework.boot.web.servlet.ServletRegistrationBean</node>
+    <node x="196.5" y="390.0">org.springframework.boot.web.context.ConfigurableWebServerApplicationContext</node>
+    <node x="486.0" y="316.0">org.springframework.boot.autoconfigure.web.servlet.DispatcherServletRegistrationBean</node>
   </nodes>
   <notes />
   <edges>
@@ -13,14 +28,82 @@
       <point x="0.0" y="-14.5" />
       <point x="0.0" y="14.5" />
     </edge>
+    <edge source="org.springframework.boot.autoconfigure.web.servlet.DispatcherServletRegistrationBean" target="org.springframework.boot.web.servlet.ServletRegistrationBean">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.AbstractFilterRegistrationBean" target="org.springframework.boot.web.servlet.DynamicRegistrationBean">
+      <point x="5.6843418860808015E-14" y="-14.5" />
+      <point x="255.50000000000006" y="212.0" />
+      <point x="353.25000000000006" y="212.0" />
+      <point x="-46.0" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.FilterRegistrationBean" target="org.springframework.boot.web.servlet.AbstractFilterRegistrationBean">
+      <point x="0.0" y="-14.5" />
+      <point x="377.0" y="291.0" />
+      <point x="312.00000000000006" y="291.0" />
+      <point x="56.50000000000006" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.ServletRegistrationBean" target="org.springframework.boot.web.servlet.DynamicRegistrationBean">
+      <point x="0.0" y="-14.5" />
+      <point x="608.0" y="212.0" />
+      <point x="445.25000000000006" y="212.0" />
+      <point x="46.0" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext" target="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext">
+      <point x="0.0" y="-14.5" />
+      <point x="173.0" y="523.0" />
+      <point x="274.0" y="523.0" />
+      <point x="-62.5" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.ServletListenerRegistrationBean" target="org.springframework.boot.web.servlet.RegistrationBean">
+      <point x="0.0" y="-14.5" />
+      <point x="627.25" y="133.0" />
+      <point x="548.75" y="133.0" />
+      <point x="35.5" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.DynamicRegistrationBean" target="org.springframework.boot.web.servlet.RegistrationBean">
+      <point x="0.0" y="-14.5" />
+      <point x="399.25000000000006" y="133.0" />
+      <point x="477.75000000000006" y="133.0" />
+      <point x="-35.5" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.actuate.endpoint.web.ServletEndpointRegistrar" target="org.springframework.boot.web.servlet.ServletContextInitializer">
+      <point x="0.0" y="-14.5" />
+      <point x="699.25" y="54.0" />
+      <point x="655.25" y="54.0" />
+      <point x="49.0" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.DelegatingFilterProxyRegistrationBean" target="org.springframework.boot.web.servlet.AbstractFilterRegistrationBean">
+      <point x="0.0" y="-14.5" />
+      <point x="134.0" y="291.0" />
+      <point x="199.0" y="291.0" />
+      <point x="-56.5" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.RegistrationBean" target="org.springframework.boot.web.servlet.ServletContextInitializer">
+      <point x="0.0" y="-14.5" />
+      <point x="513.25" y="54.0" />
+      <point x="557.25" y="54.0" />
+      <point x="-49.0" y="14.5" />
+    </edge>
+    <edge source="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext" target="org.springframework.boot.web.context.ConfigurableWebServerApplicationContext">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
     <edge source="org.springframework.boot.autoconfigure.AutoConfigurationImportSelector" target="org.springframework.context.annotation.DeferredImportSelector">
       <point x="0.0" y="-14.5" />
       <point x="0.0" y="14.5" />
     </edge>
+    <edge source="org.springframework.boot.web.servlet.context.XmlServletWebServerApplicationContext" target="org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext">
+      <point x="0.0" y="-14.5" />
+      <point x="500.0" y="523.0" />
+      <point x="399.0" y="523.0" />
+      <point x="62.5" y="14.5" />
+    </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="0.0" y="0.0" />
+  <settings layout="Hierarchic Group" zoom="1.0" x="386.0" y="289.0" />
   <SelectedNodes>
-    <node>org.springframework.boot.autoconfigure.ImportAutoConfigurationImportSelector</node>
+    <node>org.springframework.boot.autoconfigure.web.servlet.DispatcherServletRegistrationBean</node>
   </SelectedNodes>
   <Categories />
   <SCOPE>All</SCOPE>

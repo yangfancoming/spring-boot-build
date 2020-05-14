@@ -20,25 +20,18 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * A {@link ServletContextInitializer} to register {@link Servlet}s in a Servlet 3.0+
- * container. Similar to the {@link ServletContext#addServlet(String, Servlet)
- * registration} features provided by {@link ServletContext} but with a Spring Bean
- * friendly design.
- * <p>
- * The {@link #setServlet(Servlet) servlet} must be specified before calling
- * {@link #onStartup}. URL mapping can be configured used {@link #setUrlMappings} or
- * omitted when mapping to '/*' (unless
- * {@link #ServletRegistrationBean(Servlet, boolean, String...) alwaysMapUrl} is set to
- * {@code false}). The servlet name will be deduced if not specified.
- *
+ * A {@link ServletContextInitializer} to register {@link Servlet}s in a Servlet 3.0+ container.
+ * Similar to the {@link ServletContext#addServlet(String, Servlet) registration} features provided by {@link ServletContext} but with a Spring Bean friendly design.
+ * The {@link #setServlet(Servlet) servlet} must be specified before calling {@link #onStartup}.
+ * URL mapping can be configured used {@link #setUrlMappings} or omitted when mapping to '/*' (unless
+ * {@link #ServletRegistrationBean(Servlet, boolean, String...) alwaysMapUrl} is set to {@code false}).
+ * The servlet name will be deduced if not specified.
  * @param <T> the type of the {@link Servlet} to register
- * @author Phillip Webb
  * @since 1.4.0
  * @see ServletContextInitializer
  * @see ServletContext#addServlet(String, Servlet)
  */
-public class ServletRegistrationBean<T extends Servlet>
-		extends DynamicRegistrationBean<ServletRegistration.Dynamic> {
+public class ServletRegistrationBean<T extends Servlet> extends DynamicRegistrationBean<ServletRegistration.Dynamic> {
 
 	private static final Log logger = LogFactory.getLog(ServletRegistrationBean.class);
 
@@ -61,8 +54,7 @@ public class ServletRegistrationBean<T extends Servlet>
 	}
 
 	/**
-	 * Create a new {@link ServletRegistrationBean} instance with the specified
-	 * {@link Servlet} and URL mappings.
+	 * Create a new {@link ServletRegistrationBean} instance with the specified {@link Servlet} and URL mappings.
 	 * @param servlet the servlet being mapped
 	 * @param urlMappings the URLs being mapped
 	 */
@@ -71,14 +63,12 @@ public class ServletRegistrationBean<T extends Servlet>
 	}
 
 	/**
-	 * Create a new {@link ServletRegistrationBean} instance with the specified
-	 * {@link Servlet} and URL mappings.
+	 * Create a new {@link ServletRegistrationBean} instance with the specified {@link Servlet} and URL mappings.
 	 * @param servlet the servlet being mapped
 	 * @param alwaysMapUrl if omitted URL mappings should be replaced with '/*'
 	 * @param urlMappings the URLs being mapped
 	 */
-	public ServletRegistrationBean(T servlet, boolean alwaysMapUrl,
-			String... urlMappings) {
+	public ServletRegistrationBean(T servlet, boolean alwaysMapUrl,String... urlMappings) {
 		Assert.notNull(servlet, "Servlet must not be null");
 		Assert.notNull(urlMappings, "UrlMappings must not be null");
 		this.servlet = servlet;
@@ -105,8 +95,7 @@ public class ServletRegistrationBean<T extends Servlet>
 	}
 
 	/**
-	 * Set the URL mappings for the servlet. If not specified the mapping will default to
-	 * '/'. This will replace any previously specified mappings.
+	 * Set the URL mappings for the servlet. If not specified the mapping will default to '/'. This will replace any previously specified mappings.
 	 * @param urlMappings the mappings to set
 	 * @see #addUrlMappings(String...)
 	 */
@@ -116,8 +105,7 @@ public class ServletRegistrationBean<T extends Servlet>
 	}
 
 	/**
-	 * Return a mutable collection of the URL mappings, as defined in the Servlet
-	 * specification, for the servlet.
+	 * Return a mutable collection of the URL mappings, as defined in the Servlet specification, for the servlet.
 	 * @return the urlMappings
 	 */
 	public Collection<String> getUrlMappings() {
@@ -167,16 +155,14 @@ public class ServletRegistrationBean<T extends Servlet>
 	}
 
 	@Override
-	protected ServletRegistration.Dynamic addRegistration(String description,
-			ServletContext servletContext) {
+	protected ServletRegistration.Dynamic addRegistration(String description,ServletContext servletContext) {
 		String name = getServletName();
 		logger.info("Servlet " + name + " mapped to " + this.urlMappings);
 		return servletContext.addServlet(name, this.servlet);
 	}
 
 	/**
-	 * Configure registration settings. Subclasses can override this method to perform
-	 * additional configuration if required.
+	 * Configure registration settings. Subclasses can override this method to perform additional configuration if required.
 	 * @param registration the registration
 	 */
 	@Override
@@ -202,5 +188,4 @@ public class ServletRegistrationBean<T extends Servlet>
 	public String getServletName() {
 		return getOrDeduceName(this.servlet);
 	}
-
 }
