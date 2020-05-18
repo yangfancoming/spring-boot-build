@@ -28,7 +28,5 @@ class JettyEmbeddedWebAppContext extends WebAppContext {
 		public void deferredInitialize() throws Exception {
 			super.initialize();
 		}
-
 	}
-
 }

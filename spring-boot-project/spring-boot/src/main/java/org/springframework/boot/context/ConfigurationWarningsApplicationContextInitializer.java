@@ -176,7 +176,6 @@ public class ConfigurationWarningsApplicationContextInitializer implements Appli
 			if (scannedPackage == null || scannedPackage.isEmpty()) return "the default package";
 			return "'" + scannedPackage + "'";
 		}
-
 	}
 
 }

@@ -7,10 +7,7 @@ import org.apache.catalina.LifecycleState;
 import org.apache.catalina.util.StandardSessionIdGenerator;
 
 /**
- * A specialization of {@link StandardSessionIdGenerator} that initializes
- * {@code SecureRandom} lazily.
- *
- * @author Andy Wilkinson
+ * A specialization of {@link StandardSessionIdGenerator} that initializes {@code SecureRandom} lazily.
  */
 class LazySessionIdGenerator extends StandardSessionIdGenerator {
 

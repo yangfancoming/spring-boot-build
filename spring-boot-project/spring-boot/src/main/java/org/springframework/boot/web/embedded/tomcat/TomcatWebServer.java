@@ -29,11 +29,7 @@ import org.springframework.util.Assert;
 
 /**
  * {@link WebServer} that can be used to control a Tomcat web server. Usually this class
- * should be created using the {@link TomcatReactiveWebServerFactory} of
- * {@link TomcatServletWebServerFactory}, but not directly.
- *
- * @author Brian Clozel
- * @author Kristine Jetzke
+ * should be created using the {@link TomcatReactiveWebServerFactory} of {@link TomcatServletWebServerFactory}, but not directly.
  * @since 2.0.0
  */
 public class TomcatWebServer implements WebServer {
@@ -73,41 +69,31 @@ public class TomcatWebServer implements WebServer {
 	}
 
 	private void initialize() throws WebServerException {
-		TomcatWebServer.logger
-				.info("Tomcat initialized with port(s): " + getPortsDescription(false));
+		TomcatWebServer.logger.info("Tomcat initialized with port(s): " + getPortsDescription(false));
 		synchronized (this.monitor) {
 			try {
 				addInstanceIdToEngineName();
-
 				Context context = findContext();
 				context.addLifecycleListener((event) -> {
-					if (context.equals(event.getSource())
-							&& Lifecycle.START_EVENT.equals(event.getType())) {
+					if (context.equals(event.getSource()) && Lifecycle.START_EVENT.equals(event.getType())) {
 						// Remove service connectors so that protocol binding doesn't
 						// happen when the service is started.
 						removeServiceConnectors();
 					}
 				});
-
 				// Start the server to trigger initialization listeners
 				this.tomcat.start();
-
 				// We can re-throw failure exception directly in the main thread
 				rethrowDeferredStartupExceptions();
-
 				try {
-					ContextBindings.bindClassLoader(context, context.getNamingToken(),
-							getClass().getClassLoader());
-				}
-				catch (NamingException ex) {
+					ContextBindings.bindClassLoader(context, context.getNamingToken(),getClass().getClassLoader());
+				}catch (NamingException ex) {
 					// Naming is not enabled. Continue
 				}
-
 				// Unlike Jetty, all Tomcat threads are daemon threads. We create a
 				// blocking non-daemon to stop immediate shutdown
 				startDaemonAwaitThread();
-			}
-			catch (Exception ex) {
+			}catch (Exception ex) {
 				stopSilently();
 				throw new WebServerException("Unable to start embedded Tomcat", ex);
 			}
@@ -145,8 +131,7 @@ public class TomcatWebServer implements WebServer {
 		Container[] children = this.tomcat.getHost().findChildren();
 		for (Container container : children) {
 			if (container instanceof TomcatEmbeddedContext) {
-				TomcatStarter tomcatStarter = ((TomcatEmbeddedContext) container)
-						.getStarter();
+				TomcatStarter tomcatStarter = ((TomcatEmbeddedContext) container).getStarter();
 				if (tomcatStarter != null) {
 					Exception exception = tomcatStarter.getStartUpException();
 					if (exception != null) {
@@ -188,22 +173,16 @@ public class TomcatWebServer implements WebServer {
 				}
 				checkThatConnectorsHaveStarted();
 				this.started = true;
-				TomcatWebServer.logger
-						.info("Tomcat started on port(s): " + getPortsDescription(true)
-								+ " with context path '" + getContextPath() + "'");
-			}
-			catch (ConnectorStartFailedException ex) {
+				TomcatWebServer.logger.info("Tomcat started on port(s): " + getPortsDescription(true) + " with context path '" + getContextPath() + "'");
+			}catch (ConnectorStartFailedException ex) {
 				stopSilently();
 				throw ex;
-			}
-			catch (Exception ex) {
-				throw new WebServerException("Unable to start embedded Tomcat server",
-						ex);
+			}catch (Exception ex) {
+				throw new WebServerException("Unable to start embedded Tomcat server",ex);
 			}
 			finally {
 				Context context = findContext();
-				ContextBindings.unbindClassLoader(context, context.getNamingToken(),
-						getClass().getClassLoader());
+				ContextBindings.unbindClassLoader(context, context.getNamingToken(),getClass().getClassLoader());
 			}
 		}
 	}
@@ -219,15 +198,13 @@ public class TomcatWebServer implements WebServer {
 	private void stopSilently() {
 		try {
 			stopTomcat();
-		}
-		catch (LifecycleException ex) {
+		}catch (LifecycleException ex) {
 			// Ignore
 		}
 	}
 
 	private void stopTomcat() throws LifecycleException {
-		if (Thread.currentThread()
-				.getContextClassLoader() instanceof TomcatEmbeddedWebappClassLoader) {
+		if (Thread.currentThread().getContextClassLoader() instanceof TomcatEmbeddedWebappClassLoader) {
 			Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
 		}
 		this.tomcat.stop();
@@ -252,8 +229,7 @@ public class TomcatWebServer implements WebServer {
 	private void stopProtocolHandler(Connector connector) {
 		try {
 			connector.getProtocolHandler().stop();
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			TomcatWebServer.logger.error("Cannot pause connector: ", ex);
 		}
 	}
@@ -265,11 +241,9 @@ public class TomcatWebServer implements WebServer {
 					((TomcatEmbeddedContext) child).deferredLoadOnStartup();
 				}
 			}
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			TomcatWebServer.logger.error("Cannot start connector: ", ex);
-			throw new WebServerException("Unable to start embedded Tomcat connectors",
-					ex);
+			throw new WebServerException("Unable to start embedded Tomcat connectors",ex);
 		}
 	}
 
@@ -286,15 +260,12 @@ public class TomcatWebServer implements WebServer {
 				try {
 					stopTomcat();
 					this.tomcat.destroy();
-				}
-				catch (LifecycleException ex) {
+				}catch (LifecycleException ex) {
 					// swallow and continue
 				}
-			}
-			catch (Exception ex) {
+			}catch (Exception ex) {
 				throw new WebServerException("Unable to stop embedded Tomcat", ex);
-			}
-			finally {
+			}finally {
 				if (wasStarted) {
 					containerCounter.decrementAndGet();
 				}
@@ -335,5 +306,4 @@ public class TomcatWebServer implements WebServer {
 	public Tomcat getTomcat() {
 		return this.tomcat;
 	}
-
 }

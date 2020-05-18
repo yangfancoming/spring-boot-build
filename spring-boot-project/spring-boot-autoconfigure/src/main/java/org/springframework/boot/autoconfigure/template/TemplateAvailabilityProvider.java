@@ -6,10 +6,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 
 /**
- * Indicates the availability of view templates for a particular templating engine such as
- * FreeMarker or Thymeleaf.
- *
- * @author Andy Wilkinson
+ * Indicates the availability of view templates for a particular templating engine such as FreeMarker or Thymeleaf.
  * @since 1.1.0
  */
 @FunctionalInterface
@@ -23,7 +20,5 @@ public interface TemplateAvailabilityProvider {
 	 * @param resourceLoader the resource loader
 	 * @return if the template is available
 	 */
-	boolean isTemplateAvailable(String view, Environment environment,
-			ClassLoader classLoader, ResourceLoader resourceLoader);
-
+	boolean isTemplateAvailable(String view, Environment environment,ClassLoader classLoader, ResourceLoader resourceLoader);
 }

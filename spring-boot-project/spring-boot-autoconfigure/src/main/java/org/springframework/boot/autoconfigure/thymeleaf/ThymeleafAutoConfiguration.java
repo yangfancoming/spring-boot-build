@@ -48,14 +48,6 @@ import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for Thymeleaf.
- *
- * @author Dave Syer
- * @author Andy Wilkinson
- * @author Stephane Nicoll
- * @author Brian Clozel
- * @author Eddú Meléndez
- * @author Daniel Fernández
- * @author Kazuki Shimizu
  */
 @Configuration
 @EnableConfigurationProperties(ThymeleafProperties.class)
@@ -67,15 +59,13 @@ public class ThymeleafAutoConfiguration {
 	@ConditionalOnMissingBean(name = "defaultTemplateResolver")
 	static class DefaultTemplateResolverConfiguration {
 
-		private static final Log logger = LogFactory
-				.getLog(DefaultTemplateResolverConfiguration.class);
+		private static final Log logger = LogFactory.getLog(DefaultTemplateResolverConfiguration.class);
 
 		private final ThymeleafProperties properties;
 
 		private final ApplicationContext applicationContext;
 
-		DefaultTemplateResolverConfiguration(ThymeleafProperties properties,
-				ApplicationContext applicationContext) {
+		DefaultTemplateResolverConfiguration(ThymeleafProperties properties,ApplicationContext applicationContext) {
 			this.properties = properties;
 			this.applicationContext = applicationContext;
 		}
@@ -84,12 +74,9 @@ public class ThymeleafAutoConfiguration {
 		public void checkTemplateLocationExists() {
 			boolean checkTemplateLocation = this.properties.isCheckTemplateLocation();
 			if (checkTemplateLocation) {
-				TemplateLocation location = new TemplateLocation(
-						this.properties.getPrefix());
+				TemplateLocation location = new TemplateLocation(this.properties.getPrefix());
 				if (!location.exists(this.applicationContext)) {
-					logger.warn("Cannot find template location: " + location
-							+ " (please add some templates or check "
-							+ "your Thymeleaf configuration)");
+					logger.warn("Cannot find template location: " + location + " (please add some templates or check " + "your Thymeleaf configuration)");
 				}
 			}
 		}
@@ -112,7 +99,6 @@ public class ThymeleafAutoConfiguration {
 			resolver.setCheckExistence(this.properties.isCheckTemplate());
 			return resolver;
 		}
-
 	}
 
 	@Configuration
@@ -124,9 +110,7 @@ public class ThymeleafAutoConfiguration {
 
 		private final Collection<IDialect> dialects;
 
-		public ThymeleafDefaultConfiguration(ThymeleafProperties properties,
-				Collection<ITemplateResolver> templateResolvers,
-				ObjectProvider<Collection<IDialect>> dialectsProvider) {
+		public ThymeleafDefaultConfiguration(ThymeleafProperties properties,Collection<ITemplateResolver> templateResolvers,ObjectProvider<Collection<IDialect>> dialectsProvider) {
 			this.properties = properties;
 			this.templateResolvers = templateResolvers;
 			this.dialects = dialectsProvider.getIfAvailable(Collections::emptyList);
@@ -141,7 +125,6 @@ public class ThymeleafAutoConfiguration {
 			this.dialects.forEach(engine::addDialect);
 			return engine;
 		}
-
 	}
 
 	@Configuration
@@ -268,10 +251,9 @@ public class ThymeleafAutoConfiguration {
 		private void mapReactiveProperties(Reactive properties,
 				ThymeleafReactiveViewResolver resolver) {
 			PropertyMapper map = PropertyMapper.get();
-			map.from(properties::getMediaTypes).whenNonNull()
-					.to(resolver::setSupportedMediaTypes);
-			map.from(properties::getMaxChunkSize).when((size) -> size > 0)
-					.to(resolver::setResponseMaxChunkSizeBytes);
+			map.from(properties::getMediaTypes).whenNonNull().to(resolver::setSupportedMediaTypes);
+
+			map.from(properties::getMaxChunkSize).when((size) -> size > 0).to(resolver::setResponseMaxChunkSizeBytes);
 			map.from(properties::getFullModeViewNames).to(resolver::setFullModeViewNames);
 			map.from(properties::getChunkedModeViewNames)
 					.to(resolver::setChunkedModeViewNames);

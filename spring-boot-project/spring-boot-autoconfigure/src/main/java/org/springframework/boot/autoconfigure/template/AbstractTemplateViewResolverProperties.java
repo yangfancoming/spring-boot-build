@@ -8,14 +8,10 @@ import org.springframework.util.Assert;
 import org.springframework.web.servlet.view.AbstractTemplateViewResolver;
 
 /**
- * Base class for {@link ConfigurationProperties} of a
- * {@link AbstractTemplateViewResolver}.
- *
- * @author Andy Wilkinson
+ * Base class for {@link ConfigurationProperties} of a {@link AbstractTemplateViewResolver}.
  * @since 1.1.0
  */
-public abstract class AbstractTemplateViewResolverProperties
-		extends AbstractViewResolverProperties {
+public abstract class AbstractTemplateViewResolverProperties extends AbstractViewResolverProperties {
 
 	/**
 	 * Prefix that gets prepended to view names when building a URL.
@@ -33,37 +29,31 @@ public abstract class AbstractTemplateViewResolverProperties
 	private String requestContextAttribute;
 
 	/**
-	 * Whether all request attributes should be added to the model prior to merging with
-	 * the template.
+	 * Whether all request attributes should be added to the model prior to merging with the template.
 	 */
 	private boolean exposeRequestAttributes = false;
 
 	/**
-	 * Whether all HttpSession attributes should be added to the model prior to merging
-	 * with the template.
+	 * Whether all HttpSession attributes should be added to the model prior to merging with the template.
 	 */
 	private boolean exposeSessionAttributes = false;
 
 	/**
-	 * Whether HttpServletRequest attributes are allowed to override (hide) controller
-	 * generated model attributes of the same name.
+	 * Whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
 	 */
 	private boolean allowRequestOverride = false;
 
 	/**
-	 * Whether to expose a RequestContext for use by Spring's macro library, under the
-	 * name "springMacroRequestContext".
+	 * Whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
 	 */
 	private boolean exposeSpringMacroHelpers = true;
 
 	/**
-	 * Whether HttpSession attributes are allowed to override (hide) controller generated
-	 * model attributes of the same name.
+	 * Whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
 	 */
 	private boolean allowSessionOverride = false;
 
-	protected AbstractTemplateViewResolverProperties(String defaultPrefix,
-			String defaultSuffix) {
+	protected AbstractTemplateViewResolverProperties(String defaultPrefix,String defaultSuffix) {
 		this.prefix = defaultPrefix;
 		this.suffix = defaultSuffix;
 	}
@@ -139,9 +129,7 @@ public abstract class AbstractTemplateViewResolverProperties
 	 * @param viewResolver the resolver to apply the properties to.
 	 */
 	public void applyToMvcViewResolver(Object viewResolver) {
-		Assert.isInstanceOf(AbstractTemplateViewResolver.class, viewResolver,
-				"ViewResolver is not an instance of AbstractTemplateViewResolver :"
-						+ viewResolver);
+		Assert.isInstanceOf(AbstractTemplateViewResolver.class, viewResolver,"ViewResolver is not an instance of AbstractTemplateViewResolver :" + viewResolver);
 		AbstractTemplateViewResolver resolver = (AbstractTemplateViewResolver) viewResolver;
 		resolver.setPrefix(getPrefix());
 		resolver.setSuffix(getSuffix());
@@ -160,5 +148,4 @@ public abstract class AbstractTemplateViewResolverProperties
 		// InternalResourceViewResolver) so it needs to have low precedence
 		resolver.setOrder(Ordered.LOWEST_PRECEDENCE - 5);
 	}
-
 }

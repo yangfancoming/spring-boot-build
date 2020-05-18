@@ -14,16 +14,12 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Extension of Tomcat's {@link ParallelWebappClassLoader} that does not consider the
  * {@link ClassLoader#getSystemClassLoader() system classloader}. This is required to
- * ensure that any custom context class loader is always used (as is the case with some
- * executable archives).
- *
- * @author Phillip Webb
+ * ensure that any custom context class loader is always used (as is the case with some executable archives).
  * @since 2.0.0
  */
 public class TomcatEmbeddedWebappClassLoader extends ParallelWebappClassLoader {
 
-	private static final Log logger = LogFactory
-			.getLog(TomcatEmbeddedWebappClassLoader.class);
+	private static final Log logger = LogFactory.getLog(TomcatEmbeddedWebappClassLoader.class);
 
 	static {
 		ClassLoader.registerAsParallelCapable();
@@ -96,8 +92,7 @@ public class TomcatEmbeddedWebappClassLoader extends ParallelWebappClassLoader {
 		}
 		try {
 			return Class.forName(name, false, this.parent);
-		}
-		catch (ClassNotFoundException ex) {
+		}catch (ClassNotFoundException ex) {
 			return null;
 		}
 	}
@@ -105,8 +100,7 @@ public class TomcatEmbeddedWebappClassLoader extends ParallelWebappClassLoader {
 	private Class<?> findClassIgnoringNotFound(String name) {
 		try {
 			return findClass(name);
-		}
-		catch (ClassNotFoundException ex) {
+		}catch (ClassNotFoundException ex) {
 			return null;
 		}
 	}
@@ -114,12 +108,9 @@ public class TomcatEmbeddedWebappClassLoader extends ParallelWebappClassLoader {
 	private void checkPackageAccess(String name) throws ClassNotFoundException {
 		if (this.securityManager != null && name.lastIndexOf('.') >= 0) {
 			try {
-				this.securityManager
-						.checkPackageAccess(name.substring(0, name.lastIndexOf('.')));
-			}
-			catch (SecurityException ex) {
-				throw new ClassNotFoundException("Security Violation, attempt to use "
-						+ "Restricted Class: " + name, ex);
+				this.securityManager.checkPackageAccess(name.substring(0, name.lastIndexOf('.')));
+			}catch (SecurityException ex) {
+				throw new ClassNotFoundException("Security Violation, attempt to use " + "Restricted Class: " + name, ex);
 			}
 		}
 	}

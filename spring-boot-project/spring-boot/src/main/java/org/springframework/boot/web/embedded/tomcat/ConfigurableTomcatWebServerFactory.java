@@ -14,8 +14,6 @@ import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 
 /**
  * {@link ConfigurableWebServerFactory} for Tomcat-specific features.
- *
- * @author Brian Clozel
  * @since 2.0.0
  * @see TomcatServletWebServerFactory
  * @see TomcatReactiveWebServerFactory
@@ -41,24 +39,20 @@ public interface ConfigurableTomcatWebServerFactory extends ConfigurableWebServe
 	void addEngineValves(Valve... engineValves);
 
 	/**
-	 * Add {@link TomcatConnectorCustomizer}s that should be added to the Tomcat
-	 * {@link Connector}.
+	 * Add {@link TomcatConnectorCustomizer}s that should be added to the Tomcat {@link Connector}.
 	 * @param tomcatConnectorCustomizers the customizers to add
 	 */
 	void addConnectorCustomizers(TomcatConnectorCustomizer... tomcatConnectorCustomizers);
 
 	/**
-	 * Add {@link TomcatContextCustomizer}s that should be added to the Tomcat
-	 * {@link Context}.
+	 * Add {@link TomcatContextCustomizer}s that should be added to the Tomcat {@link Context}.
 	 * @param tomcatContextCustomizers the customizers to add
 	 */
 	void addContextCustomizers(TomcatContextCustomizer... tomcatContextCustomizers);
 
 	/**
-	 * Set the character encoding to use for URL decoding. If not specified 'UTF-8' will
-	 * be used.
+	 * Set the character encoding to use for URL decoding. If not specified 'UTF-8' will be used.
 	 * @param uriEncoding the uri encoding to set
 	 */
 	void setUriEncoding(Charset uriEncoding);
-
 }

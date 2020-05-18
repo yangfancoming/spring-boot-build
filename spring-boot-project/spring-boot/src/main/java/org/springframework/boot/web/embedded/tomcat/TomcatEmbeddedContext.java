@@ -11,11 +11,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
- * Tomcat {@link StandardContext} used by {@link TomcatWebServer} to support deferred
- * initialization.
- *
- * @author Phillip Webb
- * @author Andy Wilkinson
+ * Tomcat {@link StandardContext} used by {@link TomcatWebServer} to support deferred initialization
  */
 class TomcatEmbeddedContext extends StandardContext {
 
@@ -24,9 +20,7 @@ class TomcatEmbeddedContext extends StandardContext {
 	private final boolean overrideLoadOnStart;
 
 	TomcatEmbeddedContext() {
-		this.overrideLoadOnStart = ReflectionUtils
-				.findMethod(StandardContext.class, "loadOnStartup", Container[].class)
-				.getReturnType() == boolean.class;
+		this.overrideLoadOnStart = ReflectionUtils.findMethod(StandardContext.class, "loadOnStartup", Container[].class).getReturnType() == boolean.class;
 	}
 
 	@Override
@@ -40,7 +34,7 @@ class TomcatEmbeddedContext extends StandardContext {
 	@Override
 	public void setManager(Manager manager) {
 		if (manager instanceof ManagerBase) {
-			((ManagerBase) manager).setSessionIdGenerator(new LazySessionIdGenerator());
+			manager.setSessionIdGenerator(new LazySessionIdGenerator());
 		}
 		super.setManager(manager);
 	}
@@ -49,8 +43,7 @@ class TomcatEmbeddedContext extends StandardContext {
 		// Some older Servlet frameworks (e.g. Struts, BIRT) use the Thread context class
 		// loader to create servlet instances in this phase. If they do that and then try
 		// to initialize them later the class loader may have changed, so wrap the call to
-		// loadOnStartup in what we think its going to be the main webapp classloader at
-		// runtime.
+		// loadOnStartup in what we think its going to be the main webapp classloader at runtime.
 		ClassLoader classLoader = getLoader().getClassLoader();
 		ClassLoader existingLoader = null;
 		if (classLoader != null) {
@@ -75,5 +68,4 @@ class TomcatEmbeddedContext extends StandardContext {
 	public TomcatStarter getStarter() {
 		return this.starter;
 	}
-
 }

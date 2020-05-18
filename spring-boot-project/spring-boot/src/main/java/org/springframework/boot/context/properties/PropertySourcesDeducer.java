@@ -17,8 +17,6 @@ import org.springframework.util.Assert;
 
 /**
  * Utility to deduce the {@link PropertySources} to use for configuration binding.
- *
- * @author Phillip Webb
  */
 class PropertySourcesDeducer {
 
@@ -34,13 +32,10 @@ class PropertySourcesDeducer {
 		MutablePropertySources environmentPropertySources = extractEnvironmentPropertySources();
 		PropertySourcesPlaceholderConfigurer placeholderConfigurer = getSinglePropertySourcesPlaceholderConfigurer();
 		if (placeholderConfigurer == null) {
-			Assert.state(environmentPropertySources != null,
-					"Unable to obtain PropertySources from "
-							+ "PropertySourcesPlaceholderConfigurer or Environment");
+			Assert.state(environmentPropertySources != null,"Unable to obtain PropertySources from PropertySourcesPlaceholderConfigurer or Environment");
 			return environmentPropertySources;
 		}
-		PropertySources appliedPropertySources = placeholderConfigurer
-				.getAppliedPropertySources();
+		PropertySources appliedPropertySources = placeholderConfigurer.getAppliedPropertySources();
 		if (environmentPropertySources == null) {
 			return appliedPropertySources;
 		}
@@ -57,24 +52,18 @@ class PropertySourcesDeducer {
 
 	private PropertySourcesPlaceholderConfigurer getSinglePropertySourcesPlaceholderConfigurer() {
 		// Take care not to cause early instantiation of all FactoryBeans
-		Map<String, PropertySourcesPlaceholderConfigurer> beans = this.applicationContext
-				.getBeansOfType(PropertySourcesPlaceholderConfigurer.class, false, false);
+		Map<String, PropertySourcesPlaceholderConfigurer> beans = this.applicationContext.getBeansOfType(PropertySourcesPlaceholderConfigurer.class, false, false);
 		if (beans.size() == 1) {
 			return beans.values().iterator().next();
 		}
 		if (beans.size() > 1 && logger.isWarnEnabled()) {
-			logger.warn(
-					"Multiple PropertySourcesPlaceholderConfigurer " + "beans registered "
-							+ beans.keySet() + ", falling back to Environment");
+			logger.warn("Multiple PropertySourcesPlaceholderConfigurer " + "beans registered " + beans.keySet() + ", falling back to Environment");
 		}
 		return null;
 	}
 
-	private PropertySources merge(PropertySources environmentPropertySources,
-			PropertySources appliedPropertySources) {
-		FilteredPropertySources filtered = new FilteredPropertySources(
-				appliedPropertySources,
-				PropertySourcesPlaceholderConfigurer.ENVIRONMENT_PROPERTIES_PROPERTY_SOURCE_NAME);
+	private PropertySources merge(PropertySources environmentPropertySources,PropertySources appliedPropertySources) {
+		FilteredPropertySources filtered = new FilteredPropertySources(appliedPropertySources,PropertySourcesPlaceholderConfigurer.ENVIRONMENT_PROPERTIES_PROPERTY_SOURCE_NAME);
 		return new CompositePropertySources(filtered, environmentPropertySources);
 	}
 

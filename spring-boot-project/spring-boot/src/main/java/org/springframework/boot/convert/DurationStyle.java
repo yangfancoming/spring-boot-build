@@ -13,8 +13,6 @@ import org.springframework.util.StringUtils;
 
 /**
  * Duration format styles.
- *
- * @author Phillip Webb
  * @since 2.0.0
  */
 public enum DurationStyle {
@@ -30,12 +28,9 @@ public enum DurationStyle {
 				Matcher matcher = matcher(value);
 				Assert.state(matcher.matches(), "Does not match simple duration pattern");
 				String suffix = matcher.group(2);
-				return (StringUtils.hasLength(suffix) ? Unit.fromSuffix(suffix)
-						: Unit.fromChronoUnit(unit)).parse(matcher.group(1));
-			}
-			catch (Exception ex) {
-				throw new IllegalArgumentException(
-						"'" + value + "' is not a valid simple duration", ex);
+				return (StringUtils.hasLength(suffix) ? Unit.fromSuffix(suffix) : Unit.fromChronoUnit(unit)).parse(matcher.group(1));
+			}catch (Exception ex) {
+				throw new IllegalArgumentException("'" + value + "' is not a valid simple duration", ex);
 			}
 		}
 
@@ -55,10 +50,8 @@ public enum DurationStyle {
 		public Duration parse(String value, ChronoUnit unit) {
 			try {
 				return Duration.parse(value);
-			}
-			catch (Exception ex) {
-				throw new IllegalArgumentException(
-						"'" + value + "' is not a valid ISO-8601 duration", ex);
+			}catch (Exception ex) {
+				throw new IllegalArgumentException("'" + value + "' is not a valid ISO-8601 duration", ex);
 			}
 		}
 

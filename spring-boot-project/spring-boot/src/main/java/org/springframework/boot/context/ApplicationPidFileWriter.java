@@ -39,12 +39,6 @@ import org.springframework.util.Assert;
  * {@link #setTriggerEventType(Class) triggerEventType} is set to
  * {@link ApplicationEnvironmentPreparedEvent}, {@link ApplicationReadyEvent}, or
  * {@link ApplicationPreparedEvent}.
- *
- * @author Jakub Kubrynski
- * @author Dave Syer
- * @author Phillip Webb
- * @author Tomasz Przybyla
- * @author Madhura Bhave
  * @since 2.0.0
  */
 public class ApplicationPidFileWriter
@@ -110,24 +104,20 @@ public class ApplicationPidFileWriter
 	 * Sets the type of application event that will trigger writing of the PID file.
 	 * Defaults to {@link ApplicationPreparedEvent}. NOTE: If you use the
 	 * {@link org.springframework.boot.context.event.ApplicationStartingEvent} to trigger
-	 * the write, you will not be able to specify the PID filename in the Spring
-	 * {@link Environment}.
+	 * the write, you will not be able to specify the PID filename in the Spring {@link Environment}.
 	 * @param triggerEventType the trigger event type
 	 */
-	public void setTriggerEventType(
-			Class<? extends SpringApplicationEvent> triggerEventType) {
+	public void setTriggerEventType(Class<? extends SpringApplicationEvent> triggerEventType) {
 		Assert.notNull(triggerEventType, "Trigger event type must not be null");
 		this.triggerEventType = triggerEventType;
 	}
 
 	@Override
 	public void onApplicationEvent(SpringApplicationEvent event) {
-		if (this.triggerEventType.isInstance(event)
-				&& created.compareAndSet(false, true)) {
+		if (this.triggerEventType.isInstance(event) && created.compareAndSet(false, true)) {
 			try {
 				writePidFile(event);
-			}
-			catch (Exception ex) {
+			}catch (Exception ex) {
 				String message = String.format("Cannot create pid file %s", this.file);
 				if (failOnWriteError(event)) {
 					throw new IllegalStateException(message, ex);
@@ -215,12 +205,10 @@ public class ApplicationPidFileWriter
 				return ((ApplicationEnvironmentPreparedEvent) event).getEnvironment();
 			}
 			if (event instanceof ApplicationPreparedEvent) {
-				return ((ApplicationPreparedEvent) event).getApplicationContext()
-						.getEnvironment();
+				return ((ApplicationPreparedEvent) event).getApplicationContext().getEnvironment();
 			}
 			if (event instanceof ApplicationReadyEvent) {
-				return ((ApplicationReadyEvent) event).getApplicationContext()
-						.getEnvironment();
+				return ((ApplicationReadyEvent) event).getApplicationContext().getEnvironment();
 			}
 			return null;
 		}
@@ -235,15 +223,13 @@ public class ApplicationPidFileWriter
 		private final String[] properties;
 
 		SystemProperty(String name) {
-			this.properties = new String[] { name.toUpperCase(Locale.ENGLISH),
-					name.toLowerCase(Locale.ENGLISH) };
+			this.properties = new String[] { name.toUpperCase(Locale.ENGLISH),name.toLowerCase(Locale.ENGLISH) };
 		}
 
 		@Override
 		public String getValue(SpringApplicationEvent event) {
 			return SystemProperties.get(this.properties);
 		}
-
 	}
 
 }

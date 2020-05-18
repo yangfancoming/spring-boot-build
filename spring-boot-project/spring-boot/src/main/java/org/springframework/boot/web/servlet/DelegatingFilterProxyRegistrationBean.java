@@ -71,5 +71,4 @@ public class DelegatingFilterProxyRegistrationBean extends AbstractFilterRegistr
 		Assert.isInstanceOf(WebApplicationContext.class, this.applicationContext);
 		return (WebApplicationContext) this.applicationContext;
 	}
-
 }

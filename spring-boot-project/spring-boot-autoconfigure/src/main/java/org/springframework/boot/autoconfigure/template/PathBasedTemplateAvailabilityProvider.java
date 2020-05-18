@@ -10,16 +10,10 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.ClassUtils;
 
 /**
- * Abstract base class for {@link TemplateAvailabilityProvider} implementations that find
- * templates from paths.
- *
- * @author Andy Wilkinson
- * @author Phillip Webb
- * @author Madhura Bhave
+ * Abstract base class for {@link TemplateAvailabilityProvider} implementations that find templates from paths.
  * @since 1.4.6
  */
-public abstract class PathBasedTemplateAvailabilityProvider
-		implements TemplateAvailabilityProvider {
+public abstract class PathBasedTemplateAvailabilityProvider implements TemplateAvailabilityProvider {
 
 	private final String className;
 
@@ -28,29 +22,23 @@ public abstract class PathBasedTemplateAvailabilityProvider
 	private final String propertyPrefix;
 
 	@SuppressWarnings("unchecked")
-	public PathBasedTemplateAvailabilityProvider(String className,
-			Class<? extends TemplateAvailabilityProperties> propertiesClass,
-			String propertyPrefix) {
+	public PathBasedTemplateAvailabilityProvider(String className,Class<? extends TemplateAvailabilityProperties> propertiesClass,String propertyPrefix) {
 		this.className = className;
 		this.propertiesClass = (Class<TemplateAvailabilityProperties>) propertiesClass;
 		this.propertyPrefix = propertyPrefix;
 	}
 
 	@Override
-	public boolean isTemplateAvailable(String view, Environment environment,
-			ClassLoader classLoader, ResourceLoader resourceLoader) {
+	public boolean isTemplateAvailable(String view, Environment environment,ClassLoader classLoader, ResourceLoader resourceLoader) {
 		if (ClassUtils.isPresent(this.className, classLoader)) {
 			Binder binder = Binder.get(environment);
-			TemplateAvailabilityProperties properties = binder
-					.bind(this.propertyPrefix, this.propertiesClass)
-					.orElseCreate(this.propertiesClass);
+			TemplateAvailabilityProperties properties = binder.bind(this.propertyPrefix, this.propertiesClass).orElseCreate(this.propertiesClass);
 			return isTemplateAvailable(view, resourceLoader, properties);
 		}
 		return false;
 	}
 
-	private boolean isTemplateAvailable(String view, ResourceLoader resourceLoader,
-			TemplateAvailabilityProperties properties) {
+	private boolean isTemplateAvailable(String view, ResourceLoader resourceLoader,TemplateAvailabilityProperties properties) {
 		String location = properties.getPrefix() + view + properties.getSuffix();
 		for (String path : properties.getLoaderPath()) {
 			if (resourceLoader.getResource(path + location).exists()) {
@@ -88,7 +76,6 @@ public abstract class PathBasedTemplateAvailabilityProvider
 		public void setSuffix(String suffix) {
 			this.suffix = suffix;
 		}
-
 	}
 
 }

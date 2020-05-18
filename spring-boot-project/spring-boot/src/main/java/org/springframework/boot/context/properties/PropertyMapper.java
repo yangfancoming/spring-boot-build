@@ -34,8 +34,6 @@ import org.springframework.util.StringUtils;
  * Mappings can ultimately be applied to a {@link Source#to(Consumer) setter}, trigger a
  * {@link Source#toCall(Runnable) method call} or create a
  * {@link Source#toInstance(Function) new instance}.
- *
- * @author Phillip Webb
  * @since 2.0.0
  */
 public final class PropertyMapper {
@@ -54,8 +52,7 @@ public final class PropertyMapper {
 	}
 
 	/**
-	 * Return a new {@link PropertyMapper} instance that applies
-	 * {@link Source#whenNonNull() whenNonNull} to every source.
+	 * Return a new {@link PropertyMapper} instance that applies {@link Source#whenNonNull() whenNonNull} to every source.
 	 * @return a new property mapper instance
 	 */
 	public PropertyMapper alwaysApplyingWhenNonNull() {
@@ -67,8 +64,7 @@ public final class PropertyMapper {
 	}
 
 	/**
-	 * Return a new {@link PropertyMapper} instance that applies the given
-	 * {@link SourceOperator} to every source.
+	 * Return a new {@link PropertyMapper} instance that applies the given {@link SourceOperator} to every source.
 	 * @param operator the source operator to apply
 	 * @return a new property mapper instance
 	 */
@@ -78,8 +74,7 @@ public final class PropertyMapper {
 	}
 
 	/**
-	 * Return a new {@link Source} from the specified value supplier that can be used to
-	 * perform the mapping.
+	 * Return a new {@link Source} from the specified value supplier that can be used to perform the mapping.
 	 * @param <T> the source type
 	 * @param supplier the value supplier
 	 * @return a {@link Source} that can be used to complete the mapping
@@ -153,7 +148,6 @@ public final class PropertyMapper {
 
 	/**
 	 * A source that is in the process of being mapped.
-	 *
 	 * @param <T> the source type
 	 */
 	public static final class Source<T> {
@@ -203,13 +197,11 @@ public final class PropertyMapper {
 		 * @return a new filtered source instance
 		 */
 		public Source<T> whenNonNull() {
-			return new Source<>(new NullPointerExceptionSafeSupplier<>(this.supplier),
-					Objects::nonNull);
+			return new Source<>(new NullPointerExceptionSafeSupplier<>(this.supplier),Objects::nonNull);
 		}
 
 		/**
-		 * Return a filtered version of the source that will only map values that are
-		 * {@code true}.
+		 * Return a filtered version of the source that will only map values that are {@code true}.
 		 * @return a new filtered source instance
 		 */
 		public Source<T> whenTrue() {
@@ -217,8 +209,7 @@ public final class PropertyMapper {
 		}
 
 		/**
-		 * Return a filtered version of the source that will only map values that are
-		 * {@code false}.
+		 * Return a filtered version of the source that will only map values that are {@code false}.
 		 * @return a new filtered source instance
 		 */
 		public Source<T> whenFalse() {
@@ -235,8 +226,7 @@ public final class PropertyMapper {
 		}
 
 		/**
-		 * Return a filtered version of the source that will only map values equal to the
-		 * specified {@code object}.
+		 * Return a filtered version of the source that will only map values equal to the specified {@code object}.
 		 * @param object the object to match
 		 * @return a new filtered source instance
 		 */
@@ -245,8 +235,7 @@ public final class PropertyMapper {
 		}
 
 		/**
-		 * Return a filtered version of the source that will only map values that are an
-		 * instance of the given type.
+		 * Return a filtered version of the source that will only map values that are an instance of the given type.
 		 * @param <R> the target type
 		 * @param target the target type to match
 		 * @return a new filtered source instance
@@ -308,8 +297,7 @@ public final class PropertyMapper {
 		}
 
 		/**
-		 * Complete the mapping by calling the specified method when the value has not
-		 * been filtered.
+		 * Complete the mapping by calling the specified method when the value has not been filtered.
 		 * @param runnable the method to call if the value has not been filtered
 		 */
 		public void toCall(Runnable runnable) {
@@ -319,7 +307,6 @@ public final class PropertyMapper {
 				runnable.run();
 			}
 		}
-
 	}
 
 	/**

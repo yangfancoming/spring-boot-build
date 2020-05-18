@@ -15,8 +15,6 @@ import org.springframework.util.ObjectUtils;
 
 /**
  * Converts an array to a delimited String.
- *
- * @author Phillip Webb
  */
 final class ArrayToDelimitedStringConverter implements ConditionalGenericConverter {
 
@@ -43,5 +41,4 @@ final class ArrayToDelimitedStringConverter implements ConditionalGenericConvert
 		List<Object> list = Arrays.asList(ObjectUtils.toObjectArray(source));
 		return this.delegate.convert(list, sourceType, targetType);
 	}
-
 }

@@ -16,9 +16,6 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 /**
  * {@link ServletContainerInitializer} used to trigger {@link ServletContextInitializer
  * ServletContextInitializers} and track startup errors.
- *
- * @author Phillip Webb
- * @author Andy Wilkinson
  */
 class TomcatStarter implements ServletContainerInitializer {
 
@@ -39,20 +36,15 @@ class TomcatStarter implements ServletContainerInitializer {
 			for (ServletContextInitializer initializer : this.initializers) {
 				initializer.onStartup(servletContext);
 			}
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			this.startUpException = ex;
 			// Prevent Tomcat from logging and re-throwing when we know we can
 			// deal with it in the main thread, but log for information here.
-			if (logger.isErrorEnabled()) {
-				logger.error("Error starting Tomcat context. Exception: "
-						+ ex.getClass().getName() + ". Message: " + ex.getMessage());
-			}
+			if (logger.isErrorEnabled()) logger.error("Error starting Tomcat context. Exception: " + ex.getClass().getName() + ". Message: " + ex.getMessage());
 		}
 	}
 
 	public Exception getStartUpException() {
 		return this.startUpException;
 	}
-
 }

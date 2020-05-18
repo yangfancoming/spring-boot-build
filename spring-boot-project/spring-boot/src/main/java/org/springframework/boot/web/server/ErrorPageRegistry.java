@@ -4,8 +4,6 @@ package org.springframework.boot.web.server;
 
 /**
  * Interface for a registry that holds {@link ErrorPage ErrorPages}.
- *
- * @author Phillip Webb
  * @since 2.0.0
  */
 @FunctionalInterface

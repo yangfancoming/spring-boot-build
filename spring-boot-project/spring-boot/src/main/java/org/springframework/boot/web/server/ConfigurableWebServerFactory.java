@@ -7,14 +7,10 @@ import java.util.Set;
 
 /**
  * A configurable {@link WebServerFactory}.
- *
- * @author Phillip Webb
- * @author Brian Clozel
  * @since 2.0.0
  * @see ErrorPageRegistry
  */
-public interface ConfigurableWebServerFactory
-		extends WebServerFactory, ErrorPageRegistry {
+public interface ConfigurableWebServerFactory extends WebServerFactory, ErrorPageRegistry {
 
 	/**
 	 * Sets the port that the web server should listen on. If not specified port '8080'
@@ -66,5 +62,4 @@ public interface ConfigurableWebServerFactory
 	 * @param serverHeader the server header value
 	 */
 	void setServerHeader(String serverHeader);
-
 }

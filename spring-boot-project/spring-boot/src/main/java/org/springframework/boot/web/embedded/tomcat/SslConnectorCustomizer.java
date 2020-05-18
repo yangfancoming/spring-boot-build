@@ -20,8 +20,6 @@ import org.springframework.util.StringUtils;
 
 /**
  * {@link TomcatConnectorCustomizer} that configures SSL support on the given connector.
- *
- * @author Brian Clozel
  */
 class SslConnectorCustomizer implements TomcatConnectorCustomizer {
 
@@ -38,11 +36,8 @@ class SslConnectorCustomizer implements TomcatConnectorCustomizer {
 	@Override
 	public void customize(Connector connector) {
 		ProtocolHandler handler = connector.getProtocolHandler();
-		Assert.state(handler instanceof AbstractHttp11JsseProtocol,
-				"To use SSL, the connector's protocol handler must be an "
-						+ "AbstractHttp11JsseProtocol subclass");
-		configureSsl((AbstractHttp11JsseProtocol<?>) handler, this.ssl,
-				this.sslStoreProvider);
+		Assert.state(handler instanceof AbstractHttp11JsseProtocol,"To use SSL, the connector's protocol handler must be an AbstractHttp11JsseProtocol subclass");
+		configureSsl((AbstractHttp11JsseProtocol<?>) handler, this.ssl,this.sslStoreProvider);
 		connector.setScheme("https");
 		connector.setSecure(true);
 	}
@@ -53,8 +48,7 @@ class SslConnectorCustomizer implements TomcatConnectorCustomizer {
 	 * @param ssl the ssl details
 	 * @param sslStoreProvider the ssl store provider
 	 */
-	protected void configureSsl(AbstractHttp11JsseProtocol<?> protocol, Ssl ssl,
-			SslStoreProvider sslStoreProvider) {
+	protected void configureSsl(AbstractHttp11JsseProtocol<?> protocol, Ssl ssl,SslStoreProvider sslStoreProvider) {
 		protocol.setSSLEnabled(true);
 		protocol.setSslProtocol(ssl.getProtocol());
 		configureSslClientAuth(protocol, ssl);
@@ -67,14 +61,12 @@ class SslConnectorCustomizer implements TomcatConnectorCustomizer {
 		}
 		if (ssl.getEnabledProtocols() != null) {
 			for (SSLHostConfig sslHostConfig : protocol.findSslHostConfigs()) {
-				sslHostConfig.setProtocols(StringUtils
-						.arrayToCommaDelimitedString(ssl.getEnabledProtocols()));
+				sslHostConfig.setProtocols(StringUtils.arrayToCommaDelimitedString(ssl.getEnabledProtocols()));
 			}
 		}
 		if (sslStoreProvider != null) {
 			configureSslStoreProvider(protocol, sslStoreProvider);
-		}
-		else {
+		}else {
 			configureSslKeyStore(protocol, ssl);
 			configureSslTrustStore(protocol, ssl);
 		}
@@ -83,33 +75,25 @@ class SslConnectorCustomizer implements TomcatConnectorCustomizer {
 	private void configureSslClientAuth(AbstractHttp11JsseProtocol<?> protocol, Ssl ssl) {
 		if (ssl.getClientAuth() == Ssl.ClientAuth.NEED) {
 			protocol.setClientAuth(Boolean.TRUE.toString());
-		}
-		else if (ssl.getClientAuth() == Ssl.ClientAuth.WANT) {
+		}else if (ssl.getClientAuth() == Ssl.ClientAuth.WANT) {
 			protocol.setClientAuth("want");
 		}
 	}
 
-	protected void configureSslStoreProvider(AbstractHttp11JsseProtocol<?> protocol,
-			SslStoreProvider sslStoreProvider) {
-		Assert.isInstanceOf(Http11NioProtocol.class, protocol,
-				"SslStoreProvider can only be used with Http11NioProtocol");
-		TomcatURLStreamHandlerFactory instance = TomcatURLStreamHandlerFactory
-				.getInstance();
-		instance.addUserFactory(
-				new SslStoreProviderUrlStreamHandlerFactory(sslStoreProvider));
+	protected void configureSslStoreProvider(AbstractHttp11JsseProtocol<?> protocol,SslStoreProvider sslStoreProvider) {
+		Assert.isInstanceOf(Http11NioProtocol.class, protocol,"SslStoreProvider can only be used with Http11NioProtocol");
+		TomcatURLStreamHandlerFactory instance = TomcatURLStreamHandlerFactory.getInstance();
+		instance.addUserFactory(new SslStoreProviderUrlStreamHandlerFactory(sslStoreProvider));
 		try {
 			if (sslStoreProvider.getKeyStore() != null) {
 				protocol.setKeystorePass("");
-				protocol.setKeystoreFile(
-						SslStoreProviderUrlStreamHandlerFactory.KEY_STORE_URL);
+				protocol.setKeystoreFile(SslStoreProviderUrlStreamHandlerFactory.KEY_STORE_URL);
 			}
 			if (sslStoreProvider.getTrustStore() != null) {
 				protocol.setTruststorePass("");
-				protocol.setTruststoreFile(
-						SslStoreProviderUrlStreamHandlerFactory.TRUST_STORE_URL);
+				protocol.setTruststoreFile(SslStoreProviderUrlStreamHandlerFactory.TRUST_STORE_URL);
 			}
-		}
-		catch (Exception ex) {
+		}catch (Exception ex) {
 			throw new WebServerException("Could not load store: " + ex.getMessage(), ex);
 		}
 	}
@@ -117,10 +101,8 @@ class SslConnectorCustomizer implements TomcatConnectorCustomizer {
 	private void configureSslKeyStore(AbstractHttp11JsseProtocol<?> protocol, Ssl ssl) {
 		try {
 			protocol.setKeystoreFile(ResourceUtils.getURL(ssl.getKeyStore()).toString());
-		}
-		catch (FileNotFoundException ex) {
-			throw new WebServerException("Could not load key store: " + ex.getMessage(),
-					ex);
+		}catch (FileNotFoundException ex) {
+			throw new WebServerException("Could not load key store: " + ex.getMessage(),ex);
 		}
 		if (ssl.getKeyStoreType() != null) {
 			protocol.setKeystoreType(ssl.getKeyStoreType());
@@ -133,12 +115,9 @@ class SslConnectorCustomizer implements TomcatConnectorCustomizer {
 	private void configureSslTrustStore(AbstractHttp11JsseProtocol<?> protocol, Ssl ssl) {
 		if (ssl.getTrustStore() != null) {
 			try {
-				protocol.setTruststoreFile(
-						ResourceUtils.getURL(ssl.getTrustStore()).toString());
-			}
-			catch (FileNotFoundException ex) {
-				throw new WebServerException(
-						"Could not load trust store: " + ex.getMessage(), ex);
+				protocol.setTruststoreFile(ResourceUtils.getURL(ssl.getTrustStore()).toString());
+			}catch (FileNotFoundException ex) {
+				throw new WebServerException("Could not load trust store: " + ex.getMessage(), ex);
 			}
 		}
 		protocol.setTruststorePass(ssl.getTrustStorePassword());

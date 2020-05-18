@@ -11,12 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 
 /**
- * {@link EnableAutoConfiguration Auto-configuration} for Spring's persistence exception
- * translation.
- *
- * @author Andy Wilkinson
- * @author Stephane Nicoll
- * @author Madhura Bhave
+ * {@link EnableAutoConfiguration Auto-configuration} for Spring's persistence exception translation.
  * @since 1.2.0
  */
 @ConditionalOnClass(PersistenceExceptionTranslationPostProcessor.class)
@@ -25,11 +20,9 @@ public class PersistenceExceptionTranslationAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	@ConditionalOnProperty(prefix = "spring.dao.exceptiontranslation", name = "enabled", matchIfMissing = true)
-	public static PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor(
-			Environment environment) {
+	public static PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor(Environment environment) {
 		PersistenceExceptionTranslationPostProcessor postProcessor = new PersistenceExceptionTranslationPostProcessor();
-		boolean proxyTargetClass = environment.getProperty(
-				"spring.aop.proxy-target-class", Boolean.class, Boolean.TRUE);
+		boolean proxyTargetClass = environment.getProperty("spring.aop.proxy-target-class", Boolean.class, Boolean.TRUE);
 		postProcessor.setProxyTargetClass(proxyTargetClass);
 		return postProcessor;
 	}

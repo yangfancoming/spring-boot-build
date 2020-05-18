@@ -17,8 +17,6 @@ import org.springframework.boot.web.server.SslStoreProvider;
 /**
  * A {@link URLStreamHandlerFactory} that provides a {@link URLStreamHandler} for
  * accessing an {@link SslStoreProvider}'s key store and trust store from a URL.
- *
- * @author Andy Wilkinson
  */
 class SslStoreProviderUrlStreamHandlerFactory implements URLStreamHandlerFactory {
 
@@ -42,22 +40,16 @@ class SslStoreProviderUrlStreamHandlerFactory implements URLStreamHandlerFactory
 	public URLStreamHandler createURLStreamHandler(String protocol) {
 		if (PROTOCOL.equals(protocol)) {
 			return new URLStreamHandler() {
-
 				@Override
 				protected URLConnection openConnection(URL url) throws IOException {
 					try {
 						if (KEY_STORE_PATH.equals(url.getPath())) {
-							return new KeyStoreUrlConnection(url,
-									SslStoreProviderUrlStreamHandlerFactory.this.sslStoreProvider
-											.getKeyStore());
+							return new KeyStoreUrlConnection(url,SslStoreProviderUrlStreamHandlerFactory.this.sslStoreProvider.getKeyStore());
 						}
 						if (TRUST_STORE_PATH.equals(url.getPath())) {
-							return new KeyStoreUrlConnection(url,
-									SslStoreProviderUrlStreamHandlerFactory.this.sslStoreProvider
-											.getTrustStore());
+							return new KeyStoreUrlConnection(url,SslStoreProviderUrlStreamHandlerFactory.this.sslStoreProvider.getTrustStore());
 						}
-					}
-					catch (Exception ex) {
+					}catch (Exception ex) {
 						throw new IOException(ex);
 					}
 					throw new IOException("Invalid path: " + url.getPath());
@@ -83,17 +75,14 @@ class SslStoreProviderUrlStreamHandlerFactory implements URLStreamHandlerFactory
 
 		@Override
 		public InputStream getInputStream() throws IOException {
-
 			try {
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
 				this.keyStore.store(stream, new char[0]);
 				return new ByteArrayInputStream(stream.toByteArray());
-			}
-			catch (Exception ex) {
+			}catch (Exception ex) {
 				throw new IOException(ex);
 			}
 		}
-
 	}
 
 }

@@ -10,9 +10,7 @@ import org.springframework.boot.web.server.Compression;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link TomcatConnectorCustomizer} that configures compression support on the given
- * Connector.
- *
+ * {@link TomcatConnectorCustomizer} that configures compression support on the given Connector.
  * @author Brian Clozel
  */
 class CompressionConnectorCustomizer implements TomcatConnectorCustomizer {
@@ -37,11 +35,9 @@ class CompressionConnectorCustomizer implements TomcatConnectorCustomizer {
 		Compression compression = this.compression;
 		protocol.setCompression("on");
 		protocol.setCompressionMinSize(compression.getMinResponseSize());
-		protocol.setCompressibleMimeType(
-				StringUtils.arrayToCommaDelimitedString(compression.getMimeTypes()));
+		protocol.setCompressibleMimeType(StringUtils.arrayToCommaDelimitedString(compression.getMimeTypes()));
 		if (this.compression.getExcludedUserAgents() != null) {
-			protocol.setNoCompressionUserAgents(StringUtils.arrayToCommaDelimitedString(
-					this.compression.getExcludedUserAgents()));
+			protocol.setNoCompressionUserAgents(StringUtils.arrayToCommaDelimitedString(this.compression.getExcludedUserAgents()));
 		}
 	}
 

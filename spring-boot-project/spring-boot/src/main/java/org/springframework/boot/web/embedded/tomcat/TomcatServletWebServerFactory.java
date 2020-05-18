@@ -66,14 +66,6 @@ import org.springframework.util.StringUtils;
  * <p>
  * Unless explicitly configured otherwise this factory will create containers that listen
  * for HTTP requests on port 8080.
- *
- * @author Phillip Webb
- * @author Dave Syer
- * @author Brock Mills
- * @author Stephane Nicoll
- * @author Andy Wilkinson
- * @author Eddú Meléndez
- * @author Christoffer Sawicki
  * @since 2.0.0
  * @see #setPort(int)
  * @see #setContextLifecycleListeners(Collection)
@@ -96,8 +88,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 
 	private List<Valve> contextValves = new ArrayList<>();
 
-	private List<LifecycleListener> contextLifecycleListeners = new ArrayList<>(
-			Collections.singleton(new AprLifecycleListener()));
+	private List<LifecycleListener> contextLifecycleListeners = new ArrayList<>(Collections.singleton(new AprLifecycleListener()));
 
 	private List<TomcatContextCustomizer> tomcatContextCustomizers = new ArrayList<>();
 
@@ -357,9 +348,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 	}
 
 	private void configurePersistSession(Manager manager) {
-		Assert.state(manager instanceof StandardManager,
-				() -> "Unable to persist HTTP session state using manager type "
-						+ manager.getClass().getName());
+		Assert.state(manager instanceof StandardManager,() -> "Unable to persist HTTP session state using manager type " + manager.getClass().getName());
 		File dir = getValidSessionStoreDir();
 		File file = new File(dir, "SESSIONS.ser");
 		((StandardManager) manager).setPathname(file.getAbsolutePath());
@@ -374,8 +363,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 	}
 
 	private boolean isZeroOrLess(Duration sessionTimeout) {
-		return sessionTimeout == null || sessionTimeout.isNegative()
-				|| sessionTimeout.isZero();
+		return sessionTimeout == null || sessionTimeout.isNegative() || sessionTimeout.isZero();
 	}
 
 	/**
@@ -537,10 +525,9 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 	 * {@link Context}. Calling this method will replace any existing customizers.
 	 * @param tomcatContextCustomizers the customizers to set
 	 */
-	public void setTomcatContextCustomizers(
-			Collection<? extends TomcatContextCustomizer> tomcatContextCustomizers) {
-		Assert.notNull(tomcatContextCustomizers,
-				"TomcatContextCustomizers must not be null");
+	public void setTomcatContextCustomizers(Collection<? extends TomcatContextCustomizer> tomcatContextCustomizers) {
+		Assert.notNull(tomcatContextCustomizers,"TomcatContextCustomizers must not be null");
+
 		this.tomcatContextCustomizers = new ArrayList<>(tomcatContextCustomizers);
 	}
 
@@ -554,10 +541,8 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 	}
 
 	@Override
-	public void addContextCustomizers(
-			TomcatContextCustomizer... tomcatContextCustomizers) {
-		Assert.notNull(tomcatContextCustomizers,
-				"TomcatContextCustomizers must not be null");
+	public void addContextCustomizers(TomcatContextCustomizer... tomcatContextCustomizers) {
+		Assert.notNull(tomcatContextCustomizers,"TomcatContextCustomizers must not be null");
 		this.tomcatContextCustomizers.addAll(Arrays.asList(tomcatContextCustomizers));
 	}
 
@@ -566,24 +551,19 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 	 * {@link Connector}. Calling this method will replace any existing customizers.
 	 * @param tomcatConnectorCustomizers the customizers to set
 	 */
-	public void setTomcatConnectorCustomizers(
-			Collection<? extends TomcatConnectorCustomizer> tomcatConnectorCustomizers) {
-		Assert.notNull(tomcatConnectorCustomizers,
-				"TomcatConnectorCustomizers must not be null");
+	public void setTomcatConnectorCustomizers(Collection<? extends TomcatConnectorCustomizer> tomcatConnectorCustomizers) {
+		Assert.notNull(tomcatConnectorCustomizers,"TomcatConnectorCustomizers must not be null");
 		this.tomcatConnectorCustomizers = new ArrayList<>(tomcatConnectorCustomizers);
 	}
 
 	@Override
-	public void addConnectorCustomizers(
-			TomcatConnectorCustomizer... tomcatConnectorCustomizers) {
-		Assert.notNull(tomcatConnectorCustomizers,
-				"TomcatConnectorCustomizers must not be null");
+	public void addConnectorCustomizers(TomcatConnectorCustomizer... tomcatConnectorCustomizers) {
+		Assert.notNull(tomcatConnectorCustomizers,"TomcatConnectorCustomizers must not be null");
 		this.tomcatConnectorCustomizers.addAll(Arrays.asList(tomcatConnectorCustomizers));
 	}
 
 	/**
-	 * Returns a mutable collection of the {@link TomcatConnectorCustomizer}s that will be
-	 * applied to the Tomcat {@link Connector}.
+	 * Returns a mutable collection of the {@link TomcatConnectorCustomizer}s that will be applied to the Tomcat {@link Connector}.
 	 * @return the customizers that will be applied
 	 */
 	public Collection<TomcatConnectorCustomizer> getTomcatConnectorCustomizers() {
@@ -600,8 +580,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 	}
 
 	/**
-	 * Returns a mutable collection of the {@link Connector}s that will be added to the
-	 * Tomcat.
+	 * Returns a mutable collection of the {@link Connector}s that will be added to the Tomcat.
 	 * @return the additionalTomcatConnectors
 	 */
 	public List<Connector> getAdditionalTomcatConnectors() {
@@ -628,8 +607,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 
 	/**
 	 * {@link LifecycleListener} to disable persistence in the {@link StandardManager}. A
-	 * {@link LifecycleListener} is used so not to interfere with Tomcat's default manager
-	 * creation logic.
+	 * {@link LifecycleListener} is used so not to interfere with Tomcat's default manager creation logic.
 	 */
 	private static class DisablePersistSessionListener implements LifecycleListener {
 
@@ -671,8 +649,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 						jar = "jar:" + jar + "!/";
 					}
 					addResourceSet(jar);
-				}
-				else {
+				}else {
 					addResourceSet(url.toString());
 				}
 			}
@@ -688,10 +665,8 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 				}
 				URL url = new URL(resource);
 				String path = "/META-INF/resources";
-				this.context.getResources().createWebResourceSet(
-						ResourceSetType.RESOURCE_JAR, "/", url, path);
-			}
-			catch (Exception ex) {
+				this.context.getResources().createWebResourceSet(ResourceSetType.RESOURCE_JAR, "/", url, path);
+			}catch (Exception ex) {
 				// Ignore (probably not a directory)
 			}
 		}
@@ -791,7 +766,6 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 				}
 			}
 		}
-
 	}
 
 }

@@ -13,9 +13,6 @@ import org.springframework.web.servlet.ViewResolver;
 
 /**
  * Base class for {@link ConfigurationProperties} of a {@link ViewResolver}.
- *
- * @author Andy Wilkinson
- * @author Stephane Nicoll
  * @since 1.2.0
  * @see AbstractTemplateViewResolverProperties
  */

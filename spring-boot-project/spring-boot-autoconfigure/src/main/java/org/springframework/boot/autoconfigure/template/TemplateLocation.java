@@ -11,8 +11,6 @@ import org.springframework.util.Assert;
 
 /**
  * Contains a location that templates can be loaded from.
- *
- * @author Phillip Webb
  * @since 1.2.1
  */
 public class TemplateLocation {
@@ -25,8 +23,7 @@ public class TemplateLocation {
 	}
 
 	/**
-	 * Determine if this template location exists using the specified
-	 * {@link ResourcePatternResolver}.
+	 * Determine if this template location exists using the specified {@link ResourcePatternResolver}.
 	 * @param resolver the resolver used to test if the location exists
 	 * @return {@code true} if the location exists.
 	 */
@@ -37,8 +34,7 @@ public class TemplateLocation {
 		}
 		try {
 			return anyExists(resolver);
-		}
-		catch (IOException ex) {
+		}catch (IOException ex) {
 			return false;
 		}
 	}
@@ -46,8 +42,7 @@ public class TemplateLocation {
 	private boolean anyExists(ResourcePatternResolver resolver) throws IOException {
 		String searchPath = this.path;
 		if (searchPath.startsWith(ResourceLoader.CLASSPATH_URL_PREFIX)) {
-			searchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX
-					+ searchPath.substring(ResourceLoader.CLASSPATH_URL_PREFIX.length());
+			searchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + searchPath.substring(ResourceLoader.CLASSPATH_URL_PREFIX.length());
 		}
 		if (searchPath.startsWith(ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX)) {
 			Resource[] resources = resolver.getResources(searchPath);
@@ -64,5 +59,4 @@ public class TemplateLocation {
 	public String toString() {
 		return this.path;
 	}
-
 }

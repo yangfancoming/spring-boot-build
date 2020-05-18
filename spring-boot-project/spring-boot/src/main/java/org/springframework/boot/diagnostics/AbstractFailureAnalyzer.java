@@ -6,10 +6,7 @@ import org.springframework.core.ResolvableType;
 
 /**
  * Abstract base class for most {@code FailureAnalyzer} implementations.
- *
  * @param <T> the type of exception to analyze
- * @author Andy Wilkinson
- * @author Phillip Webb
  * @since 1.4.0
  */
 public abstract class AbstractFailureAnalyzer<T extends Throwable>
@@ -40,8 +37,7 @@ public abstract class AbstractFailureAnalyzer<T extends Throwable>
 	 */
 	@SuppressWarnings("unchecked")
 	protected Class<? extends T> getCauseType() {
-		return (Class<? extends T>) ResolvableType
-				.forClass(AbstractFailureAnalyzer.class, getClass()).resolveGeneric();
+		return (Class<? extends T>) ResolvableType.forClass(AbstractFailureAnalyzer.class, getClass()).resolveGeneric();
 	}
 
 	@SuppressWarnings("unchecked")

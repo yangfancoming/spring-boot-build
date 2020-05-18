@@ -69,7 +69,6 @@ public class ContextIdApplicationContextInitializer implements ApplicationContex
 		String getId() {
 			return this.id;
 		}
-
 	}
 
 }

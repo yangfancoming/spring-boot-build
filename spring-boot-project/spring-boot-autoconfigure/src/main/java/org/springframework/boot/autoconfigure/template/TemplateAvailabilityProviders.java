@@ -19,9 +19,6 @@ import org.springframework.util.Assert;
  * Collection of {@link TemplateAvailabilityProvider} beans that can be used to check
  * which (if any) templating engine supports a given view. Caches responses unless the
  * {@code spring.template.provider.cache} property is set to {@code false}.
- *
- * @author Phillip Webb
- * @author Madhura Bhave
  * @since 1.4.0
  */
 public class TemplateAvailabilityProviders {
@@ -35,26 +32,22 @@ public class TemplateAvailabilityProviders {
 	/**
 	 * Resolved template views, returning already cached instances without a global lock.
 	 */
-	private final Map<String, TemplateAvailabilityProvider> resolved = new ConcurrentHashMap<>(
-			CACHE_LIMIT);
+	private final Map<String, TemplateAvailabilityProvider> resolved = new ConcurrentHashMap<>(CACHE_LIMIT);
 
 	/**
 	 * Map from view name resolve template view, synchronized when accessed.
 	 */
 	@SuppressWarnings("serial")
-	private final Map<String, TemplateAvailabilityProvider> cache = new LinkedHashMap<String, TemplateAvailabilityProvider>(
-			CACHE_LIMIT, 0.75f, true) {
+	private final Map<String, TemplateAvailabilityProvider> cache = new LinkedHashMap<String, TemplateAvailabilityProvider>(CACHE_LIMIT, 0.75f, true) {
 
 		@Override
-		protected boolean removeEldestEntry(
-				Map.Entry<String, TemplateAvailabilityProvider> eldest) {
+		protected boolean removeEldestEntry(Map.Entry<String, TemplateAvailabilityProvider> eldest) {
 			if (size() > CACHE_LIMIT) {
 				TemplateAvailabilityProviders.this.resolved.remove(eldest.getKey());
 				return true;
 			}
 			return false;
 		}
-
 	};
 
 	/**
@@ -71,16 +64,14 @@ public class TemplateAvailabilityProviders {
 	 */
 	public TemplateAvailabilityProviders(ClassLoader classLoader) {
 		Assert.notNull(classLoader, "ClassLoader must not be null");
-		this.providers = SpringFactoriesLoader
-				.loadFactories(TemplateAvailabilityProvider.class, classLoader);
+		this.providers = SpringFactoriesLoader.loadFactories(TemplateAvailabilityProvider.class, classLoader);
 	}
 
 	/**
 	 * Create a new {@link TemplateAvailabilityProviders} instance.
 	 * @param providers the underlying providers
 	 */
-	protected TemplateAvailabilityProviders(
-			Collection<? extends TemplateAvailabilityProvider> providers) {
+	protected TemplateAvailabilityProviders(Collection<? extends TemplateAvailabilityProvider> providers) {
 		Assert.notNull(providers, "Providers must not be null");
 		this.providers = new ArrayList<>(providers);
 	}
@@ -99,11 +90,9 @@ public class TemplateAvailabilityProviders {
 	 * @param applicationContext the application context
 	 * @return a {@link TemplateAvailabilityProvider} or null
 	 */
-	public TemplateAvailabilityProvider getProvider(String view,
-			ApplicationContext applicationContext) {
+	public TemplateAvailabilityProvider getProvider(String view,ApplicationContext applicationContext) {
 		Assert.notNull(applicationContext, "ApplicationContext must not be null");
-		return getProvider(view, applicationContext.getEnvironment(),
-				applicationContext.getClassLoader(), applicationContext);
+		return getProvider(view, applicationContext.getEnvironment(),applicationContext.getClassLoader(), applicationContext);
 	}
 
 	/**
@@ -114,14 +103,12 @@ public class TemplateAvailabilityProviders {
 	 * @param resourceLoader the resource loader
 	 * @return a {@link TemplateAvailabilityProvider} or null
 	 */
-	public TemplateAvailabilityProvider getProvider(String view, Environment environment,
-			ClassLoader classLoader, ResourceLoader resourceLoader) {
+	public TemplateAvailabilityProvider getProvider(String view, Environment environment,ClassLoader classLoader, ResourceLoader resourceLoader) {
 		Assert.notNull(view, "View must not be null");
 		Assert.notNull(environment, "Environment must not be null");
 		Assert.notNull(classLoader, "ClassLoader must not be null");
 		Assert.notNull(resourceLoader, "ResourceLoader must not be null");
-		Boolean useCache = environment.getProperty("spring.template.provider.cache",
-				Boolean.class, true);
+		Boolean useCache = environment.getProperty("spring.template.provider.cache",Boolean.class, true);
 		if (!useCache) {
 			return findProvider(view, environment, classLoader, resourceLoader);
 		}
@@ -137,27 +124,22 @@ public class TemplateAvailabilityProviders {
 		return (provider != NONE) ? provider : null;
 	}
 
-	private TemplateAvailabilityProvider findProvider(String view,
-			Environment environment, ClassLoader classLoader,
-			ResourceLoader resourceLoader) {
+	private TemplateAvailabilityProvider findProvider(String view,Environment environment, ClassLoader classLoader,ResourceLoader resourceLoader) {
 		for (TemplateAvailabilityProvider candidate : this.providers) {
-			if (candidate.isTemplateAvailable(view, environment, classLoader,
-					resourceLoader)) {
+			if (candidate.isTemplateAvailable(view, environment, classLoader,resourceLoader)) {
 				return candidate;
 			}
 		}
 		return null;
 	}
 
-	private static class NoTemplateAvailabilityProvider
-			implements TemplateAvailabilityProvider {
+	private static class NoTemplateAvailabilityProvider implements TemplateAvailabilityProvider {
 
 		@Override
 		public boolean isTemplateAvailable(String view, Environment environment,
 				ClassLoader classLoader, ResourceLoader resourceLoader) {
 			return false;
 		}
-
 	}
 
 }

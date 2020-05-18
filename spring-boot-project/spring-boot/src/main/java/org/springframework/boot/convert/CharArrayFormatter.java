@@ -9,8 +9,6 @@ import org.springframework.format.Formatter;
 
 /**
  * {@link Formatter} for {@code char[]}.
- *
- * @author Phillip Webb
  */
 final class CharArrayFormatter implements Formatter<char[]> {
 
@@ -23,5 +21,4 @@ final class CharArrayFormatter implements Formatter<char[]> {
 	public char[] parse(String text, Locale locale) throws ParseException {
 		return text.toCharArray();
 	}
-
 }

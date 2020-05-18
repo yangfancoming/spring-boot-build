@@ -43,16 +43,13 @@ public class SpringApplicationAdminMXBeanRegistrar implements ApplicationContext
 
 	private boolean embeddedWebApplication = false;
 
-	public SpringApplicationAdminMXBeanRegistrar(String name)
-			throws MalformedObjectNameException {
+	public SpringApplicationAdminMXBeanRegistrar(String name) throws MalformedObjectNameException {
 		this.objectName = new ObjectName(name);
 	}
 
 	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		Assert.state(applicationContext instanceof ConfigurableApplicationContext,
-				"ApplicationContext does not implement ConfigurableApplicationContext");
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		Assert.state(applicationContext instanceof ConfigurableApplicationContext,"ApplicationContext does not implement ConfigurableApplicationContext");
 		this.applicationContext = (ConfigurableApplicationContext) applicationContext;
 	}
 
@@ -79,10 +76,7 @@ public class SpringApplicationAdminMXBeanRegistrar implements ApplicationContext
 	public void afterPropertiesSet() throws Exception {
 		MBeanServer server = ManagementFactory.getPlatformMBeanServer();
 		server.registerMBean(new SpringApplicationAdmin(), this.objectName);
-		if (logger.isDebugEnabled()) {
-			logger.debug("Application Admin MBean registered with name '"
-					+ this.objectName + "'");
-		}
+		if (logger.isDebugEnabled()) logger.debug("Application Admin MBean registered with name '" + this.objectName + "'");
 	}
 
 	@Override
@@ -113,7 +107,5 @@ public class SpringApplicationAdminMXBeanRegistrar implements ApplicationContext
 			logger.info("Application shutdown requested.");
 			SpringApplicationAdminMXBeanRegistrar.this.applicationContext.close();
 		}
-
 	}
-
 }

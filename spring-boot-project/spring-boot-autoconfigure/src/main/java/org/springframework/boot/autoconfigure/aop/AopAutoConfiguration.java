@@ -12,12 +12,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
- * {@link org.springframework.boot.autoconfigure.EnableAutoConfiguration
- * Auto-configuration} for Spring's AOP support. Equivalent to enabling
+ * {@link org.springframework.boot.autoconfigure.EnableAutoConfiguration Auto-configuration} for Spring's AOP support. Equivalent to enabling
  * {@link org.springframework.context.annotation.EnableAspectJAutoProxy} in your configuration.
- * The configuration will not be activated if {@literal spring.aop.auto=false}. The
- * {@literal proxyTargetClass} attribute will be {@literal true}, by default, but can be
- * overridden by specifying {@literal spring.aop.proxy-target-class=false}.
+ * The configuration will not be activated if {@literal spring.aop.auto=false}.
+ * The {@literal proxyTargetClass} attribute will be {@literal true}, by default, but can be overridden by specifying {@literal spring.aop.proxy-target-class=false}.
  * @see EnableAspectJAutoProxy
  */
 @Configuration
@@ -38,5 +36,4 @@ public class AopAutoConfiguration {
 	public static class CglibAutoProxyConfiguration {
 
 	}
-
 }
