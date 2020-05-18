@@ -26,15 +26,10 @@ import org.springframework.core.env.StandardEnvironment;
 import org.springframework.util.Assert;
 
 /**
- * Register a {@link SpringApplicationAdminMXBean} implementation to the platform
- * {@link MBeanServer}.
- *
- * @author Stephane Nicoll
- * @author Andy Wilkinson
+ * Register a {@link SpringApplicationAdminMXBean} implementation to the platform  {@link MBeanServer}.
  * @since 1.3.0
  */
-public class SpringApplicationAdminMXBeanRegistrar implements ApplicationContextAware,
-		EnvironmentAware, InitializingBean, DisposableBean {
+public class SpringApplicationAdminMXBeanRegistrar implements ApplicationContextAware,EnvironmentAware, InitializingBean, DisposableBean {
 
 	private static final Log logger = LogFactory.getLog(SpringApplicationAdmin.class);
 

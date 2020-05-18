@@ -6,10 +6,7 @@ import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 /**
- * Jetty {@link WebAppContext} used by {@link JettyWebServer} to support deferred
- * initialization.
- *
- * @author Phillip Webb
+ * Jetty {@link WebAppContext} used by {@link JettyWebServer} to support deferred initialization.
  */
 class JettyEmbeddedWebAppContext extends WebAppContext {
 
