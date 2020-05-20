@@ -14,5 +14,4 @@ public interface ErrorPageRegistry {
 	 * @param errorPages the error pages
 	 */
 	void addErrorPages(ErrorPage... errorPages);
-
 }

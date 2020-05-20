@@ -319,8 +319,7 @@ public class ServerProperties {
 		 * Create a array of relative paths from the given source.
 		 * @param paths the source paths
 		 * @return the relative paths
-		 * @deprecated since 2.0.4 in favor of
-		 * {@link org.springframework.boot.autoconfigure.web.servlet.DispatcherServletPath#getRelativePath(String)}
+		 * @deprecated since 2.0.4 in favor of {@link org.springframework.boot.autoconfigure.web.servlet.DispatcherServletPath#getRelativePath(String)}
 		 */
 		@Deprecated
 		public String[] getPathsArray(String[] paths) {
@@ -371,8 +370,7 @@ public class ServerProperties {
 		private String portHeader = "X-Forwarded-Port";
 
 		/**
-		 * Name of the HTTP header from which the remote IP is extracted. For instance,
-		 * `X-FORWARDED-FOR`.
+		 * Name of the HTTP header from which the remote IP is extracted. For instance,`X-FORWARDED-FOR`.
 		 */
 		private String remoteIpHeader;
 
@@ -382,8 +380,7 @@ public class ServerProperties {
 		private File basedir;
 
 		/**
-		 * Delay between the invocation of backgroundProcess methods. If a duration suffix
-		 * is not specified, seconds will be used.
+		 * Delay between the invocation of backgroundProcess methods. If a duration suffix is not specified, seconds will be used.
 		 */
 		@DurationUnit(ChronoUnit.SECONDS)
 		private Duration backgroundProcessorDelay = Duration.ofSeconds(30);
@@ -433,8 +430,7 @@ public class ServerProperties {
 		private int maxConnections = 0;
 
 		/**
-		 * Maximum queue length for incoming connection requests when all possible request
-		 * processing threads are in use.
+		 * Maximum queue length for incoming connection requests when all possible request processing threads are in use.
 		 */
 		private int acceptCount = 0;
 

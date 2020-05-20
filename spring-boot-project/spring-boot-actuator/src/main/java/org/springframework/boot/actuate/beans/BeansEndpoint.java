@@ -15,11 +15,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 
 /**
- * {@link Endpoint} to expose details of an application's beans, grouped by application
- * context.
- *
- * @author Dave Syer
- * @author Andy Wilkinson
+ * {@link Endpoint} to expose details of an application's beans, grouped by application context.
  * @since 2.0.0
  */
 @Endpoint(id = "beans")
@@ -28,8 +24,7 @@ public class BeansEndpoint {
 	private final ConfigurableApplicationContext context;
 
 	/**
-	 * Creates a new {@code BeansEndpoint} that will describe the beans in the given
-	 * {@code context} and all of its ancestors.
+	 * Creates a new {@code BeansEndpoint} that will describe the beans in the given {@code context} and all of its ancestors.
 	 * @param context the application context
 	 * @see ConfigurableApplicationContext#getParent()
 	 */
@@ -150,11 +145,9 @@ public class BeansEndpoint {
 
 		private final String[] dependencies;
 
-		private BeanDescriptor(String[] aliases, String scope, Class<?> type,
-				String resource, String[] dependencies) {
+		private BeanDescriptor(String[] aliases, String scope, Class<?> type,String resource, String[] dependencies) {
 			this.aliases = aliases;
-			this.scope = (StringUtils.hasText(scope) ? scope
-					: BeanDefinition.SCOPE_SINGLETON);
+			this.scope = (StringUtils.hasText(scope) ? scope : BeanDefinition.SCOPE_SINGLETON);
 			this.type = type;
 			this.resource = resource;
 			this.dependencies = dependencies;
@@ -179,7 +172,5 @@ public class BeansEndpoint {
 		public String[] getDependencies() {
 			return this.dependencies;
 		}
-
 	}
-
 }

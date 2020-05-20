@@ -270,11 +270,9 @@ public abstract class AbstractServletWebServerFactory extends AbstractConfigurab
 	}
 
 	/**
-	 * {@link ServletContextInitializer} to apply appropriate parts of the {@link Session}
-	 * configuration.
+	 * {@link ServletContextInitializer} to apply appropriate parts of the {@link Session} configuration.
 	 */
-	private static class SessionConfiguringInitializer
-			implements ServletContextInitializer {
+	private static class SessionConfiguringInitializer implements ServletContextInitializer {
 
 		private final Session session;
 
@@ -289,7 +287,6 @@ public abstract class AbstractServletWebServerFactory extends AbstractConfigurab
 			}
 			configureSessionCookie(servletContext.getSessionCookieConfig());
 		}
-
 		private void configureSessionCookie(SessionCookieConfig config) {
 			Session.Cookie cookie = this.session.getCookie();
 			if (cookie.getName() != null) {
@@ -316,16 +313,12 @@ public abstract class AbstractServletWebServerFactory extends AbstractConfigurab
 		}
 
 		private Set<javax.servlet.SessionTrackingMode> unwrap(Set<Session.SessionTrackingMode> modes) {
-			if (modes == null) {
-				return null;
-			}
+			if (modes == null) return null;
 			Set<javax.servlet.SessionTrackingMode> result = new LinkedHashSet<>();
 			for (Session.SessionTrackingMode mode : modes) {
 				result.add(javax.servlet.SessionTrackingMode.valueOf(mode.name()));
 			}
 			return result;
 		}
-
 	}
-
 }

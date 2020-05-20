@@ -15,8 +15,7 @@ import org.springframework.util.Assert;
  * Abstract base class for {@link ConfigurableWebServerFactory} implementations.
  * @since 2.0.0
  */
-public abstract class AbstractConfigurableWebServerFactory
-		implements ConfigurableWebServerFactory {
+public abstract class AbstractConfigurableWebServerFactory implements ConfigurableWebServerFactory {
 
 	private int port = 8080;
 
@@ -41,8 +40,7 @@ public abstract class AbstractConfigurableWebServerFactory
 	}
 
 	/**
-	 * Create a new {@link AbstractConfigurableWebServerFactory} instance with the
-	 * specified port.
+	 * Create a new {@link AbstractConfigurableWebServerFactory} instance with the specified port.
 	 * @param port the port number for the web server
 	 */
 	public AbstractConfigurableWebServerFactory(int port) {
@@ -76,8 +74,7 @@ public abstract class AbstractConfigurableWebServerFactory
 	}
 
 	/**
-	 * Returns a mutable set of {@link ErrorPage ErrorPages} that will be used when
-	 * handling exceptions.
+	 * Returns a mutable set of {@link ErrorPage ErrorPages} that will be used when handling exceptions.
 	 * @return the error pages
 	 */
 	public Set<ErrorPage> getErrorPages() {
@@ -157,5 +154,4 @@ public abstract class AbstractConfigurableWebServerFactory
 			throw new WebServerException("Unable to create tempDir. java.io.tmpdir is set to "+ System.getProperty("java.io.tmpdir"),ex);
 		}
 	}
-
 }

@@ -49,11 +49,9 @@ class TomcatEmbeddedContext extends StandardContext {
 		if (classLoader != null) {
 			existingLoader = ClassUtils.overrideThreadContextClassLoader(classLoader);
 		}
-
 		if (this.overrideLoadOnStart) {
 			// Earlier versions of Tomcat used a version that returned void. If that
-			// version is used our overridden loadOnStart method won't have been called
-			// and the original will have already run.
+			// version is used our overridden loadOnStart method won't have been called  and the original will have already run.
 			super.loadOnStartup(findChildren());
 		}
 		if (existingLoader != null) {
