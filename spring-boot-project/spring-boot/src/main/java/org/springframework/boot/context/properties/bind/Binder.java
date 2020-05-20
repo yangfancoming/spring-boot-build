@@ -34,8 +34,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * A container object which Binds objects from one or more
- * {@link ConfigurationPropertySource ConfigurationPropertySources}.
+ * A container object which Binds objects from one or more {@link ConfigurationPropertySource ConfigurationPropertySources}.
  * @since 2.0.0
  */
 public class Binder {
@@ -59,8 +58,7 @@ public class Binder {
 	private final Consumer<PropertyEditorRegistry> propertyEditorInitializer;
 
 	/**
-	 * Create a new {@link Binder} instance for the specified sources. A
-	 * {@link DefaultFormattingConversionService} will be used for all conversion.
+	 * Create a new {@link Binder} instance for the specified sources. A {@link DefaultFormattingConversionService} will be used for all conversion.
 	 * @param sources the sources used for binding
 	 */
 	public Binder(ConfigurationPropertySource... sources) {
@@ -100,8 +98,7 @@ public class Binder {
 	 * Create a new {@link Binder} instance for the specified sources.
 	 * @param sources the sources used for binding
 	 * @param placeholdersResolver strategy to resolve any property place-holders
-	 * @param conversionService the conversion service to convert values (or {@code null}
-	 * to use {@link ApplicationConversionService})
+	 * @param conversionService the conversion service to convert values (or {@code null}  to use {@link ApplicationConversionService})
 	 * @param propertyEditorInitializer initializer used to configure the property editors
 	 * that can convert values (or {@code null} if no initialization is required). Often
 	 * used to call {@link ConfigurableListableBeanFactory#copyRegisteredEditorsTo}.
@@ -115,8 +112,7 @@ public class Binder {
 	}
 
 	/**
-	 * Bind the specified target {@link Class} using this binders
-	 * {@link ConfigurationPropertySource property sources}.
+	 * Bind the specified target {@link Class} using this binders {@link ConfigurationPropertySource property sources}.
 	 * @param name the configuration property name to bind
 	 * @param target the target class
 	 * @param <T> the bound type
@@ -128,8 +124,7 @@ public class Binder {
 	}
 
 	/**
-	 * Bind the specified target {@link Bindable} using this binders
-	 * {@link ConfigurationPropertySource property sources}.
+	 * Bind the specified target {@link Bindable} using this binders {@link ConfigurationPropertySource property sources}.
 	 * @param name the configuration property name to bind
 	 * @param target the target bindable
 	 * @param <T> the bound type
@@ -153,8 +148,7 @@ public class Binder {
 	}
 
 	/**
-	 * Bind the specified target {@link Bindable} using this binders
-	 * {@link ConfigurationPropertySource property sources}.
+	 * Bind the specified target {@link Bindable} using this binders {@link ConfigurationPropertySource property sources}.
 	 * @param name the configuration property name to bind
 	 * @param target the target bindable
 	 * @param handler the bind handler (may be {@code null})
@@ -166,8 +160,7 @@ public class Binder {
 	}
 
 	/**
-	 * Bind the specified target {@link Bindable} using this binders
-	 * {@link ConfigurationPropertySource property sources}.
+	 * Bind the specified target {@link Bindable} using this binders {@link ConfigurationPropertySource property sources}.
 	 * @param name the configuration property name to bind
 	 * @param target the target bindable
 	 * @param handler the bind handler (may be {@code null})
@@ -316,8 +309,7 @@ public class Binder {
 
 	/**
 	 * Create a new {@link Binder} instance from the specified environment.
-	 * @param environment the environment source (must have attached
-	 * {@link ConfigurationPropertySources})
+	 * @param environment the environment source (must have attached {@link ConfigurationPropertySources})
 	 * @return a {@link Binder} instance
 	 */
 	public static Binder get(Environment environment) {
@@ -429,5 +421,4 @@ public class Binder {
 			return this.configurationProperty;
 		}
 	}
-
 }

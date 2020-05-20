@@ -31,11 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for {@link SessionAutoConfiguration}.
- *
- * @author Dave Syer
- * @author Eddú Meléndez
- * @author Stephane Nicoll
- * @author Vedran Pavic
  */
 public class SessionAutoConfigurationTests extends AbstractSessionAutoConfigurationTests {
 
@@ -46,10 +41,8 @@ public class SessionAutoConfigurationTests extends AbstractSessionAutoConfigurat
 	public void contextFailsIfMultipleStoresAreAvailable() {
 		this.contextRunner.run((context) -> {
 			assertThat(context).hasFailed();
-			assertThat(context).getFailure()
-					.hasCauseInstanceOf(NonUniqueSessionRepositoryException.class);
-			assertThat(context).getFailure().hasMessageContaining(
-					"Multiple session repository candidates are available");
+			assertThat(context).getFailure().hasCauseInstanceOf(NonUniqueSessionRepositoryException.class);
+			assertThat(context).getFailure().hasMessageContaining("Multiple session repository candidates are available");
 		});
 	}
 
@@ -187,5 +180,4 @@ public class SessionAutoConfigurationTests extends AbstractSessionAutoConfigurat
 	static class ServerPropertiesConfiguration {
 
 	}
-
 }

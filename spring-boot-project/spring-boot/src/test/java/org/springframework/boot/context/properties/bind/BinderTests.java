@@ -48,9 +48,6 @@ import static org.mockito.Mockito.withSettings;
 
 /**
  * Tests for {@link Binder}.
- *
- * @author Phillip Webb
- * @author Madhura Bhave
  */
 public class BinderTests {
 

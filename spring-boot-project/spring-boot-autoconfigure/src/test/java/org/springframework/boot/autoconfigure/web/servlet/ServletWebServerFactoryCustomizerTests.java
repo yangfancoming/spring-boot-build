@@ -99,13 +99,11 @@ public class ServletWebServerFactoryCustomizerTests {
 		map.put("server.servlet.session.cookie.secure", "true");
 		map.put("server.servlet.session.cookie.max-age", "60");
 		bindProperties(map);
-		ConfigurableServletWebServerFactory factory = mock(
-				ConfigurableServletWebServerFactory.class);
+		ConfigurableServletWebServerFactory factory = mock(ConfigurableServletWebServerFactory.class);
 		this.customizer.customize(factory);
 		ArgumentCaptor<Session> sessionCaptor = ArgumentCaptor.forClass(Session.class);
 		verify(factory).setSession(sessionCaptor.capture());
-		assertThat(sessionCaptor.getValue().getTimeout())
-				.isEqualTo(Duration.ofSeconds(123));
+		assertThat(sessionCaptor.getValue().getTimeout()).isEqualTo(Duration.ofSeconds(123));
 		Cookie cookie = sessionCaptor.getValue().getCookie();
 		assertThat(cookie.getName()).isEqualTo("testname");
 		assertThat(cookie.getDomain()).isEqualTo("testdomain");
@@ -113,13 +111,11 @@ public class ServletWebServerFactoryCustomizerTests {
 		assertThat(cookie.getComment()).isEqualTo("testcomment");
 		assertThat(cookie.getHttpOnly()).isTrue();
 		assertThat(cookie.getMaxAge()).isEqualTo(Duration.ofSeconds(60));
-
 	}
 
 	@Test
 	public void testCustomizeTomcatPort() {
-		ConfigurableServletWebServerFactory factory = mock(
-				ConfigurableServletWebServerFactory.class);
+		ConfigurableServletWebServerFactory factory = mock(ConfigurableServletWebServerFactory.class);
 		this.properties.setPort(8080);
 		this.customizer.customize(factory);
 		verify(factory).setPort(8080);
