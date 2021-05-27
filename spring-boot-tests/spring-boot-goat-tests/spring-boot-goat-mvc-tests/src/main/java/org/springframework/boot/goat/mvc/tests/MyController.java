@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class MyController {
 
+	// 测试地址： http://localhost:8080/test/hello
 	@RequestMapping("/hello")
 	public String hello() {
 		return "hello world";

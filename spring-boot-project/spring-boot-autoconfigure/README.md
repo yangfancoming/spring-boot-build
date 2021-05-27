@@ -9,7 +9,8 @@
     8.Enumeration<URL> urls = classLoader != null ? classLoader.getResources("META-INF/spring.factories") : ClassLoader.getSystemResources("META-INF/spring.factories");
     
     　终于到最后了，最终我们就是要看上图有一行 Enumeration<URL> urls = classLoader != null ? classLoader.getResources("META-INF/spring.factories")
-    　看看类路径（遍历所有jar包下）"META-INF/spring.factories"这个路径下放了一些什么鬼组件就ok了，在左侧打开所有的jar包（此处，factoryClassName传进来的是EnableAutoConfiguration.class,根据这个类名才能对应目标factories文件下的键，然后取出键对应的值）
+    　看看类路径（遍历所有jar包下）"META-INF/spring.factories"这个路径下放了一些什么鬼组件就ok了，在左侧打开所有的jar包
+     （此处，factoryClassName传进来的是EnableAutoConfiguration.class, 根据这个类名才能对应目标factories文件下的键，然后取出键对应的值）
       上图里面这么多的xxxAutoConfiguration就是我们的这么久得出的结果，最终就是加载这么多的类的全路径，然后springboot内部就是实例化这些类并加载到容器里面，完成springboot应用启动时的自动配置
 
 
