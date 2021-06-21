@@ -183,10 +183,8 @@ public class SpringApplication {
 	private Set<String> additionalProfiles = new HashSet<>();
 
 	/**
-	 * Create a new {@link SpringApplication} instance. The application context will load
-	 * beans from the specified primary sources (see {@link SpringApplication class-level}
-	 * documentation for details. The instance can be customized before calling
-	 * {@link #run(String...)}.
+	 * Create a new {@link SpringApplication} instance. The application context will load beans from the specified primary sources
+	 * (see {@link SpringApplication class-level} documentation for details. The instance can be customized before calling {@link #run(String...)}.
 	 * @param primarySources the primary bean sources
 	 * @see #run(Class, String[])
 	 * @see #SpringApplication(ResourceLoader, Class...)
