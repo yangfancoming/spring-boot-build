@@ -1,5 +1,3 @@
-
-
 package org.springframework.boot.autoconfigure.data.cassandra;
 
 import com.datastax.driver.core.Cluster;
@@ -21,11 +19,7 @@ import org.springframework.data.cassandra.core.cql.session.DefaultBridgedReactiv
 import org.springframework.data.cassandra.core.cql.session.DefaultReactiveSessionFactory;
 
 /**
- * {@link EnableAutoConfiguration Auto-configuration} for Spring Data's reactive Cassandra
- * support.
- *
- * @author Eddú Meléndez
- * @author Mark Paluch
+ * {@link EnableAutoConfiguration Auto-configuration} for Spring Data's reactive Cassandra support.
  * @since 2.0.0
  */
 @Configuration
@@ -41,16 +35,13 @@ public class CassandraReactiveDataAutoConfiguration {
 	}
 
 	@Bean
-	public ReactiveSessionFactory reactiveCassandraSessionFactory(
-			ReactiveSession reactiveCassandraSession) {
+	public ReactiveSessionFactory reactiveCassandraSessionFactory(ReactiveSession reactiveCassandraSession) {
 		return new DefaultReactiveSessionFactory(reactiveCassandraSession);
 	}
 
 	@Bean
 	@ConditionalOnMissingBean
-	public ReactiveCassandraTemplate reactiveCassandraTemplate(
-			ReactiveSession reactiveCassandraSession, CassandraConverter converter) {
+	public ReactiveCassandraTemplate reactiveCassandraTemplate(ReactiveSession reactiveCassandraSession, CassandraConverter converter) {
 		return new ReactiveCassandraTemplate(reactiveCassandraSession, converter);
 	}
-
 }

@@ -14,13 +14,10 @@ import org.springframework.util.StringUtils;
 
 /**
  * Internal utility used to load {@link AutoConfigurationMetadata}.
- *
- * @author Phillip Webb
  */
 final class AutoConfigurationMetadataLoader {
 
 	protected static final String PATH = "META-INF/spring-autoconfigure-metadata.properties";
-
 
 	private AutoConfigurationMetadataLoader() {
 	}
@@ -95,5 +92,4 @@ final class AutoConfigurationMetadataLoader {
 			return (value != null) ? value : defaultValue;
 		}
 	}
-
 }

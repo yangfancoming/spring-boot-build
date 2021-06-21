@@ -62,6 +62,10 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 
 	private ResourceLoader resourceLoader;
 
+	/**
+	 * 实现DeferredImportSelector接口，使用selectImports方法返回待注册的bean名称数组，spring会进行延时加载
+	 * @see org.springframework.context.annotation.ConfigurationClassParser.DeferredImportSelectorHandler#process
+	*/
 	@Override
 	public String[] selectImports(AnnotationMetadata annotationMetadata) {
 		if (!isEnabled(annotationMetadata)) {
@@ -69,8 +73,9 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		}
 		AutoConfigurationMetadata autoConfigurationMetadata = AutoConfigurationMetadataLoader.loadMetadata(this.beanClassLoader);
 		AnnotationAttributes attributes = getAttributes(annotationMetadata);
-		// 继续剖析这个List<String> configurations集合里面的东西，只要把这个集合里面的东西给剖析出来了，那整个springboot应用启动原理就清楚了
-		List<String> configurations = getCandidateConfigurations(annotationMetadata,attributes);// 获取候选配置
+		// 将spring.factories文件内容转换成List对象返回
+		List<String> configurations = getCandidateConfigurations(annotationMetadata,attributes);
+		// 去重
 		configurations = removeDuplicates(configurations);
 		Set<String> exclusions = getExclusions(annotationMetadata, attributes);
 		checkExcludedClasses(configurations, exclusions);
@@ -115,6 +120,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 	}
 
 	/**
+	 *  将spring.factories文件内容转换成List对象返回
 	 * Return the auto-configuration class names that should be considered. By default
 	 * this method will load candidates using {@link SpringFactoriesLoader} with {@link #getSpringFactoriesLoaderFactoryClass()}.
 	 * @param metadata the source metadata
@@ -351,12 +357,10 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 		private MetadataReaderFactory getMetadataReaderFactory() {
 			try {
 				return this.beanFactory.getBean(SharedMetadataReaderFactoryContextInitializer.BEAN_NAME,MetadataReaderFactory.class);
-			}
-			catch (NoSuchBeanDefinitionException ex) {
+			}catch (NoSuchBeanDefinitionException ex) {
 				return new CachingMetadataReaderFactory(this.resourceLoader);
 			}
 		}
-
 	}
 
 }

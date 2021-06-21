@@ -6,15 +6,12 @@ import java.util.Set;
 
 /**
  * Provides access to meta-data written by the auto-configure annotation processor.
- *
- * @author Phillip Webb
  * @since 1.5.0
  */
 public interface AutoConfigurationMetadata {
 
 	/**
-	 * Return {@code true} if the specified class name was processed by the annotation
-	 * processor.
+	 * Return {@code true} if the specified class name was processed by the annotation processor.
 	 * @param className the source class
 	 * @return if the class was processed
 	 */
@@ -70,5 +67,4 @@ public interface AutoConfigurationMetadata {
 	 * @return the meta-data value or {@code defaultValue}
 	 */
 	String get(String className, String key, String defaultValue);
-
 }
